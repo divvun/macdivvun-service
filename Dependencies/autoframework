@@ -1,0 +1,51 @@
+#!/bin/sh
+set -e
+
+ICONFIGURE="$(dirname $0)/iconfigure"
+
+FRAMEWORK=$1
+LIBARCHIVE=$2
+
+shift 2
+
+if [ -z "$PREFIX" ]; then
+  PREFIX="$(pwd)"
+fi
+
+if [ -z "$SUFFIX" ]; then
+  STATICDIR="$PREFIX/Static"
+else
+  STATICDIR="$PREFIX/Static/$SUFFIX"
+fi
+
+FRAMEWORKDIR="$PREFIX/Frameworks/$FRAMEWORK.framework"
+
+if [ -z "$ARCHS" ]; then
+  ARCHS="i386 x86_64"
+fi
+
+export PKG_CONFIG_LIBDIR="$STATICDIR/$ARCH/lib/pkgconfig"
+
+# Build all architectures
+for ARCH in $ARCHS; do
+  make distclean || true
+  PKG_CONFIG_LIBDIR="$STATICDIR/$ARCH/lib/pkgconfig" PREFIX="$STATICDIR/$ARCH" $ICONFIGURE $ARCH $@
+  make -j9
+  make install
+done
+
+# Install header files
+export PREFIX="$STATICDIR/$ARCH"
+
+PKG_CONFIG_LIBDIR="$STATICDIR/$ARCH/lib/pkgconfig" PREFIX="$STATICDIR/$ARCH" $ICONFIGURE $ARCH $@ --includedir="$FRAMEWORKDIR/Headers"
+make -j9 install
+
+# Create multiarch archive
+for ARCH in $ARCHS; do
+  LIPOARCHS="$LIPOARCHS -arch $ARCH $STATICDIR/$ARCH/lib/$LIBARCHIVE"
+done
+lipo -create -output "$FRAMEWORKDIR/$FRAMEWORK" $LIPOARCHS
+
+echo "Success!"
+echo "Built $FRAMEWORK for architectures: $ARCHS"
+

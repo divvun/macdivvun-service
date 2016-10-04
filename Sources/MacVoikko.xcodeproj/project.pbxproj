@@ -1,0 +1,317 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C618EEF51DA24EB700751626 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* main.swift */; };
+		C618EEFC1DA24EF500751626 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
+		C618EF051DA37D4800751626 /* libarchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF001DA37D4800751626 /* libarchive.framework */; };
+		C618EF061DA37D4800751626 /* libhfstospell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF011DA37D4800751626 /* libhfstospell.framework */; };
+		C618EF071DA37D4800751626 /* liblzma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF021DA37D4800751626 /* liblzma.framework */; };
+		C618EF081DA37D4800751626 /* libvoikko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF031DA37D4800751626 /* libvoikko.framework */; };
+		C618EF091DA37D4800751626 /* tinyxml2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF041DA37D4800751626 /* tinyxml2.framework */; };
+		C618EF0E1DA38AB000751626 /* Voikko.m in Sources */ = {isa = PBXBuildFile; fileRef = C618EF0D1DA38AB000751626 /* Voikko.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C618EEEF1DA24EB700751626 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C618EEF11DA24EB700751626 /* MacVoikko */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MacVoikko; sourceTree = BUILT_PRODUCTS_DIR; };
+		C618EEF41DA24EB700751626 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoikkoSpellServerDelegate.swift; sourceTree = "<group>"; };
+		C618EF001DA37D4800751626 /* libarchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libarchive.framework; path = ../Dependencies/Frameworks/libarchive.framework; sourceTree = "<group>"; };
+		C618EF011DA37D4800751626 /* libhfstospell.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libhfstospell.framework; path = ../Dependencies/Frameworks/libhfstospell.framework; sourceTree = "<group>"; };
+		C618EF021DA37D4800751626 /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
+		C618EF031DA37D4800751626 /* libvoikko.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libvoikko.framework; path = ../Dependencies/Frameworks/libvoikko.framework; sourceTree = "<group>"; };
+		C618EF041DA37D4800751626 /* tinyxml2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tinyxml2.framework; path = ../Dependencies/Frameworks/tinyxml2.framework; sourceTree = "<group>"; };
+		C618EF0C1DA38AB000751626 /* Voikko.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Voikko.h; sourceTree = "<group>"; };
+		C618EF0D1DA38AB000751626 /* Voikko.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Voikko.m; sourceTree = "<group>"; };
+		C618EF0F1DA38C5A00751626 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C618EEEE1DA24EB700751626 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C618EF051DA37D4800751626 /* libarchive.framework in Frameworks */,
+				C618EF061DA37D4800751626 /* libhfstospell.framework in Frameworks */,
+				C618EF071DA37D4800751626 /* liblzma.framework in Frameworks */,
+				C618EF081DA37D4800751626 /* libvoikko.framework in Frameworks */,
+				C618EF091DA37D4800751626 /* tinyxml2.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C618EEE81DA24EB700751626 = {
+			isa = PBXGroup;
+			children = (
+				C618EEF31DA24EB700751626 /* MacVoikko */,
+				C618EEF21DA24EB700751626 /* Products */,
+				C618EEFF1DA37D4800751626 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C618EEF21DA24EB700751626 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C618EEF11DA24EB700751626 /* MacVoikko */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C618EEF31DA24EB700751626 /* MacVoikko */ = {
+			isa = PBXGroup;
+			children = (
+				C618EF0C1DA38AB000751626 /* Voikko.h */,
+				C618EF0D1DA38AB000751626 /* Voikko.m */,
+				C618EEF41DA24EB700751626 /* main.swift */,
+				C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */,
+				C618EF0F1DA38C5A00751626 /* Bridge.h */,
+			);
+			path = MacVoikko;
+			sourceTree = "<group>";
+		};
+		C618EEFF1DA37D4800751626 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C618EF001DA37D4800751626 /* libarchive.framework */,
+				C618EF011DA37D4800751626 /* libhfstospell.framework */,
+				C618EF021DA37D4800751626 /* liblzma.framework */,
+				C618EF031DA37D4800751626 /* libvoikko.framework */,
+				C618EF041DA37D4800751626 /* tinyxml2.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C618EEF01DA24EB700751626 /* MacVoikko */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C618EEF81DA24EB700751626 /* Build configuration list for PBXNativeTarget "MacVoikko" */;
+			buildPhases = (
+				C618EEED1DA24EB700751626 /* Sources */,
+				C618EEEE1DA24EB700751626 /* Frameworks */,
+				C618EEEF1DA24EB700751626 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MacVoikko;
+			productName = MacVoikko;
+			productReference = C618EEF11DA24EB700751626 /* MacVoikko */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C618EEE91DA24EB700751626 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = Divvun;
+				TargetAttributes = {
+					C618EEF01DA24EB700751626 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = AE56HWMN8U;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = C618EEEC1DA24EB700751626 /* Build configuration list for PBXProject "MacVoikko" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C618EEE81DA24EB700751626;
+			productRefGroup = C618EEF21DA24EB700751626 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C618EEF01DA24EB700751626 /* MacVoikko */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C618EEED1DA24EB700751626 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C618EEF51DA24EB700751626 /* main.swift in Sources */,
+				C618EF0E1DA38AB000751626 /* Voikko.m in Sources */,
+				C618EEFC1DA24EF500751626 /* VoikkoSpellServerDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C618EEF61DA24EB700751626 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		C618EEF71DA24EB700751626 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
+				SWIFT_VERSION = 3.0;
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		C618EEF91DA24EB700751626 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Dependencies/Frameworks/**";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		C618EEFA1DA24EB700751626 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Dependencies/Frameworks/**";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C618EEEC1DA24EB700751626 /* Build configuration list for PBXProject "MacVoikko" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C618EEF61DA24EB700751626 /* Debug */,
+				C618EEF71DA24EB700751626 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C618EEF81DA24EB700751626 /* Build configuration list for PBXNativeTarget "MacVoikko" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C618EEF91DA24EB700751626 /* Debug */,
+				C618EEFA1DA24EB700751626 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C618EEE91DA24EB700751626 /* Project object */;
+}

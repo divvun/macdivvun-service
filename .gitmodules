@@ -1,0 +1,19 @@
+[submodule "Dependencies/corevoikko"]
+	path = Dependencies/corevoikko
+	url = https://github.com/voikko/corevoikko
+	branch = rel-libvoikko-4.0.2
+[submodule "Dependencies/libarchive"]
+	path = Dependencies/libarchive
+	url = https://github.com/libarchive/libarchive.git
+	branch = v3.2.1
+[submodule "Dependencies/xz"]
+	path = Dependencies/xz
+	url = https://github.com/bbqsrc/xz
+	branch = v5.2.2
+[submodule "Dependencies/tinyxml2"]
+	path = Dependencies/tinyxml2
+	url = https://github.com/leethomason/tinyxml2
+	branch = 4.0.1
+[submodule "Dependencies/hfst-ospell"]
+	path = Dependencies/hfst-ospell
+	url = https://github.com/hfst/hfst-ospell.git
