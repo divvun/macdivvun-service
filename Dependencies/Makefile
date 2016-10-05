@@ -90,7 +90,7 @@ clean-submodules: xz corevoikko hfst-ospell libarchive tinyxml2
 	cd $< && git clean -fdx && git reset --hard
 
 clean: clean-submodules
-	rm -r Frameworks Static
+	rm -rf Frameworks Static
 
 xcode: all
 xcodeclean: clean
