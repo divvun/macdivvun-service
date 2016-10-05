@@ -6,6 +6,9 @@ FRAMEWORKS = \
 	Frameworks/libhfstospell.framework \
 	Frameworks/libvoikko.framework
 
+# Support macports
+PATH := $(PATH):/opt/local/bin
+
 DEPS_DIR ?= $(CURDIR)
 PREFIX = $(DEPS_DIR)
 
@@ -84,7 +87,7 @@ Frameworks/libvoikko.framework: corevoikko/libvoikko
 		--with-dictionary-path="/Library/Spelling/voikko:/usr/local/share/voikko:/usr/local/lib/voikko"
 
 clean-submodules: xz corevoikko hfst-ospell libarchive tinyxml2
-	cd $< && git clean -fdx
+	cd $< && git clean -fdx && git reset --hard
 
 clean: clean-submodules
 	rm -r Frameworks Static
