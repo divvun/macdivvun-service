@@ -17,7 +17,7 @@
 		C6E475C81DA4E42E00EB3352 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* main.swift */; };
 		C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
 		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
-		C6E475E61DA4EB4800EB3352 /* Dictionaries in Resources */ = {isa = PBXBuildFile; fileRef = C6E475E51DA4EB4800EB3352 /* Dictionaries */; };
+		C6E475EF1DA5045200EB3352 /* Dictionaries in Resources */ = {isa = PBXBuildFile; fileRef = C6E475EE1DA5045200EB3352 /* Dictionaries */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,11 +42,11 @@
 		C618EF0D1DA38AB000751626 /* Voikko.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Voikko.m; sourceTree = "<group>"; };
 		C618EF0F1DA38C5A00751626 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
 		C6970CD91DA4E28D0024D82D /* MacVoikko.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacVoikko.service; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = MacVoikko/Assets.xcassets; sourceTree = SOURCE_ROOT; };
-		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = MacVoikko/Info.plist; sourceTree = SOURCE_ROOT; };
+		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6970CEA1DA4E2CB0024D82D /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
 		C6E475E31DA4E59600EB3352 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		C6E475E51DA4EB4800EB3352 /* Dictionaries */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Dictionaries; path = ../Dictionaries; sourceTree = "<group>"; };
+		C6E475EE1DA5045200EB3352 /* Dictionaries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Dictionaries; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +68,8 @@
 		C618EEE81DA24EB700751626 = {
 			isa = PBXGroup;
 			children = (
-				C618EEF31DA24EB700751626 /* MacVoikko */,
-				C6E475E51DA4EB4800EB3352 /* Dictionaries */,
+				C618EEF31DA24EB700751626 /* Sources */,
+				C6E475EE1DA5045200EB3352 /* Dictionaries */,
 				C618EEF21DA24EB700751626 /* Products */,
 				C618EEFF1DA37D4800751626 /* Frameworks */,
 			);
@@ -83,7 +83,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C618EEF31DA24EB700751626 /* MacVoikko */ = {
+		C618EEF31DA24EB700751626 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				C6970CE21DA4E28D0024D82D /* Info.plist */,
@@ -95,7 +95,7 @@
 				C6970CDD1DA4E28D0024D82D /* Assets.xcassets */,
 				C6E475E31DA4E59600EB3352 /* Extensions.swift */,
 			);
-			path = MacVoikko;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		C618EEFF1DA37D4800751626 /* Frameworks */ = {
@@ -193,8 +193,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6E475EF1DA5045200EB3352 /* Dictionaries in Resources */,
 				C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */,
-				C6E475E61DA4EB4800EB3352 /* Dictionaries in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +268,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Sources/Bridge.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = x86_64;
@@ -313,7 +313,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Sources/Bridge.h";
 				SWIFT_VERSION = 3.0;
 				VALID_ARCHS = x86_64;
 			};
@@ -324,9 +324,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Dependencies/Frameworks/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Dependencies/Frameworks/**";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = MacVoikko/Info.plist;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
@@ -346,9 +346,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Dependencies/Frameworks/**";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Dependencies/Frameworks/**";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				INFOPLIST_FILE = MacVoikko/Info.plist;
+				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_LDFLAGS = (
@@ -369,7 +369,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUGGING_SYMBOLS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPS_DIR = "$(PROJECT_DIR)/../Dependencies";
+				DEPS_DIR = "$(PROJECT_DIR)/Dependencies";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -384,7 +384,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPS_DIR = "$(PROJECT_DIR)/../Dependencies";
+				DEPS_DIR = "$(PROJECT_DIR)/Dependencies";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -420,6 +420,7 @@
 				C6E475EB1DA4F06100EB3352 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
