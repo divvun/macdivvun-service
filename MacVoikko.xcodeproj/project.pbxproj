@@ -116,7 +116,7 @@
 /* Begin PBXLegacyTarget section */
 		C6E475E81DA4F06100EB3352 /* Dependencies */ = {
 			isa = PBXLegacyTarget;
-			buildArgumentsString = "";
+			buildArgumentsString = "xcode-$(ACTION)";
 			buildConfigurationList = C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "Dependencies" */;
 			buildPhases = (
 			);

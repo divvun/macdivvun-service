@@ -89,3 +89,6 @@ clean-submodules: xz corevoikko hfst-ospell libarchive tinyxml2
 clean: clean-submodules
 	rm -r Frameworks Static
 
+xcode: all
+xcodeclean: clean
+xcodeinstall: all
