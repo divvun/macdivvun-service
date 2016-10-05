@@ -31,33 +31,32 @@
 @implementation Voikko
 
 + (NSArray<VoikkoDict*>*)dicts:(NSURL* _Nonnull)path {
-    struct voikko_dict** dicts = voikko_list_dicts([[path absoluteString] fileSystemRepresentation]);
+    struct voikko_dict** dicts = voikko_list_dicts([[[path absoluteURL] path] fileSystemRepresentation]);
+    NSMutableArray* o = [NSMutableArray array];
     
     if (dicts == NULL) {
-        return nil;
+        return o;
     }
     
-    NSMutableArray* o = [NSMutableArray init];
-    
-    struct voikko_dict* dict;
-    while ((dict = *dicts++) != NULL) {
-        [o addObject:[[VoikkoDict alloc] initWithHandle:dict]];
+    for (struct voikko_dict** it = dicts; *it != NULL; ++it) {
+        [o addObject:[[VoikkoDict alloc] initWithHandle:*it]];
     }
     
     voikko_free_dicts(dicts);
     
-    return [o copy];
+    return o;
 }
 
 + (NSArray<NSString*>*)supportedSpellingLanguages:(NSURL* _Nonnull)path {
-    char** langs = voikkoListSupportedSpellingLanguages([[path absoluteString] fileSystemRepresentation]);
+    char** langs = voikkoListSupportedSpellingLanguages([[[path absoluteURL] path] fileSystemRepresentation]);
+    NSMutableArray* o = [NSMutableArray array];
     
-    NSMutableArray* o = [NSMutableArray arrayWithCapacity:1];
+    if (langs == NULL) {
+        return o;
+    }
     
-    char* lang;
-    char **cur = langs;
-    while ((lang = *cur++) != NULL) {
-        [o addObject:[NSString stringWithUTF8String:lang]];
+    for (char** it = langs; *it != NULL; ++it) {
+        [o addObject:[NSString stringWithUTF8String:*it]];
     }
     
     voikkoFreeCstrArray(langs);
@@ -66,9 +65,9 @@
 }
 
 + (NSArray<NSString*>*)supportedHyphenationLanguages:(NSURL* _Nonnull)path {
-    char** langs = voikkoListSupportedHyphenationLanguages([[path absoluteString] fileSystemRepresentation]);
+    char** langs = voikkoListSupportedHyphenationLanguages([[[path absoluteURL] path] fileSystemRepresentation]);
     
-    NSMutableArray* o = [NSMutableArray arrayWithCapacity:1];
+    NSMutableArray* o = [NSMutableArray array];
     
     char* lang;
     char **cur = langs;
@@ -82,9 +81,9 @@
 }
 
 + (NSArray<NSString*>*)supportedGrammarCheckingLanguages:(NSURL* _Nonnull)path {
-    char** langs = voikkoListSupportedGrammarCheckingLanguages([[path absoluteString] fileSystemRepresentation]);
+    char** langs = voikkoListSupportedGrammarCheckingLanguages([[[path absoluteURL] path] fileSystemRepresentation]);
     
-    NSMutableArray* o = [NSMutableArray arrayWithCapacity:1];
+    NSMutableArray* o = [NSMutableArray array];
     
     char* lang;
     char **cur = langs;
@@ -111,7 +110,7 @@
     if (self) {
         const char* cError;
         const char* cLangCode = [langcode UTF8String];
-        const char* cPath = path == nil ? NULL : [path fileSystemRepresentation];
+        const char* cPath = path == nil ? NULL : [[[path absoluteURL] path] fileSystemRepresentation];
         
         self.handle = voikkoInit(&cError, cLangCode, cPath);
         
@@ -157,7 +156,7 @@
         return nil;
     }
     
-    NSMutableArray* o = [NSMutableArray arrayWithCapacity:10];
+    NSMutableArray* o = [NSMutableArray array];
     
     char* sugg;
     char** cur = suggs;

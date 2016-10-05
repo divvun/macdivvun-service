@@ -3,6 +3,7 @@ set -e
 
 export SDKROOT=$(xcrun --show-sdk-path)
 export ARCH=$1
+export SDKVERSION
 
 # Binaries
 export CC=$(xcrun --find gcc)
@@ -11,9 +12,9 @@ export CXX=$(xcrun --find g++)
 export LD=$(xcrun --find ld)
 
 # Flags
-export CFLAGS="$CFLAGS -arch $ARCH -isysroot $SDKROOT -I$PREFIX/include"
-export CPPFLAGS="$CPPFLAGS -arch $ARCH -isysroot $SDKROOT -I$PREFIX/include"
-export CXXFLAGS="$CXXFLAGS -arch $ARCH -isysroot $SDKROOT -I$PREFIX/include"
+export CFLAGS="$CFLAGS -arch $ARCH -isysroot $SDKROOT -I$PREFIX/include -mmacosx-version-min=$SDKVERSION -fvisibility=hidden"
+export CPPFLAGS="$CPPFLAGS -arch $ARCH -isysroot $SDKROOT -I$PREFIX/include -mmacosx-version-min=$SDKVERSION"
+export CXXFLAGS="$CXXFLAGS -arch $ARCH -isysroot $SDKROOT -I$PREFIX/include -fvisibility=hidden"
 export LDFLAGS="$LDFLAGS -arch $ARCH -isysroot $SDKROOT -L$PREFIX/lib"
 
 export PREFIX
@@ -28,7 +29,6 @@ export ac_cv_func_realloc_0_nonnull=yes
 
 ./configure \
 	--prefix="$PREFIX" \
-	--host="$CHOST" \
 	--enable-static \
 	--disable-shared \
 	$@

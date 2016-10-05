@@ -13,14 +13,28 @@ let Vendor = "MacVoikko"
 let delegate = VoikkoSpellServerDelegate()
 let server = NSSpellServer()
 
+Voikko.dicts(VoikkoSpellServerDelegate.includedDictionariesPath).forEach {
+    print($0.variant)
+}
+
 if delegate.supportedLanguages.count == 0 {
-    print("No languages supported; exiting.")
+    log("No languages supported; exiting")
     exit(1)
 }
 
 delegate.supportedLanguages.forEach { lang in
     server.registerLanguage(lang, byVendor: Vendor)
+    log("Registered: \(lang)")
 }
 
 server.delegate = delegate
+
+log("Flushing and updating speller cache")
+NSSpellServer.flushCache()
+NSSpellServer.updateCache()
+
+log("\(Vendor) started")
+
 server.run()
+
+log("\(Vendor) stopped")

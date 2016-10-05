@@ -1,0 +1,1 @@
+This dir will hold the zhfst file(s) for the languages covered by the final speller package.

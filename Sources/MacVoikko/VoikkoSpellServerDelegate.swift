@@ -30,7 +30,7 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
                 let handle = try Voikko(langCode: lang, path: VoikkoSpellServerDelegate.includedDictionariesPath)
                 self.handles[lang] = handle
             } catch {
-                print(error)
+                log("Error loading \(lang): \(error.localizedDescription)")
             }
         }
     }
@@ -39,7 +39,7 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
     
     public func spellServer(_ sender: NSSpellServer, suggestGuessesForWord word: String, inLanguage language: String) -> [String]? {
         guard let handle = handles[language] else {
-            print("suggestGuessesForWord - unknown language: \(language)")
+            log("suggestGuessesForWord - unknown language: \(language)")
             return nil
         }
         
@@ -82,7 +82,7 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
     
     public func spellServer(_ sender: NSSpellServer, findMisspelledWordIn stringToCheck: String, language: String, wordCount: UnsafeMutablePointer<Int>, countOnly: Bool) -> NSRange {
         guard let handle = handles[language] else {
-            print("findMisspelledWordIn - unknown language: \(language)")
+            log("findMisspelledWordIn - unknown language: \(language)")
             return NSRange(location: NSNotFound, length: 0)
         }
         

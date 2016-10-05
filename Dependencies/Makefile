@@ -6,8 +6,11 @@ FRAMEWORKS = \
 	Frameworks/libhfstospell.framework \
 	Frameworks/libvoikko.framework
 
-PROJECT_DIR ?= $(CURDIR)
-PREFIX := $(PROJECT_DIR)
+DEPS_DIR ?= $(CURDIR)
+PREFIX = $(DEPS_DIR)
+
+SDKVERSION := $(MACOSX_DEPLOYMENT_TARGET)
+SDKVERSION ?= $(shell xcrun --show-sdk-version)
 
 all: $(FRAMEWORKS)
 
@@ -17,7 +20,7 @@ hfst-ospell: # Cool stub!
 tinyxml2: ###
 corevoikko/libvoikko: ###
 
-# $(PROJECT_DIR)  set by Xcode
+# $(DEPS_DIR)  set by Xcode
 # $(ARCHS)	  set by Xcode, but sadly does not include all target architectures
 
 Frameworks/tinyxml2.framework: tinyxml2
@@ -34,8 +37,8 @@ Frameworks/tinyxml2.framework: tinyxml2
 
 Frameworks/liblzma.framework: xz
 	cd $< && autoreconf -fi 2>&1
-	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) \
-		$(PROJECT_DIR)/autoframework liblzma liblzma.a \
+	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) SDKVERSION=$(SDKVERSION) \
+		$(DEPS_DIR)/autoframework liblzma liblzma.a \
 		--disable-xz \
 		--disable-xzdec \
 		--disable-lzmadec \
@@ -47,11 +50,10 @@ Frameworks/liblzma.framework: xz
 		--disable-rpath
 
 Frameworks/libhfstospell.framework: hfst-ospell
-	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) PKG_CONFIG_LIBDIR=$(PREFIX)/Static/x86_64/lib/pkgconfig \
+	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) SDKVERSION=$(SDKVERSION) \
 		./autogen.sh 2>&1
-	cd $< && make distclean || true
-	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) PKG_CONFIG_LIBDIR=$(PREFIX)/Static/x86_64/lib/pkgconfig \
-		$(PROJECT_DIR)/autoframework libhfstospell libhfstospell.a \
+	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) SDKVERSION=$(SDKVERSION) \
+		$(DEPS_DIR)/autoframework libhfstospell libhfstospell.a \
 		--disable-silent-rules \
 		--disable-hfst-ospell-office \
 		--with-tinyxml2 \
@@ -60,8 +62,8 @@ Frameworks/libhfstospell.framework: hfst-ospell
 
 Frameworks/libarchive.framework: libarchive
 	cd $< && autoreconf -fi 2>&1
-	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) CFLAGS="-Wno-error" \
-		$(PROJECT_DIR)/autoframework libarchive libarchive.a \
+	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) SDKVERSION=$(SDKVERSION) CFLAGS="-Wno-error" \
+		$(DEPS_DIR)/autoframework libarchive libarchive.a \
 		--without-bz2lib \
 		--without-lzmadec \
 		--without-iconv \
@@ -75,9 +77,15 @@ Frameworks/libarchive.framework: libarchive
 
 Frameworks/libvoikko.framework: corevoikko/libvoikko
 	cd $< && ./autogen.sh 2>&1
-	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) PTHREAD_CFLAGS="" \
-		$(PROJECT_DIR)/autoframework libvoikko libvoikko.a \
+	cd $< && PREFIX=$(PREFIX) ARCHS=$(ARCHS) SDKVERSION=$(SDKVERSION) PTHREAD_CFLAGS="" \
+		$(DEPS_DIR)/autoframework libvoikko libvoikko.a \
 		--disable-buildtools \
 		--disable-testtools \
 		--with-dictionary-path="/Library/Spelling/voikko:/usr/local/share/voikko:/usr/local/lib/voikko"
+
+clean-submodules: xz corevoikko hfst-ospell libarchive tinyxml2
+	cd $< && git clean -fdx
+
+clean: clean-submodules
+	rm -r Frameworks Static
 

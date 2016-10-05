@@ -7,30 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C618EEF51DA24EB700751626 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* main.swift */; };
-		C618EEFC1DA24EF500751626 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
-		C618EF051DA37D4800751626 /* libarchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF001DA37D4800751626 /* libarchive.framework */; };
-		C618EF061DA37D4800751626 /* libhfstospell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF011DA37D4800751626 /* libhfstospell.framework */; };
-		C618EF071DA37D4800751626 /* liblzma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF021DA37D4800751626 /* liblzma.framework */; };
-		C618EF081DA37D4800751626 /* libvoikko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF031DA37D4800751626 /* libvoikko.framework */; };
-		C618EF091DA37D4800751626 /* tinyxml2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF041DA37D4800751626 /* tinyxml2.framework */; };
-		C618EF0E1DA38AB000751626 /* Voikko.m in Sources */ = {isa = PBXBuildFile; fileRef = C618EF0D1DA38AB000751626 /* Voikko.m */; };
+		C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6970CDD1DA4E28D0024D82D /* Assets.xcassets */; };
+		C6970CE61DA4E2CA0024D82D /* libarchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF001DA37D4800751626 /* libarchive.framework */; };
+		C6970CE71DA4E2CA0024D82D /* libhfstospell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF011DA37D4800751626 /* libhfstospell.framework */; };
+		C6970CE81DA4E2CA0024D82D /* libvoikko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF031DA37D4800751626 /* libvoikko.framework */; };
+		C6970CE91DA4E2CA0024D82D /* tinyxml2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF041DA37D4800751626 /* tinyxml2.framework */; };
+		C6970CEB1DA4E2CB0024D82D /* liblzma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6970CEA1DA4E2CB0024D82D /* liblzma.framework */; };
+		C6E475C71DA4E42800EB3352 /* Voikko.m in Sources */ = {isa = PBXBuildFile; fileRef = C618EF0D1DA38AB000751626 /* Voikko.m */; };
+		C6E475C81DA4E42E00EB3352 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* main.swift */; };
+		C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
+		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
+		C6E475E61DA4EB4800EB3352 /* Dictionaries in Resources */ = {isa = PBXBuildFile; fileRef = C6E475E51DA4EB4800EB3352 /* Dictionaries */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C618EEEF1DA24EB700751626 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
+/* Begin PBXContainerItemProxy section */
+		C6E475EC1DA4F06D00EB3352 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C618EEE91DA24EB700751626 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6E475E81DA4F06100EB3352;
+			remoteInfo = Dependencies;
 		};
-/* End PBXCopyFilesBuildPhase section */
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C618EEF11DA24EB700751626 /* MacVoikko */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MacVoikko; sourceTree = BUILT_PRODUCTS_DIR; };
 		C618EEF41DA24EB700751626 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoikkoSpellServerDelegate.swift; sourceTree = "<group>"; };
 		C618EF001DA37D4800751626 /* libarchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libarchive.framework; path = ../Dependencies/Frameworks/libarchive.framework; sourceTree = "<group>"; };
@@ -41,18 +41,24 @@
 		C618EF0C1DA38AB000751626 /* Voikko.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Voikko.h; sourceTree = "<group>"; };
 		C618EF0D1DA38AB000751626 /* Voikko.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Voikko.m; sourceTree = "<group>"; };
 		C618EF0F1DA38C5A00751626 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		C6970CD91DA4E28D0024D82D /* MacVoikko.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacVoikko.service; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = MacVoikko/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = MacVoikko/Info.plist; sourceTree = SOURCE_ROOT; };
+		C6970CEA1DA4E2CB0024D82D /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
+		C6E475E31DA4E59600EB3352 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C6E475E51DA4EB4800EB3352 /* Dictionaries */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Dictionaries; path = ../Dictionaries; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C618EEEE1DA24EB700751626 /* Frameworks */ = {
+		C6970CD61DA4E28D0024D82D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C618EF051DA37D4800751626 /* libarchive.framework in Frameworks */,
-				C618EF061DA37D4800751626 /* libhfstospell.framework in Frameworks */,
-				C618EF071DA37D4800751626 /* liblzma.framework in Frameworks */,
-				C618EF081DA37D4800751626 /* libvoikko.framework in Frameworks */,
-				C618EF091DA37D4800751626 /* tinyxml2.framework in Frameworks */,
+				C6970CEB1DA4E2CB0024D82D /* liblzma.framework in Frameworks */,
+				C6970CE61DA4E2CA0024D82D /* libarchive.framework in Frameworks */,
+				C6970CE71DA4E2CA0024D82D /* libhfstospell.framework in Frameworks */,
+				C6970CE81DA4E2CA0024D82D /* libvoikko.framework in Frameworks */,
+				C6970CE91DA4E2CA0024D82D /* tinyxml2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				C618EEF31DA24EB700751626 /* MacVoikko */,
+				C6E475E51DA4EB4800EB3352 /* Dictionaries */,
 				C618EEF21DA24EB700751626 /* Products */,
 				C618EEFF1DA37D4800751626 /* Frameworks */,
 			);
@@ -71,7 +78,7 @@
 		C618EEF21DA24EB700751626 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C618EEF11DA24EB700751626 /* MacVoikko */,
+				C6970CD91DA4E28D0024D82D /* MacVoikko.service */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -79,11 +86,14 @@
 		C618EEF31DA24EB700751626 /* MacVoikko */ = {
 			isa = PBXGroup;
 			children = (
+				C6970CE21DA4E28D0024D82D /* Info.plist */,
 				C618EF0C1DA38AB000751626 /* Voikko.h */,
 				C618EF0D1DA38AB000751626 /* Voikko.m */,
 				C618EEF41DA24EB700751626 /* main.swift */,
 				C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */,
 				C618EF0F1DA38C5A00751626 /* Bridge.h */,
+				C6970CDD1DA4E28D0024D82D /* Assets.xcassets */,
+				C6E475E31DA4E59600EB3352 /* Extensions.swift */,
 			);
 			path = MacVoikko;
 			sourceTree = "<group>";
@@ -91,6 +101,7 @@
 		C618EEFF1DA37D4800751626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C6970CEA1DA4E2CB0024D82D /* liblzma.framework */,
 				C618EF001DA37D4800751626 /* libarchive.framework */,
 				C618EF011DA37D4800751626 /* libhfstospell.framework */,
 				C618EF021DA37D4800751626 /* liblzma.framework */,
@@ -102,23 +113,41 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXNativeTarget section */
-		C618EEF01DA24EB700751626 /* MacVoikko */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C618EEF81DA24EB700751626 /* Build configuration list for PBXNativeTarget "MacVoikko" */;
+/* Begin PBXLegacyTarget section */
+		C6E475E81DA4F06100EB3352 /* Dependencies */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "";
+			buildConfigurationList = C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "Dependencies" */;
 			buildPhases = (
-				C618EEED1DA24EB700751626 /* Sources */,
-				C618EEEE1DA24EB700751626 /* Frameworks */,
-				C618EEEF1DA24EB700751626 /* CopyFiles */,
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/brendan/git/macvoikko-swift/Dependencies";
+			dependencies = (
+			);
+			name = Dependencies;
+			passBuildSettingsInEnvironment = 1;
+			productName = Dependencies;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		C6970CD81DA4E28D0024D82D /* MacVoikko */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C6970CE31DA4E28D0024D82D /* Build configuration list for PBXNativeTarget "MacVoikko" */;
+			buildPhases = (
+				C6970CD51DA4E28D0024D82D /* Sources */,
+				C6970CD61DA4E28D0024D82D /* Frameworks */,
+				C6970CD71DA4E28D0024D82D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C6E475ED1DA4F06D00EB3352 /* PBXTargetDependency */,
 			);
 			name = MacVoikko;
-			productName = MacVoikko;
-			productReference = C618EEF11DA24EB700751626 /* MacVoikko */;
-			productType = "com.apple.product-type.tool";
+			productName = "MacVoikko-App";
+			productReference = C6970CD91DA4E28D0024D82D /* MacVoikko.service */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -130,10 +159,12 @@
 				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Divvun;
 				TargetAttributes = {
-					C618EEF01DA24EB700751626 = {
+					C6970CD81DA4E28D0024D82D = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = AE56HWMN8U;
-						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+					};
+					C6E475E81DA4F06100EB3352 = {
+						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -144,29 +175,52 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C618EEE81DA24EB700751626;
 			productRefGroup = C618EEF21DA24EB700751626 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C618EEF01DA24EB700751626 /* MacVoikko */,
+				C6970CD81DA4E28D0024D82D /* MacVoikko */,
+				C6E475E81DA4F06100EB3352 /* Dependencies */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		C6970CD71DA4E28D0024D82D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */,
+				C6E475E61DA4EB4800EB3352 /* Dictionaries in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		C618EEED1DA24EB700751626 /* Sources */ = {
+		C6970CD51DA4E28D0024D82D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C618EEF51DA24EB700751626 /* main.swift in Sources */,
-				C618EF0E1DA38AB000751626 /* Voikko.m in Sources */,
-				C618EEFC1DA24EF500751626 /* VoikkoSpellServerDelegate.swift in Sources */,
+				C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */,
+				C6E475C81DA4E42E00EB3352 /* main.swift in Sources */,
+				C6E475C71DA4E42800EB3352 /* Voikko.m in Sources */,
+				C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C6E475ED1DA4F06D00EB3352 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6E475E81DA4F06100EB3352 /* Dependencies */;
+			targetProxy = C6E475EC1DA4F06D00EB3352 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C618EEF61DA24EB700751626 /* Debug */ = {
@@ -203,6 +257,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -248,6 +303,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -263,30 +319,76 @@
 			};
 			name = Release;
 		};
-		C618EEF91DA24EB700751626 /* Debug */ = {
+		C6970CE41DA4E28D0024D82D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Dependencies/Frameworks/**";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				OTHER_LDFLAGS = "-lz";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = MacVoikko/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-lstdc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacVoikko;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
+				WRAPPER_EXTENSION = service;
 			};
 			name = Debug;
 		};
-		C618EEFA1DA24EB700751626 /* Release */ = {
+		C6970CE51DA4E28D0024D82D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../Dependencies/Frameworks/**";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				OTHER_LDFLAGS = "-lz";
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				INFOPLIST_FILE = MacVoikko/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_LDFLAGS = (
+					"-lz",
+					"-lstdc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacVoikko;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MacVoikko/Bridge.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
+				WRAPPER_EXTENSION = service;
+			};
+			name = Release;
+		};
+		C6E475EA1DA4F06100EB3352 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEPS_DIR = "$(PROJECT_DIR)/../Dependencies";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C6E475EB1DA4F06100EB3352 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPS_DIR = "$(PROJECT_DIR)/../Dependencies";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -302,14 +404,22 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C618EEF81DA24EB700751626 /* Build configuration list for PBXNativeTarget "MacVoikko" */ = {
+		C6970CE31DA4E28D0024D82D /* Build configuration list for PBXNativeTarget "MacVoikko" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C618EEF91DA24EB700751626 /* Debug */,
-				C618EEFA1DA24EB700751626 /* Release */,
+				C6970CE41DA4E28D0024D82D /* Debug */,
+				C6970CE51DA4E28D0024D82D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "Dependencies" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C6E475EA1DA4F06100EB3352 /* Debug */,
+				C6E475EB1DA4F06100EB3352 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
