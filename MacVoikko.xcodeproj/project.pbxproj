@@ -121,7 +121,7 @@
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "/Users/brendan/git/macvoikko-swift/Dependencies";
+			buildWorkingDirectory = "$(PROJECT_DIR)/Dependencies";
 			dependencies = (
 			);
 			name = Dependencies;
