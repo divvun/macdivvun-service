@@ -3,3 +3,4 @@ project.xcworkspace
 xcuserdata
 Dependencies/Frameworks/*
 Dependencies/Static/*
+Dictionaries
