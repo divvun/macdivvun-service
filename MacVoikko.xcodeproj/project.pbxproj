@@ -161,6 +161,7 @@
 				TargetAttributes = {
 					C6970CD81DA4E28D0024D82D = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = 2K5J2584NX;
 						ProvisioningStyle = Automatic;
 					};
 					C6E475E81DA4F06100EB3352 = {
@@ -323,7 +324,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2K5J2584NX;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Dependencies/Frameworks/**";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
@@ -345,7 +348,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 2K5J2584NX;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Dependencies/Frameworks/**";
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
