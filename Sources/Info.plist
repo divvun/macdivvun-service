@@ -38,6 +38,13 @@
 			<key>NSLanguages</key>
 			<array>
 				<string>se</string>
+				<string>sma</string>
+				<string>smn</string>
+				<string>smj</string>
+				<string>sms</string>
+				<string>fkv</string>
+				<string>hdn</string>
+				<string>crk</string>
 			</array>
 			<key>NSMenuItem</key>
 			<dict/>
