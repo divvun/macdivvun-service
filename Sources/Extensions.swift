@@ -36,3 +36,16 @@ extension NSSpellServer {
 func log(_ value: String) {
     NSLog(value)
 }
+
+func doublePointerToArray<A>(pointer: UnsafeMutablePointer<A?>) -> [A] {
+    var iterator = pointer
+    var values: [A] = []
+    
+    while iterator.pointee != nil {
+        if let pointee = iterator.pointee {
+            values.append(pointee)
+        }
+        iterator = iterator.successor()
+    }
+    return values
+}
