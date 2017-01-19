@@ -13,17 +13,31 @@ fileprivate func fileSystemRepresentation(for path: URL) -> UnsafePointer<Int8>?
 }
 
 class VoikkoDictionary {
-    let handle: OpaquePointer
 
-    private init(handle: OpaquePointer) {
-        self.handle = handle
+    init(handle: OpaquePointer) {
+        self.description = String(cString: voikko_dict_description(handle))
+        self.language = String(cString: voikko_dict_language(handle))
+        self.script = String(cString: voikko_dict_script(handle))
+        self.variant = String(cString: voikko_dict_variant(handle))
     }
+    
+    let description: String
+    let language: String
+    let script: String
+    let variant: String
+}
+
+class Voikko {
+    public typealias VoikkoToken = (voikko_token_type, String, NSRange)
+    public typealias VoikkoTokenCallback = (voikko_token_type, String, NSRange) -> Bool
+    let handle: OpaquePointer
+    let version: String = String(cString: voikkoGetVersion())
     
     init(langCode: String, path: URL?) throws {
         var error: UnsafePointer<CChar>?
-
-        self.handle = voikkoInit(UnsafeMutablePointer(mutating: &error), langCode.cString(using: .utf8), path.flatMap { fileSystemRepresentation(for: $0) })
-
+        
+        self.handle = voikkoInit(UnsafeMutablePointer(mutating: &error), (langCode as NSString).utf8String, path.flatMap { fileSystemRepresentation(for: $0) })
+        
         if let error = error {
             defer { voikkoFreeCstr(UnsafeMutablePointer(mutating: error)) }
             throw NSError(domain: "Voikko",
@@ -31,23 +45,13 @@ class VoikkoDictionary {
                           userInfo: [NSLocalizedDescriptionKey: NSLocalizedString(String(cString: error), comment: "")])
         }
     }
-    
-    deinit {
-        voikkoTerminate(handle)
-    }
-
-    public lazy var version: String = String(cString: voikkoGetVersion())
-    public lazy var description: String = String(cString: voikko_dict_description(self.handle))
-    private lazy var language: String = String(cString: voikko_dict_language(self.handle))
-    private lazy var script: String = String(cString: voikko_dict_script(self.handle))
-    private lazy var variant: String = String(cString: voikko_dict_variant(self.handle))
 
     static func dictionaries(path: URL) -> [VoikkoDictionary] {
         return fileSystemRepresentation(for: path).map {
             let voikko_dicts = voikko_list_dicts($0)
-
+            
             defer { voikko_free_dicts(voikko_dicts) }
-
+            
             return doublePointerToArray(pointer: voikko_list_dicts($0)).map {
                 VoikkoDictionary(handle: $0)
             }
@@ -90,11 +94,11 @@ class VoikkoDictionary {
     }
     
     func spell(word: String) -> Int32 {
-        return voikkoSpellCstr(handle, word.cString(using: .utf8))
+        return voikkoSpellCstr(handle, (word as NSString).utf8String)
     }
     
     func suggest(word: String) -> [String] {
-        let strings = word.cString(using: .utf8).flatMap { voikkoSuggestCstr(handle, $0) }
+        let strings = (word as NSString).utf8String.flatMap { voikkoSuggestCstr(handle, $0) }
         
         defer { voikkoFreeCstrArray(strings) }
         
@@ -106,7 +110,7 @@ class VoikkoDictionary {
     }
     
     func hyphenate(word: String) -> String {
-        let res = voikkoHyphenateCstr(self.handle, word.cString(using: .utf8))
+        let res = voikkoHyphenateCstr(self.handle, (word as NSString).utf8String)
         
         defer { voikkoFreeCstr(res) }
         
@@ -114,19 +118,19 @@ class VoikkoDictionary {
     }
     
     func checkSpelling(word: String) -> Int32 {
-        return voikkoSpellCstr(self.handle, word.cString(using: .utf8))
+        return voikkoSpellCstr(self.handle, (word as NSString).utf8String)
     }
     
-    func eachTokenInSentence(sentence: String, callback: VoikkoTokenCallback) {
+    func eachToken(inSentence sentence: String, callback: VoikkoTokenCallback) {
         let length = sentence.characters.count
-        let text = sentence.cString(using: .utf8)
-
+        let text = (sentence as NSString).utf8String
+        
         var token: voikko_token_type
         var offset: size_t = 0
         
         repeat {
             var tokenLen: size_t = 0
-            token = voikkoNextTokenCstr(handle, (text?.dropFirst(offset)).map(Array.init), length - offset, UnsafeMutablePointer(mutating: &tokenLen))
+            token = voikkoNextTokenCstr(handle, text?.advanced(by: offset), length - offset, UnsafeMutablePointer(mutating: &tokenLen))
             let tokenRange = NSRange(location: offset, length: tokenLen)
             let word = (sentence as NSString).substring(with: tokenRange)
             guard callback(token, word, tokenRange) else {

@@ -13,7 +13,7 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
         Bundle.main.resourceURL!.appendingPathComponent("Dictionaries", isDirectory: true)
     
     var supportedLanguages: [String] {
-        return Voikko.supportedSpellingLanguages(VoikkoSpellServerDelegate.includedDictionariesPath)
+        return Voikko.supportedSpellingLanguages(path: VoikkoSpellServerDelegate.includedDictionariesPath)
     }
     
     public override init() {
@@ -43,7 +43,7 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
             return nil
         }
         
-        return handle.suggest(word)
+        return handle.suggest(word: word)
     }
     
     private func wordCount(in sentence: String, handle: Voikko) -> Int {
@@ -68,7 +68,7 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
             if token == TOKEN_WORD {
                 c += 1
                 
-                if (handle.checkSpelling(word) == VOIKKO_SPELL_FAILED) {
+                if (handle.checkSpelling(word: word) == VOIKKO_SPELL_FAILED) {
                     range = sentenceRange
                     return false
                 }

@@ -14,7 +14,6 @@
 		C6970CE81DA4E2CA0024D82D /* libvoikko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF031DA37D4800751626 /* libvoikko.framework */; };
 		C6970CE91DA4E2CA0024D82D /* tinyxml2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF041DA37D4800751626 /* tinyxml2.framework */; };
 		C6970CEB1DA4E2CB0024D82D /* liblzma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6970CEA1DA4E2CB0024D82D /* liblzma.framework */; };
-		C6E475C71DA4E42800EB3352 /* Voikko.m in Sources */ = {isa = PBXBuildFile; fileRef = C618EF0D1DA38AB000751626 /* Voikko.m */; };
 		C6E475C81DA4E42E00EB3352 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* main.swift */; };
 		C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
 		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
@@ -40,8 +39,6 @@
 		C618EF021DA37D4800751626 /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
 		C618EF031DA37D4800751626 /* libvoikko.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libvoikko.framework; path = ../Dependencies/Frameworks/libvoikko.framework; sourceTree = "<group>"; };
 		C618EF041DA37D4800751626 /* tinyxml2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tinyxml2.framework; path = ../Dependencies/Frameworks/tinyxml2.framework; sourceTree = "<group>"; };
-		C618EF0C1DA38AB000751626 /* Voikko.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Voikko.h; sourceTree = "<group>"; };
-		C618EF0D1DA38AB000751626 /* Voikko.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Voikko.m; sourceTree = "<group>"; };
 		C618EF0F1DA38C5A00751626 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
 		C6970CD91DA4E28D0024D82D /* MacVoikko.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacVoikko.service; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -89,8 +86,6 @@
 			isa = PBXGroup;
 			children = (
 				C6970CE21DA4E28D0024D82D /* Info.plist */,
-				C618EF0C1DA38AB000751626 /* Voikko.h */,
-				C618EF0D1DA38AB000751626 /* Voikko.m */,
 				9E82AEF31E2F084000743AD8 /* Voikko.swift */,
 				C618EEF41DA24EB700751626 /* main.swift */,
 				C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */,
@@ -211,7 +206,6 @@
 				9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */,
 				C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */,
 				C6E475C81DA4E42E00EB3352 /* main.swift in Sources */,
-				C6E475C71DA4E42800EB3352 /* Voikko.m in Sources */,
 				C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
