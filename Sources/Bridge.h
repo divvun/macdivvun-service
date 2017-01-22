@@ -1,1 +1,1 @@
-#import "Voikko.h"
+#import <libvoikko/libvoikko/voikko.h>

@@ -3,7 +3,12 @@
 ## Requirements
 
 - Xcode
-- autotools
+- automake
+- autoconf
+- libtool
+- pkg-config
+- python3
+- gettext
 - cmake
 
 ## Building
@@ -12,7 +17,6 @@ Run the following commands:
 
 ```bash
 git submodule update --init
-cd Dependencies && make
 ```
 
 Then, open Xcode and build. Easy.

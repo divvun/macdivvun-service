@@ -13,11 +13,11 @@ let Vendor = "MacVoikko"
 let delegate = VoikkoSpellServerDelegate()
 let server = NSSpellServer()
 
-Voikko.dicts(VoikkoSpellServerDelegate.includedDictionariesPath).forEach {
+Voikko.dictionaries(path: VoikkoSpellServerDelegate.includedDictionariesPath).forEach {
     print($0.variant)
 }
 
-if delegate.supportedLanguages.count == 0 {
+if delegate.supportedLanguages.isEmpty {
     log("No languages supported; exiting")
     exit(1)
 }
