@@ -20,3 +20,7 @@ git submodule update --init
 ```
 
 Then, open Xcode and build. Easy.
+
+## Installing
+
+Pop into `~/Library/Services`.
