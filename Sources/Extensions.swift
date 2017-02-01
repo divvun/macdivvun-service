@@ -34,7 +34,9 @@ extension NSSpellServer {
 }
 
 func log(_ value: String) {
+    #if DEBUG
     NSLog(value)
+    #endif
 }
 
 func doublePointerToArray<A>(pointer: UnsafeMutablePointer<A?>) -> [A] {
