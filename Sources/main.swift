@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Sparkle
 
 class MacVoikkoRunner {
     let vendor = "MacVoikko"
@@ -15,6 +16,8 @@ class MacVoikkoRunner {
     let server = NSSpellServer()
     
     func run() -> Int32 {
+        let updater = SUUpdater(for: Bundle(for: MacVoikkoRunner.self))
+        updater?.resetUpdateCycle()
         Voikko.dictionaries(path: VoikkoSpellServerDelegate.includedDictionariesPath).forEach {
             print($0.variant)
         }
