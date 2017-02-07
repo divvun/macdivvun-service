@@ -16,6 +16,7 @@
 Run the following commands:
 
 ```bash
+carthage bootstrap --platform macOS --no-use-binaries
 git submodule update --init
 ```
 
