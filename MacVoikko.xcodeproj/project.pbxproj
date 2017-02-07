@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E82AEF31E2F084000743AD8 /* Voikko.swift */; };
+		9EA795041E4949C7000D6C50 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA795031E4949C7000D6C50 /* Sparkle.framework */; };
+		9EA795051E4949C7000D6C50 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA795031E4949C7000D6C50 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6970CDD1DA4E28D0024D82D /* Assets.xcassets */; };
 		C6970CE61DA4E2CA0024D82D /* libarchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF001DA37D4800751626 /* libarchive.framework */; };
 		C6970CE71DA4E2CA0024D82D /* libhfstospell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF011DA37D4800751626 /* libhfstospell.framework */; };
@@ -30,8 +32,23 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9EA795061E4949C7000D6C50 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9EA795051E4949C7000D6C50 /* Sparkle.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9E82AEF31E2F084000743AD8 /* Voikko.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voikko.swift; sourceTree = "<group>"; };
+		9EA795031E4949C7000D6C50 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
 		C618EEF41DA24EB700751626 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoikkoSpellServerDelegate.swift; sourceTree = "<group>"; };
 		C618EF001DA37D4800751626 /* libarchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libarchive.framework; path = ../Dependencies/Frameworks/libarchive.framework; sourceTree = "<group>"; };
@@ -54,6 +71,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6970CEB1DA4E2CB0024D82D /* liblzma.framework in Frameworks */,
+				9EA795041E4949C7000D6C50 /* Sparkle.framework in Frameworks */,
 				C6970CE61DA4E2CA0024D82D /* libarchive.framework in Frameworks */,
 				C6970CE71DA4E2CA0024D82D /* libhfstospell.framework in Frameworks */,
 				C6970CE81DA4E2CA0024D82D /* libvoikko.framework in Frameworks */,
@@ -99,6 +117,7 @@
 		C618EEFF1DA37D4800751626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9EA795031E4949C7000D6C50 /* Sparkle.framework */,
 				C6970CEA1DA4E2CB0024D82D /* liblzma.framework */,
 				C618EF001DA37D4800751626 /* libarchive.framework */,
 				C618EF011DA37D4800751626 /* libhfstospell.framework */,
@@ -136,6 +155,7 @@
 				C6970CD51DA4E28D0024D82D /* Sources */,
 				C6970CD61DA4E28D0024D82D /* Frameworks */,
 				C6970CD71DA4E28D0024D82D /* Resources */,
+				9EA795061E4949C7000D6C50 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -327,7 +347,10 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Dependencies/Frameworks/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Dependencies/Frameworks/**",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -351,7 +374,10 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Dependencies/Frameworks/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Dependencies/Frameworks/**",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
