@@ -24,6 +24,8 @@ ARGV.each { |zhfst_file|
   `mkdir -p #{bundle_file}/Contents/Resources`
   `cp #{zhfst_file} #{bundle_file}/Contents/Resources`
   plist_add ':CFBundleDevelopmentRegion', 'string', 'en'
+  plist_add ':SUEnableAutomaticChecks', 'bool', 'YES'
+  plist_add ':SUFeedURL', 'string', "https://divvun.no/bundles/#{zhfst_basename}/appcast.xml"
   plist_add ':CFBundleIdentifier', 'string', "no.divvun.MacVoikko.#{zhfst_basename}"
   plist_add ':CFBundleName', 'string', zhfst_basename
   plist_add ':CFBundlePackageType', 'string', 'BNDL'
