@@ -12,8 +12,7 @@ ARGV.each { |zhfst_file|
   @plist = "#{bundle_file}/Contents/Info.plist"
 
   if File.exist? bundle_file then
-    puts "#{bundle_name} exists, skipping"
-    exit 0
+    `rm -r #{bundle_file}`
   end
 
   def plist_add(path, type, value = "")
@@ -21,8 +20,8 @@ ARGV.each { |zhfst_file|
   end
 
   puts "Creating #{bundle_name}"
-  `mkdir -p #{bundle_file}/Contents/Resources`
-  `cp #{zhfst_file} #{bundle_file}/Contents/Resources`
+  `mkdir -p #{bundle_file}/Contents/Resources/3`
+  `cp #{zhfst_file} #{bundle_file}/Contents/Resources/3`
   plist_add ':CFBundleDevelopmentRegion', 'string', 'en'
   plist_add ':SUEnableAutomaticChecks', 'bool', 'YES'
   plist_add ':SUFeedURL', 'string', "https://divvun.no/bundles/#{zhfst_basename}/appcast.xml"
