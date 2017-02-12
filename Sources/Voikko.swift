@@ -30,32 +30,38 @@ class VoikkoDictionary {
 class Voikko {
     public typealias VoikkoToken = (voikko_token_type, String, NSRange)
     public typealias VoikkoTokenCallback = (voikko_token_type, String, NSRange) -> Bool
-    let handle: OpaquePointer
+    let handles: [String: OpaquePointer]
     let version: String = String(cString: voikkoGetVersion())
     
-    init(langCode: String, path: URL?) throws {
-        var error: UnsafePointer<CChar>?
+    init(grandfatheredLocation path: URL) throws {
         
-        self.handle = voikkoInit(UnsafeMutablePointer(mutating: &error), (langCode as NSString).utf8String, path.flatMap { fileSystemRepresentation(for: $0) })
-        
-        if let error = error {
-            defer { voikkoFreeCstr(UnsafeMutablePointer(mutating: error)) }
-            throw NSError(domain: "Voikko",
-                          code: 0,
-                          userInfo: [NSLocalizedDescriptionKey: NSLocalizedString(String(cString: error), comment: "")])
+        self.handles = try zip(Voikko.bundleFolderURLs(grandfatheredLocation: path), Voikko.supportedSpellingLanguages(grandfatheredLocation: path)).reduce([:]) { dictionary, pathLangCodePair in
+            let (path, langCode) = pathLangCodePair
+            var dictionary = dictionary
+            var error: UnsafePointer<CChar>?
+            
+            dictionary[langCode] = voikkoInit(UnsafeMutablePointer(mutating: &error), (langCode as NSString).utf8String, fileSystemRepresentation(for: path))
+            
+            if let error = error {
+                defer { voikkoFreeCstr(UnsafeMutablePointer(mutating: error)) }
+                throw NSError(domain: "Voikko",
+                              code: 0,
+                              userInfo: [NSLocalizedDescriptionKey: NSLocalizedString(String(cString: error), comment: "")])
+            }
+            return dictionary
         }
     }
 
     static func dictionaries(path: URL) -> [VoikkoDictionary] {
-        return fileSystemRepresentation(for: path).map {
-            let voikko_dicts = voikko_list_dicts($0)
+        return bundleFolderURLs(grandfatheredLocation: path).flatMap { path -> [VoikkoDictionary] in
+            let voikko_dicts = voikko_list_dicts(fileSystemRepresentation(for: path))!
             
             defer { voikko_free_dicts(voikko_dicts) }
             
-            return doublePointerToArray(pointer: voikko_list_dicts($0)).map {
+            return doublePointerToArray(pointer: voikko_dicts).map {
                 VoikkoDictionary(handle: $0)
             }
-        } ?? []
+        }
     }
     
     static private func stringArrayFromFunction(path: URL, function: (UnsafePointer<Int8>!) -> UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>!) -> [String] {
@@ -72,61 +78,63 @@ class Voikko {
         } ?? []
     }
     
-    static func supportedSpellingLanguages(path: URL) -> [String] {
-        return stringArrayFromFunction(path: path, function: voikkoListSupportedSpellingLanguages)
+    static func bundleFolderURLs(grandfatheredLocation: URL) -> [URL] {
+        let libraryDirectory = NSSearchPathForDirectoriesInDomains(.allLibrariesDirectory, .userDomainMask, true).filter {
+            $0.hasSuffix("/Library")
+        }.first
+        
+        return (libraryDirectory.flatMap {
+            let bundlesPath = $0.appending("/Speller/MacVoikko/")
+            return FileManager.default.subpaths(atPath: bundlesPath)?.filter {
+                $0.hasSuffix(".bundle/Contents/Resources")
+            }.map(bundlesPath.appending).map {
+                URL(fileURLWithPath: $0, isDirectory: true)
+            }
+        } ?? []) + [grandfatheredLocation]
     }
     
-    static func supportedHyphenationLanguages(path: URL) -> [String] {
-        return stringArrayFromFunction(path: path, function: voikkoListSupportedHyphenationLanguages)
+    static func supportedSpellingLanguages(grandfatheredLocation path: URL) -> [String] {
+        return bundleFolderURLs(grandfatheredLocation: path).flatMap {
+            stringArrayFromFunction(path: $0, function: voikkoListSupportedSpellingLanguages)
+        }
     }
     
-    static func supportedGrammarCheckingLanguages(path: URL) -> [String] {
+    static func supportedHyphenationLanguages(grandfatheredLocation path: URL) -> [String] {
+        return bundleFolderURLs(grandfatheredLocation: path).flatMap {
+            stringArrayFromFunction(path: $0, function: voikkoListSupportedHyphenationLanguages)
+        }
+    }
+    
+    static func supportedGrammarCheckingLanguages(grandfatheredLocation path: URL) -> [String] {
         return stringArrayFromFunction(path: path, function: voikkoListSupportedGrammarCheckingLanguages)
     }
     
-    func set(option: Int32, boolean: Bool) -> Bool {
-        let value: Int32 = boolean ? 1 : 0
-        return voikkoSetBooleanOption(self.handle, option, value) != 0;
+    func suggest(word: String, inLanguage language: String) -> [String]? {
+        return handles[language].flatMap { handle in
+            let strings = (word as NSString).utf8String.flatMap { voikkoSuggestCstr(handle, $0) }
+            
+            defer { voikkoFreeCstrArray(strings) }
+            
+            return strings.map {
+                doublePointerToArray(pointer: $0).map {
+                    String(cString: $0)
+                }
+            } ?? []
+        }
     }
     
-    func set(option: Int32, integer: Int32) -> Bool {
-        return voikkoSetIntegerOption(self.handle, option, integer) != 0;
+    func checkSpelling(word: String, inLanguage language: String) -> Int32? {
+        return handles[language].map { voikkoSpellCstr($0, (word as NSString).utf8String) }
     }
     
-    func spell(word: String) -> Int32 {
-        return voikkoSpellCstr(handle, (word as NSString).utf8String)
-    }
-    
-    func suggest(word: String) -> [String] {
-        let strings = (word as NSString).utf8String.flatMap { voikkoSuggestCstr(handle, $0) }
-        
-        defer { voikkoFreeCstrArray(strings) }
-        
-        return strings.map {
-            doublePointerToArray(pointer: $0).map {
-                String(cString: $0)
-            }
-        } ?? []
-    }
-    
-    func hyphenate(word: String) -> String {
-        let res = voikkoHyphenateCstr(self.handle, (word as NSString).utf8String)
-        
-        defer { voikkoFreeCstr(res) }
-        
-        return res.map { String(cString: $0) } ?? ""
-    }
-    
-    func checkSpelling(word: String) -> Int32 {
-        return voikkoSpellCstr(self.handle, (word as NSString).utf8String)
-    }
-    
-    func eachToken(inSentence sentence: String, callback: VoikkoTokenCallback) {
+    func eachToken(inSentence sentence: String, inLanguage language: String, callback: VoikkoTokenCallback) {
         let length = sentence.characters.count
         let text = (sentence as NSString).utf8String
         
         var token: voikko_token_type
         var offset: size_t = 0
+        
+        guard let handle = handles[language] else { return }
         
         repeat {
             var tokenLen: size_t = 0

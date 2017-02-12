@@ -18,6 +18,7 @@ class MacVoikkoRunner {
     func run() -> Int32 {
         let updater = SUUpdater(for: Bundle(for: MacVoikkoRunner.self))
         updater?.resetUpdateCycle()
+        
         Voikko.dictionaries(path: VoikkoSpellServerDelegate.includedDictionariesPath).forEach {
             print($0.variant)
         }
