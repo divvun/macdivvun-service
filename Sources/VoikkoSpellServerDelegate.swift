@@ -32,11 +32,11 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
     }
     
     public func spellServer(_ sender: NSSpellServer, suggestGuessesForWord word: String, inLanguage language: String) -> [String]? {
-        guard let suggestion = handle?.suggest(word: word, inLanguage: language) else {
+        guard let suggestions = handle?.suggest(word: word, inLanguage: language) else {
             log("suggestGuessesForWord - unknown language: \(language)")
             return nil
         }
-        return suggestion
+        return suggestions
     }
     
     private func wordCount(in sentence: String, inLanguage language: String, handle: Voikko) -> Int {

@@ -39,7 +39,6 @@ class MacVoikkoRunner {
         NSSpellServer.flushCache()
         NSSpellServer.updateCache()
         
-        
         log("\(vendor) started")
         
         server.run()

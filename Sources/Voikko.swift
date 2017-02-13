@@ -34,8 +34,8 @@ class Voikko {
     let version: String = String(cString: voikkoGetVersion())
     
     init(grandfatheredLocation path: URL) throws {
-        
-        self.handles = try zip(Voikko.bundleFolderURLs(grandfatheredLocation: path), Voikko.supportedSpellingLanguages(grandfatheredLocation: path)).reduce([:]) { dictionary, pathLangCodePair in
+        self.handles = try zip(Voikko.bundleFolderURLs(grandfatheredLocation: path),
+                               Voikko.supportedSpellingLanguages(grandfatheredLocation: path)).reduce([:]) { dictionary, pathLangCodePair in
             let (path, langCode) = pathLangCodePair
             var dictionary = dictionary
             var error: UnsafePointer<CChar>?
@@ -54,13 +54,14 @@ class Voikko {
 
     static func dictionaries(path: URL) -> [VoikkoDictionary] {
         return bundleFolderURLs(grandfatheredLocation: path).flatMap { path -> [VoikkoDictionary] in
-            let voikko_dicts = voikko_list_dicts(fileSystemRepresentation(for: path))!
+            let voikko_dicts = voikko_list_dicts(fileSystemRepresentation(for: path))
             
             defer { voikko_free_dicts(voikko_dicts) }
             
-            return doublePointerToArray(pointer: voikko_dicts).map {
-                VoikkoDictionary(handle: $0)
-            }
+            return voikko_dicts.flatMap { doublePointerToArray(pointer: $0).map {
+                    VoikkoDictionary(handle: $0)
+                }
+            } ?? []
         }
     }
     
