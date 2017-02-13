@@ -9,44 +9,60 @@
 import Foundation
 import Sparkle
 
+struct Global {
+    static let vendor = "MacVoikko"
+}
+
 class MacVoikkoRunner {
-    let vendor = "MacVoikko"
-    
     let delegate = VoikkoSpellServerDelegate()
     let server = NSSpellServer()
+    
+    func register(language: String) {
+        server.registerLanguage(language, byVendor: Global.vendor)
+        log("Registered: \(language)")
+    }
+    
+    func flushAndUpdate() {
+        log("Flushing and updating speller cache")
+        NSSpellServer.flushCache()
+        NSSpellServer.updateCache()
+    }
     
     func run() -> Int32 {
         let updater = SUUpdater(for: Bundle(for: MacVoikkoRunner.self))
         updater?.resetUpdateCycle()
         
-        Voikko.dictionaries(path: VoikkoSpellServerDelegate.includedDictionariesPath).forEach {
-            print($0.variant)
-        }
-        
-        if delegate.supportedLanguages.isEmpty {
+        guard !delegate.supportedLanguages.isEmpty else {
             log("No languages supported; exiting")
             return 1
         }
         
-        delegate.supportedLanguages.forEach { lang in
-            server.registerLanguage(lang, byVendor: vendor)
-            log("Registered: \(lang)")
-        }
+        delegate.supportedLanguages.forEach(register)
         
         server.delegate = delegate
+        flushAndUpdate()
         
-        log("Flushing and updating speller cache")
-        NSSpellServer.flushCache()
-        NSSpellServer.updateCache()
+        let watcher = BundlesWatcher {
+            let path = URL(fileURLWithPath: $0)
+            if let language = Voikko.language(forBundleAtPath: path), self.delegate.registeredLanguages().contains(language) == false {
+                do {
+                    try self.delegate.addBundle(bundlePath: path)
+                    self.register(language: language)
+                    self.flushAndUpdate()
+                } catch {
+                    log("Error loading: \(error.localizedDescription)")
+                }
+            }
+        }
+        watcher.start()
         
-        log("\(vendor) started")
+        log("\(Global.vendor) started")
         
         server.run()
         
-        log("\(vendor) stopped")
+        log("\(Global.vendor) stopped")
         
         return 0
     }
 }
-
 exit(MacVoikkoRunner().run())

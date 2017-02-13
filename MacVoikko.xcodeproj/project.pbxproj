@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */; };
 		9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E82AEF31E2F084000743AD8 /* Voikko.swift */; };
 		9EA795041E4949C7000D6C50 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA795031E4949C7000D6C50 /* Sparkle.framework */; };
 		9EA795051E4949C7000D6C50 /* Sparkle.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9EA795031E4949C7000D6C50 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -47,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundlesWatcher.swift; sourceTree = "<group>"; };
 		9E82AEF31E2F084000743AD8 /* Voikko.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voikko.swift; sourceTree = "<group>"; };
 		9EA795031E4949C7000D6C50 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Carthage/Build/Mac/Sparkle.framework; sourceTree = "<group>"; };
 		C618EEF41DA24EB700751626 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				C6970CE21DA4E28D0024D82D /* Info.plist */,
 				9E82AEF31E2F084000743AD8 /* Voikko.swift */,
 				C618EEF41DA24EB700751626 /* main.swift */,
+				9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */,
 				C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */,
 				C618EF0F1DA38C5A00751626 /* Bridge.h */,
 				C6970CDD1DA4E28D0024D82D /* Assets.xcassets */,
@@ -225,6 +228,7 @@
 			files = (
 				9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */,
 				C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */,
+				9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */,
 				C6E475C81DA4E42E00EB3352 /* main.swift in Sources */,
 				C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */,
 			);

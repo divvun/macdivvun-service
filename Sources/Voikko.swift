@@ -12,6 +12,10 @@ fileprivate func fileSystemRepresentation(for path: URL) -> UnsafePointer<Int8>?
     return (path.absoluteURL.path as NSString?)?.fileSystemRepresentation
 }
 
+internal func resourcesFolder(forBundleAtPath path: URL) -> URL {
+    return path.appendingPathComponent("Contents").appendingPathComponent("Resources")
+}
+
 class VoikkoDictionary {
 
     init(handle: OpaquePointer) {
@@ -30,26 +34,36 @@ class VoikkoDictionary {
 class Voikko {
     public typealias VoikkoToken = (voikko_token_type, String, NSRange)
     public typealias VoikkoTokenCallback = (voikko_token_type, String, NSRange) -> Bool
-    let handles: [String: OpaquePointer]
+    var handles: [String: OpaquePointer]
     let version: String = String(cString: voikkoGetVersion())
     
     init(grandfatheredLocation path: URL) throws {
-        self.handles = try zip(Voikko.bundleFolderURLs(grandfatheredLocation: path),
-                               Voikko.supportedSpellingLanguages(grandfatheredLocation: path)).reduce([:]) { dictionary, pathLangCodePair in
-            let (path, langCode) = pathLangCodePair
-            var dictionary = dictionary
-            var error: UnsafePointer<CChar>?
-            
-            dictionary[langCode] = voikkoInit(UnsafeMutablePointer(mutating: &error), (langCode as NSString).utf8String, fileSystemRepresentation(for: path))
-            
-            if let error = error {
-                defer { voikkoFreeCstr(UnsafeMutablePointer(mutating: error)) }
-                throw NSError(domain: "Voikko",
-                              code: 0,
-                              userInfo: [NSLocalizedDescriptionKey: NSLocalizedString(String(cString: error), comment: "")])
-            }
-            return dictionary
+        self.handles = [:]
+        try zip(Voikko.bundleFolderURLs(grandfatheredLocation: path),
+                Voikko.supportedSpellingLanguages(grandfatheredLocation: path)).forEach(addBundle)
+    }
+    
+    func addBundle(bundlePath path: URL, langCode: String) throws {
+        var error: UnsafePointer<CChar>?
+        handles[langCode] = voikkoInit(UnsafeMutablePointer(mutating: &error), (langCode as NSString).utf8String, fileSystemRepresentation(for: path))
+        
+        if let error = error {
+            throw NSError(domain: "Voikko",
+                          code: 0,
+                          userInfo: [NSLocalizedDescriptionKey: NSLocalizedString(String(cString: error), comment: "")])
         }
+    }
+    
+    func supportsLanguage(language: String) -> Bool {
+        return self.handles[language] != nil
+    }
+    
+    static func language(forBundleAtPath path: URL) -> String? {
+        return Voikko.stringArrayFromFunction(path: resourcesFolder(forBundleAtPath: path), function: voikkoListSupportedSpellingLanguages).first
+    }
+    
+    deinit {
+        self.handles.values.forEach(voikkoTerminate)
     }
 
     static func dictionaries(path: URL) -> [VoikkoDictionary] {
@@ -85,7 +99,7 @@ class Voikko {
         }.first
         
         return (libraryDirectory.flatMap {
-            let bundlesPath = $0.appending("/Speller/MacVoikko/")
+            let bundlesPath = $0.appending("/Speller/\(Global.vendor)/")
             return FileManager.default.subpaths(atPath: bundlesPath)?.filter {
                 $0.hasSuffix(".bundle/Contents/Resources")
             }.map(bundlesPath.appending).map {

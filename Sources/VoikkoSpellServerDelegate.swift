@@ -20,10 +20,6 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
     
     public override init() {
         super.init()
-        reinit()
-    }
-    
-    private func reinit() {
         do {
             self.handle = try Voikko(grandfatheredLocation: VoikkoSpellServerDelegate.includedDictionariesPath)
         } catch {
@@ -31,10 +27,19 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
         }
     }
     
+    func registeredLanguages() -> [String] {
+        return (self.handle?.handles.keys).map(Array.init) ?? []
+    }
+    
+    public func addBundle(bundlePath path: URL) throws {
+        guard let langCode = Voikko.language(forBundleAtPath: path) else { return }
+        try handle?.addBundle(bundlePath: resourcesFolder(forBundleAtPath: path), langCode: langCode)
+    }
+    
     public func spellServer(_ sender: NSSpellServer, suggestGuessesForWord word: String, inLanguage language: String) -> [String]? {
-        guard let suggestions = handle?.suggest(word: word, inLanguage: language) else {
+        let suggestions = handle?.suggest(word: word, inLanguage: language)
+        if suggestions == nil {
             log("suggestGuessesForWord - unknown language: \(language)")
-            return nil
         }
         return suggestions
     }
