@@ -5,4 +5,6 @@ Dependencies/Frameworks/*
 Dependencies/Static/*
 Dictionaries
 DerivedData/
+Bundles/
+Carthage/
 build
