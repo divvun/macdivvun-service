@@ -1,15 +1,16 @@
-# MacVoikko
+# MacDivvun
 
 ## Requirements
 
 - Xcode
-- automake
 - autoconf
+- automake
+- carthage
+- cmake
+- gettext
 - libtool
 - pkg-config
 - python3
-- gettext
-- cmake
 
 ## Building
 
