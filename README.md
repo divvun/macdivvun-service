@@ -1,4 +1,4 @@
-# MacDivvun
+# MacDivvun.service
 
 ## Requirements
 
