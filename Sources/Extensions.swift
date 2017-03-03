@@ -1,6 +1,6 @@
 //
 //  Extensions.swift
-//  MacVoikko
+//  MacDivvun
 //
 //  Created by Brendan Molloy on 5/10/16.
 //  Copyright © 2016 Divvun. All rights reserved.

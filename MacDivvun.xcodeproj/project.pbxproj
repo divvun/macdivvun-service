@@ -59,7 +59,7 @@
 		C618EF031DA37D4800751626 /* libvoikko.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libvoikko.framework; path = ../Dependencies/Frameworks/libvoikko.framework; sourceTree = "<group>"; };
 		C618EF041DA37D4800751626 /* tinyxml2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tinyxml2.framework; path = ../Dependencies/Frameworks/tinyxml2.framework; sourceTree = "<group>"; };
 		C618EF0F1DA38C5A00751626 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
-		C6970CD91DA4E28D0024D82D /* MacVoikko.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacVoikko.service; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6970CD91DA4E28D0024D82D /* MacDivvun.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacDivvun.service; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6970CEA1DA4E2CB0024D82D /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 		C618EEF21DA24EB700751626 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C6970CD91DA4E28D0024D82D /* MacVoikko.service */,
+				C6970CD91DA4E28D0024D82D /* MacDivvun.service */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -151,9 +151,9 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		C6970CD81DA4E28D0024D82D /* MacVoikko */ = {
+		C6970CD81DA4E28D0024D82D /* MacDivvun */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6970CE31DA4E28D0024D82D /* Build configuration list for PBXNativeTarget "MacVoikko" */;
+			buildConfigurationList = C6970CE31DA4E28D0024D82D /* Build configuration list for PBXNativeTarget "MacDivvun" */;
 			buildPhases = (
 				C6970CD51DA4E28D0024D82D /* Sources */,
 				C6970CD61DA4E28D0024D82D /* Frameworks */,
@@ -165,9 +165,9 @@
 			dependencies = (
 				C6E475ED1DA4F06D00EB3352 /* PBXTargetDependency */,
 			);
-			name = MacVoikko;
+			name = MacDivvun;
 			productName = "MacVoikko-App";
-			productReference = C6970CD91DA4E28D0024D82D /* MacVoikko.service */;
+			productReference = C6970CD91DA4E28D0024D82D /* MacDivvun.service */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -190,7 +190,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C618EEEC1DA24EB700751626 /* Build configuration list for PBXProject "MacVoikko" */;
+			buildConfigurationList = C618EEEC1DA24EB700751626 /* Build configuration list for PBXProject "MacDivvun" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -203,7 +203,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C6970CD81DA4E28D0024D82D /* MacVoikko */,
+				C6970CD81DA4E28D0024D82D /* MacDivvun */,
 				C6E475E81DA4F06100EB3352 /* Dependencies */,
 			);
 		};
@@ -363,7 +363,7 @@
 					"-lz",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacVoikko;
+				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacDivvun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
@@ -390,7 +390,7 @@
 					"-lz",
 					"-lstdc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacVoikko;
+				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacDivvun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 3.0;
@@ -430,7 +430,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C618EEEC1DA24EB700751626 /* Build configuration list for PBXProject "MacVoikko" */ = {
+		C618EEEC1DA24EB700751626 /* Build configuration list for PBXProject "MacDivvun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C618EEF61DA24EB700751626 /* Debug */,
@@ -439,7 +439,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6970CE31DA4E28D0024D82D /* Build configuration list for PBXNativeTarget "MacVoikko" */ = {
+		C6970CE31DA4E28D0024D82D /* Build configuration list for PBXNativeTarget "MacDivvun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6970CE41DA4E28D0024D82D /* Debug */,
