@@ -6,5 +6,5 @@ Dependencies/Static/*
 Dictionaries
 DerivedData/
 Bundles/
-Carthage/
+Pods/
 build

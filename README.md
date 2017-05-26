@@ -5,7 +5,7 @@
 - Xcode
 - autoconf
 - automake
-- carthage
+- CocoaPods
 - cmake
 - gettext
 - libtool
@@ -17,11 +17,11 @@
 Run the following commands:
 
 ```bash
-carthage bootstrap --platform macOS --no-use-binaries
+pod install
 git submodule update --init
 ```
 
-Then, open Xcode and build. Easy.
+Then, open `MacDivvun.xcworkspace` and build. Easy.
 
 ## Installing
 

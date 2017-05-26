@@ -65,4 +65,5 @@ class MacDivvunRunner {
         return 0
     }
 }
+
 exit(MacDivvunRunner().run())
