@@ -1,6 +1,6 @@
 //
 //  BundlesWatcher.swift
-//  MacVoikko
+//  MacDivvun
 //
 //  Created by Charlotte Tortorella on 13/2/17.
 //  Copyright © 2017 Divvun. All rights reserved.

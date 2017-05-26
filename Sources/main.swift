@@ -1,6 +1,6 @@
 //
 //  main.swift
-//  MacVoikko
+//  MacDivvun
 //
 //  Created by Brendan Molloy on 3/10/16.
 //  Copyright © 2016 Divvun. All rights reserved.
@@ -10,10 +10,10 @@ import Foundation
 import Sparkle
 
 struct Global {
-    static let vendor = "MacVoikko"
+    static let vendor = "MacDivvun"
 }
 
-class MacVoikkoRunner {
+class MacDivvunRunner {
     let delegate = VoikkoSpellServerDelegate()
     let server = NSSpellServer()
     
@@ -29,7 +29,7 @@ class MacVoikkoRunner {
     }
     
     func run() -> Int32 {
-        let updater = SUUpdater(for: Bundle(for: MacVoikkoRunner.self))
+        let updater = SUUpdater(for: Bundle(for: MacDivvunRunner.self))
         updater?.resetUpdateCycle()
         
         guard !delegate.supportedLanguages.isEmpty else {
@@ -65,4 +65,4 @@ class MacVoikkoRunner {
         return 0
     }
 }
-exit(MacVoikkoRunner().run())
+exit(MacDivvunRunner().run())
