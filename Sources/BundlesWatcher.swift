@@ -14,7 +14,10 @@ public class BundlesWatcher {
     
     public init(callback: @escaping (String) -> Void) {
         self.userCallback = callback
-        self.pathsToWatch = ["\(NSHomeDirectory())/Library/Speller/\(Global.vendor)"]
+        self.pathsToWatch = [
+            "\(NSHomeDirectory())/Library/Speller/\(Global.vendor)",
+            "/Library/Speller/\(Global.vendor)"
+        ]
     }
     
     deinit {
@@ -27,8 +30,12 @@ public class BundlesWatcher {
         let bundlesWatcher: BundlesWatcher = unsafeBitCast(contextInfo, to: BundlesWatcher.self)
         let paths = unsafeBitCast(eventPaths, to: NSArray.self) as! [String]
         
+        guard let flags = eventFlags?.pointee else {
+            return
+        }
+        
         for index in 0..<numEvents {
-            bundlesWatcher.processEvent(eventPath: paths[index])
+            bundlesWatcher.processEvent(flags: flags, path: paths[index])
         }
     }
     private let pathsToWatch: [String]
@@ -38,13 +45,17 @@ public class BundlesWatcher {
     
     // MARK: - Private Methods
     
-    private func processEvent(eventPath: String) {
-        if eventPath.hasSuffix(".bundle") {
-            userCallback(eventPath)
+    private func processEvent(flags: FSEventStreamEventFlags, path: String) {
+        if flags & UInt32(kFSEventStreamEventFlagItemCreated | kFSEventStreamEventFlagItemRenamed) == 0 {
+            return
+        }
+        
+        if path.hasSuffix(".bundle") {
+            userCallback(path)
         }
     }
     
-    // MARK: - Pubic Methods
+    // MARK: - Public Methods
     
     public func start() {
         guard started == false else { return }

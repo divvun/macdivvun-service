@@ -10,13 +10,14 @@
 		272B82237B53C2E47E14D0F7 /* Pods_MacDivvun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB0234F2F65D1296048D091E /* Pods_MacDivvun.framework */; };
 		9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */; };
 		9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E82AEF31E2F084000743AD8 /* Voikko.swift */; };
+		C672E1E61F4336A30004B024 /* appcast_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = C672E1E51F4336A30004B024 /* appcast_pub.pem */; };
 		C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6970CDD1DA4E28D0024D82D /* Assets.xcassets */; };
 		C6970CE61DA4E2CA0024D82D /* libarchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF001DA37D4800751626 /* libarchive.framework */; };
 		C6970CE71DA4E2CA0024D82D /* libhfstospell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF011DA37D4800751626 /* libhfstospell.framework */; };
 		C6970CE81DA4E2CA0024D82D /* libvoikko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF031DA37D4800751626 /* libvoikko.framework */; };
 		C6970CE91DA4E2CA0024D82D /* tinyxml2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF041DA37D4800751626 /* tinyxml2.framework */; };
 		C6970CEB1DA4E2CB0024D82D /* liblzma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6970CEA1DA4E2CB0024D82D /* liblzma.framework */; };
-		C6E475C81DA4E42E00EB3352 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* main.swift */; };
+		C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* AppDelegate.swift */; };
 		C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
 		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
 		C6E475EF1DA5045200EB3352 /* Dictionaries in Resources */ = {isa = PBXBuildFile; fileRef = C6E475EE1DA5045200EB3352 /* Dictionaries */; };
@@ -35,7 +36,7 @@
 /* Begin PBXFileReference section */
 		9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundlesWatcher.swift; sourceTree = "<group>"; };
 		9E82AEF31E2F084000743AD8 /* Voikko.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voikko.swift; sourceTree = "<group>"; };
-		C618EEF41DA24EB700751626 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		C618EEF41DA24EB700751626 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoikkoSpellServerDelegate.swift; sourceTree = "<group>"; };
 		C618EF001DA37D4800751626 /* libarchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libarchive.framework; path = ../Dependencies/Frameworks/libarchive.framework; sourceTree = "<group>"; };
 		C618EF011DA37D4800751626 /* libhfstospell.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libhfstospell.framework; path = ../Dependencies/Frameworks/libhfstospell.framework; sourceTree = "<group>"; };
@@ -43,6 +44,7 @@
 		C618EF031DA37D4800751626 /* libvoikko.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libvoikko.framework; path = ../Dependencies/Frameworks/libvoikko.framework; sourceTree = "<group>"; };
 		C618EF041DA37D4800751626 /* tinyxml2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tinyxml2.framework; path = ../Dependencies/Frameworks/tinyxml2.framework; sourceTree = "<group>"; };
 		C618EF0F1DA38C5A00751626 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		C672E1E51F4336A30004B024 /* appcast_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = appcast_pub.pem; sourceTree = "<group>"; };
 		C6970CD91DA4E28D0024D82D /* MacDivvun.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacDivvun.service; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,9 +104,10 @@
 		C618EEF31DA24EB700751626 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C672E1E51F4336A30004B024 /* appcast_pub.pem */,
 				C6970CE21DA4E28D0024D82D /* Info.plist */,
 				9E82AEF31E2F084000743AD8 /* Voikko.swift */,
-				C618EEF41DA24EB700751626 /* main.swift */,
+				C618EEF41DA24EB700751626 /* AppDelegate.swift */,
 				9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */,
 				C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */,
 				C618EF0F1DA38C5A00751626 /* Bridge.h */,
@@ -215,6 +218,7 @@
 			files = (
 				C6E475EF1DA5045200EB3352 /* Dictionaries in Resources */,
 				C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */,
+				C672E1E61F4336A30004B024 /* appcast_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,7 +280,7 @@
 				9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */,
 				C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */,
 				9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */,
-				C6E475C81DA4E42E00EB3352 /* main.swift in Sources */,
+				C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */,
 				C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

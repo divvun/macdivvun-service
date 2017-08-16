@@ -12,10 +12,6 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
     static let includedDictionariesPath: URL =
         Bundle.main.resourceURL!.appendingPathComponent("Dictionaries", isDirectory: true)
     
-    var supportedLanguages: [String] {
-        return Voikko.supportedSpellingLanguages(grandfatheredLocation: VoikkoSpellServerDelegate.includedDictionariesPath)
-    }
-    
     private var handle: Voikko?
     
     public override init() {
@@ -34,6 +30,7 @@ open class VoikkoSpellServerDelegate: NSObject, NSSpellServerDelegate {
     public func addBundle(bundlePath path: URL) throws {
         guard let langCode = Voikko.language(forBundleAtPath: path) else { return }
         try handle?.addBundle(bundlePath: resourcesFolder(forBundleAtPath: path), langCode: langCode)
+        log("Added bundle: \(path.absoluteString)")
     }
     
     public func spellServer(_ sender: NSSpellServer, suggestGuessesForWord word: String, inLanguage language: String) -> [String]? {

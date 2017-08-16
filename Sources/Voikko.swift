@@ -93,19 +93,24 @@ class Voikko {
         } ?? []
     }
     
-    static func bundleFolderURLs(grandfatheredLocation: URL) -> [URL] {
-        let libraryDirectory = NSSearchPathForDirectoriesInDomains(.allLibrariesDirectory, .userDomainMask, true).filter {
-            $0.hasSuffix("/Library")
-        }.first
+    static func bundleFolderURLs(grandfatheredLocation: URL? = nil, domain: FileManager.SearchPathDomainMask = .userDomainMask) -> [URL] {
         
-        return (libraryDirectory.flatMap {
-            let bundlesPath = $0.appending("/Speller/\(Global.vendor)/")
-            return FileManager.default.subpaths(atPath: bundlesPath)?.filter {
-                $0.hasSuffix(".bundle/Contents/Resources")
-            }.map(bundlesPath.appending).map {
-                URL(fileURLWithPath: $0, isDirectory: true)
-            }
-        } ?? []) + [grandfatheredLocation]
+        guard let libraryDirectory = NSSearchPathForDirectoriesInDomains(.libraryDirectory, domain, true).first else {
+            fatalError("Library not found")
+        }
+        
+        let bundlesPath = libraryDirectory.appending("/Speller/\(Global.vendor)/")
+        let spellerBundles = FileManager.default.subpaths(atPath: bundlesPath)?.filter {
+            $0.hasSuffix(".bundle")
+        }.map(bundlesPath.appending).map {
+            URL(fileURLWithPath: $0, isDirectory: true)
+        } ?? []
+        
+        if let l = grandfatheredLocation {
+            return spellerBundles + [l]
+        } else {
+            return spellerBundles
+        }
     }
     
     static func supportedSpellingLanguages(grandfatheredLocation path: URL) -> [String] {
