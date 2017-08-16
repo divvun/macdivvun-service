@@ -20,7 +20,6 @@
 		C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* AppDelegate.swift */; };
 		C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
 		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
-		C6E475EF1DA5045200EB3352 /* Dictionaries in Resources */ = {isa = PBXBuildFile; fileRef = C6E475EE1DA5045200EB3352 /* Dictionaries */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,7 +49,6 @@
 		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6970CEA1DA4E2CB0024D82D /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
 		C6E475E31DA4E59600EB3352 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		C6E475EE1DA5045200EB3352 /* Dictionaries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Dictionaries; sourceTree = "<group>"; };
 		CBF9FE21B937FE20BA71A6BD /* Pods-MacDivvun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MacDivvun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MacDivvun/Pods-MacDivvun.debug.xcconfig"; sourceTree = "<group>"; };
 		DB0234F2F65D1296048D091E /* Pods_MacDivvun.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MacDivvun.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49C35022862D5A3D69E5A10 /* Pods-MacDivvun.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MacDivvun.release.xcconfig"; path = "Pods/Target Support Files/Pods-MacDivvun/Pods-MacDivvun.release.xcconfig"; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 			isa = PBXGroup;
 			children = (
 				C618EEF31DA24EB700751626 /* Sources */,
-				C6E475EE1DA5045200EB3352 /* Dictionaries */,
 				C618EEF21DA24EB700751626 /* Products */,
 				C618EEFF1DA37D4800751626 /* Frameworks */,
 				9C72A8EA2AE5DF9016E7913D /* Pods */,
@@ -216,7 +213,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6E475EF1DA5045200EB3352 /* Dictionaries in Resources */,
 				C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */,
 				C672E1E61F4336A30004B024 /* appcast_pub.pem in Resources */,
 			);
