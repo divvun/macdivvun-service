@@ -26,14 +26,11 @@ public class BundlesWatcher {
     
     // MARK: - Private Properties
     
-    private let eventCallback: FSEventStreamCallback = { (stream: ConstFSEventStreamRef, contextInfo: UnsafeMutableRawPointer?, numEvents: Int, eventPaths: UnsafeMutableRawPointer, eventFlags: UnsafePointer<FSEventStreamEventFlags>?, eventIds: UnsafePointer<FSEventStreamEventId>?) in
+    private let eventCallback: FSEventStreamCallback = { (stream: ConstFSEventStreamRef, contextInfo: UnsafeMutableRawPointer?, numEvents: Int, eventPaths: UnsafeMutableRawPointer, eventFlags: UnsafePointer<FSEventStreamEventFlags>, eventIds: UnsafePointer<FSEventStreamEventId>) in
         let bundlesWatcher: BundlesWatcher = unsafeBitCast(contextInfo, to: BundlesWatcher.self)
         let paths = unsafeBitCast(eventPaths, to: NSArray.self) as! [String]
         
-        guard let flags = eventFlags?.pointee else {
-            return
-        }
-        
+        let flags = eventFlags.pointee
         for index in 0..<numEvents {
             bundlesWatcher.processEvent(flags: flags, path: paths[index])
         }
