@@ -79,7 +79,7 @@ class Voikko {
         }
     }
     
-    static private func stringArrayFromFunction(path: URL, function: (UnsafePointer<Int8>!) -> UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>!) -> [String] {
+    static private func stringArrayFromFunction(path: URL, function: (UnsafePointer<Int8>?) -> UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?) -> [String] {
         return fileSystemRepresentation(for: path).flatMap {
             let strings = function($0)
             
@@ -148,7 +148,7 @@ class Voikko {
     }
     
     func eachToken(inSentence sentence: String, inLanguage language: String, callback: VoikkoTokenCallback) {
-        let length = sentence.characters.count
+        let length = sentence.count
         let text = (sentence as NSString).utf8String
         
         var token: voikko_token_type
