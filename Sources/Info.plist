@@ -43,11 +43,5 @@
 			<string>MacDivvun</string>
 		</dict>
 	</array>
-	<key>SUEnableAutomaticChecks</key>
-	<true/>
-	<key>SUFeedURL</key>
-	<string>https://raw.githubusercontent.com/bbqsrc/macdivvun-appcast-test/master/appcast.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>appcast_pub.pem</string>
 </dict>
 </plist>

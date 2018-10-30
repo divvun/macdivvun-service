@@ -6,8 +6,7 @@
 //  Copyright © 2016 Divvun. All rights reserved.
 //
 
-import Foundation
-import Sparkle
+import Cocoa
 
 struct Global {
     static let vendor = "MacDivvun"
@@ -31,8 +30,6 @@ class MacDivvunRunner: NSApplication {
 class AppDelegate: NSObject, NSApplicationDelegate {
     let delegate = VoikkoSpellServerDelegate()
     let server = NSSpellServer()
-    let updater = SUUpdater.shared()!
-    var bundleUpdaters = [SUUpdater]()
     var watcher: BundlesWatcher!
     
     func flushAndUpdate() {
@@ -57,19 +54,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             server.registerLanguage(language, byVendor: Global.vendor)
             log("Registered: \(language)")
             
-            if let bundle = Bundle(url: path) {
-                let u = SUUpdater(for: bundle)!
-                u.automaticallyChecksForUpdates = true
-                bundleUpdaters.append(u)
-            }
-            
             self.flushAndUpdate()
         }
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         server.delegate = delegate
-        updater.automaticallyChecksForUpdates = true
         
         Voikko.bundleFolderURLs().forEach(registerBundle(at:))
         Voikko.bundleFolderURLs(domain: .localDomainMask).forEach(registerBundle(at:))
