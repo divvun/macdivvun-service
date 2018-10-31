@@ -7,9 +7,15 @@
 //
 
 import Cocoa
+import XCGLogger
+import Sentry
 
 struct Global {
     static let vendor = "MacDivvun"
+    static let paths = [
+        "\(NSHomeDirectory())/Library/Services",
+        "/Library/Services"
+    ]
 }
 
 class MacDivvunRunner: NSApplication {
@@ -26,58 +32,107 @@ class MacDivvunRunner: NSApplication {
     }
 }
 
+fileprivate func bundleFolderURLs(domain: FileManager.SearchPathDomainMask) -> [URL] {
+    guard let libraryDirectory = NSSearchPathForDirectoriesInDomains(.libraryDirectory, domain, true).first else {
+        fatalError("Library not found")
+    }
+
+    let bundlesPath = libraryDirectory.appending("/Services/")
+    let spellerBundles = FileManager.default.subpaths(atPath: bundlesPath)?.filter {
+        $0.hasSuffix(".bundle")
+    }.map(bundlesPath.appending).map {
+        URL(fileURLWithPath: $0, isDirectory: true)
+    } ?? []
+
+    return spellerBundles
+}
+
+func bundleFolderURLs() -> [URL] {
+    return bundleFolderURLs(domain: .userDomainMask) + bundleFolderURLs(domain: .systemDomainMask)
+}
+
+func zhfstPath(_ url: URL) -> URL {
+    return url.appendingPathComponent("Contents")
+        .appendingPathComponent("Resources")
+        .appendingPathComponent("speller.zhfst")
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let delegate = VoikkoSpellServerDelegate()
+    let delegate = SpellServerDelegate()
     let server = NSSpellServer()
     var watcher: BundlesWatcher!
     
     func flushAndUpdate() {
-        log("Flushing and updating speller cache")
+        log.debug("Flushing and updating speller cache")
         NSSpellServer.flushCache()
         NSSpellServer.updateCache()
     }
     
     func registerBundle(at path: URL) {
-        guard let language = Voikko.language(forBundleAtPath: path) else {
+        let speller: Speller
+        let filePath = zhfstPath(path)
+        do {
+            speller = try Speller(path: filePath)
+        } catch {
+            log.debug("Error loading: \(filePath)")
+            if let error = error as? SpellerInitError {
+                log.debug(error.message)
+            }
             return
         }
         
-        if !self.delegate.registeredLanguages().contains(language) {
-            do {
-                try self.delegate.addBundle(bundlePath: path)
-            } catch {
-                log("Error loading: \(error.localizedDescription)")
-                return
-            }
-            
-            server.registerLanguage(language, byVendor: Global.vendor)
-            log("Registered: \(language)")
-            
-            self.flushAndUpdate()
-        }
+        self.delegate.spellers[speller.locale] = speller
+        log.debug("Added bundle: \(path.absoluteString)")
+        
+        server.registerLanguage(speller.locale, byVendor: Global.vendor)
+        log.debug("Registered: \(speller.locale)")
+        
+//        self.flushAndUpdate()
+    }
+    
+    private func configureLogging() {
+        let logPath = "\(NSHomeDirectory())/Library/Logs/MacDivvun"
+        try? FileManager.default.createDirectory(atPath: logPath, withIntermediateDirectories: true, attributes: nil)
+        
+        let file = FileDestination(writeToFile: "\(logPath)/MacDivvun.log", identifier: "MacDivvun.file", shouldAppend: true)
+        file.outputLevel = .debug
+        file.showThreadName = true
+        file.showLevel = true
+        file.showFileName = true
+        file.showFunctionName = false
+        file.showLineNumber = true
+        file.showDate = true
+        file.logQueue = XCGLogger.logQueue
+        
+        log.add(destination: file)
+        log.logAppDetails()
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
+        configureLogging()
         server.delegate = delegate
         
-        Voikko.bundleFolderURLs().forEach(registerBundle(at:))
-        Voikko.bundleFolderURLs(domain: .localDomainMask).forEach(registerBundle(at:))
+        bundleFolderURLs().forEach(registerBundle(at:))
         
         watcher = BundlesWatcher {
-            let path = URL(fileURLWithPath: $0)
-            self.registerBundle(at: path)
+            self.registerBundle(at: URL(fileURLWithPath: $0))
         }
         watcher.start()
         
-        DispatchQueue.main.async {
-            self.server.run()
+        do {
+            Client.shared = try Client(dsn: Bundle.main.infoDictionary!["SENTRY_DSN"] as! String)
+            try Client.shared?.startCrashHandler()
+        } catch let error {
+            log.severe(error)
         }
         
-        log("\(Global.vendor) started")
+        log.debug("\(Global.vendor) started")
+        
+        self.server.run()
     }
     
     func applicationWillTerminate(_ notification: Notification) {
-        log("\(Global.vendor) stopped")
+        log.debug("\(Global.vendor) stopped")
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0940"
+   LastUpgradeVersion = "1010"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C6E475E81DA4F06100EB3352"
-               BuildableName = "Dependencies"
-               BlueprintName = "Dependencies"
+               BuildableName = "hfst-ospell-rs"
+               BlueprintName = "hfst-ospell-rs"
                ReferencedContainer = "container:MacDivvun.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C6E475E81DA4F06100EB3352"
-            BuildableName = "Dependencies"
-            BlueprintName = "Dependencies"
+            BuildableName = "hfst-ospell-rs"
+            BlueprintName = "hfst-ospell-rs"
             ReferencedContainer = "container:MacDivvun.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C6E475E81DA4F06100EB3352"
-            BuildableName = "Dependencies"
-            BlueprintName = "Dependencies"
+            BuildableName = "hfst-ospell-rs"
+            BlueprintName = "hfst-ospell-rs"
             ReferencedContainer = "container:MacDivvun.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

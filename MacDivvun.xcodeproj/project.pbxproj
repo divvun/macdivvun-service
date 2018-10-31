@@ -9,15 +9,11 @@
 /* Begin PBXBuildFile section */
 		272B82237B53C2E47E14D0F7 /* Pods_MacDivvun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB0234F2F65D1296048D091E /* Pods_MacDivvun.framework */; };
 		9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */; };
-		9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E82AEF31E2F084000743AD8 /* Voikko.swift */; };
+		C64FF303218DEA8600979A86 /* libhfstospell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C64FF302218DEA8600979A86 /* libhfstospell.a */; };
 		C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6970CDD1DA4E28D0024D82D /* Assets.xcassets */; };
-		C6970CE61DA4E2CA0024D82D /* libarchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF001DA37D4800751626 /* libarchive.framework */; };
-		C6970CE71DA4E2CA0024D82D /* libhfstospell.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF011DA37D4800751626 /* libhfstospell.framework */; };
-		C6970CE81DA4E2CA0024D82D /* libvoikko.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF031DA37D4800751626 /* libvoikko.framework */; };
-		C6970CE91DA4E2CA0024D82D /* tinyxml2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C618EF041DA37D4800751626 /* tinyxml2.framework */; };
-		C6970CEB1DA4E2CB0024D82D /* liblzma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6970CEA1DA4E2CB0024D82D /* liblzma.framework */; };
+		C6A13378218B388900A3D48A /* HfstSpell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A13377218B388900A3D48A /* HfstSpell.swift */; };
 		C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* AppDelegate.swift */; };
-		C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */; };
+		C6E475C91DA4E43000EB3352 /* SpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* SpellServerDelegate.swift */; };
 		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,19 +29,14 @@
 
 /* Begin PBXFileReference section */
 		9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundlesWatcher.swift; sourceTree = "<group>"; };
-		9E82AEF31E2F084000743AD8 /* Voikko.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Voikko.swift; sourceTree = "<group>"; };
 		C618EEF41DA24EB700751626 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoikkoSpellServerDelegate.swift; sourceTree = "<group>"; };
-		C618EF001DA37D4800751626 /* libarchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libarchive.framework; path = ../Dependencies/Frameworks/libarchive.framework; sourceTree = "<group>"; };
-		C618EF011DA37D4800751626 /* libhfstospell.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libhfstospell.framework; path = ../Dependencies/Frameworks/libhfstospell.framework; sourceTree = "<group>"; };
-		C618EF021DA37D4800751626 /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
-		C618EF031DA37D4800751626 /* libvoikko.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libvoikko.framework; path = ../Dependencies/Frameworks/libvoikko.framework; sourceTree = "<group>"; };
-		C618EF041DA37D4800751626 /* tinyxml2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = tinyxml2.framework; path = ../Dependencies/Frameworks/tinyxml2.framework; sourceTree = "<group>"; };
+		C618EEFB1DA24EF500751626 /* SpellServerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpellServerDelegate.swift; sourceTree = "<group>"; };
 		C618EF0F1DA38C5A00751626 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		C64FF302218DEA8600979A86 /* libhfstospell.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libhfstospell.a; path = "Dependencies/hfst-ospell-rs/target/release/libhfstospell.a"; sourceTree = "<group>"; };
 		C6970CD91DA4E28D0024D82D /* MacDivvun.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacDivvun.service; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C6970CEA1DA4E2CB0024D82D /* liblzma.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liblzma.framework; path = ../Dependencies/Frameworks/liblzma.framework; sourceTree = "<group>"; };
+		C6A13377218B388900A3D48A /* HfstSpell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HfstSpell.swift; sourceTree = "<group>"; };
 		C6E475E31DA4E59600EB3352 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		CBF9FE21B937FE20BA71A6BD /* Pods-MacDivvun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MacDivvun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MacDivvun/Pods-MacDivvun.debug.xcconfig"; sourceTree = "<group>"; };
 		DB0234F2F65D1296048D091E /* Pods_MacDivvun.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MacDivvun.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,11 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6970CEB1DA4E2CB0024D82D /* liblzma.framework in Frameworks */,
-				C6970CE61DA4E2CA0024D82D /* libarchive.framework in Frameworks */,
-				C6970CE71DA4E2CA0024D82D /* libhfstospell.framework in Frameworks */,
-				C6970CE81DA4E2CA0024D82D /* libvoikko.framework in Frameworks */,
-				C6970CE91DA4E2CA0024D82D /* tinyxml2.framework in Frameworks */,
+				C64FF303218DEA8600979A86 /* libhfstospell.a in Frameworks */,
 				272B82237B53C2E47E14D0F7 /* Pods_MacDivvun.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,13 +87,13 @@
 			isa = PBXGroup;
 			children = (
 				C6970CE21DA4E28D0024D82D /* Info.plist */,
-				9E82AEF31E2F084000743AD8 /* Voikko.swift */,
 				C618EEF41DA24EB700751626 /* AppDelegate.swift */,
 				9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */,
-				C618EEFB1DA24EF500751626 /* VoikkoSpellServerDelegate.swift */,
+				C618EEFB1DA24EF500751626 /* SpellServerDelegate.swift */,
 				C618EF0F1DA38C5A00751626 /* Bridge.h */,
 				C6970CDD1DA4E28D0024D82D /* Assets.xcassets */,
 				C6E475E31DA4E59600EB3352 /* Extensions.swift */,
+				C6A13377218B388900A3D48A /* HfstSpell.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -114,12 +101,7 @@
 		C618EEFF1DA37D4800751626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C6970CEA1DA4E2CB0024D82D /* liblzma.framework */,
-				C618EF001DA37D4800751626 /* libarchive.framework */,
-				C618EF011DA37D4800751626 /* libhfstospell.framework */,
-				C618EF021DA37D4800751626 /* liblzma.framework */,
-				C618EF031DA37D4800751626 /* libvoikko.framework */,
-				C618EF041DA37D4800751626 /* tinyxml2.framework */,
+				C64FF302218DEA8600979A86 /* libhfstospell.a */,
 				DB0234F2F65D1296048D091E /* Pods_MacDivvun.framework */,
 			);
 			name = Frameworks;
@@ -128,17 +110,17 @@
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		C6E475E81DA4F06100EB3352 /* Dependencies */ = {
+		C6E475E81DA4F06100EB3352 /* hfst-ospell-rs */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "xcode$(ACTION)";
-			buildConfigurationList = C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "Dependencies" */;
+			buildConfigurationList = C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "hfst-ospell-rs" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "$(PROJECT_DIR)/Dependencies";
+			buildWorkingDirectory = "$(PROJECT_DIR)/Dependencies/hfst-ospell-rs";
 			dependencies = (
 			);
-			name = Dependencies;
+			name = "hfst-ospell-rs";
 			passBuildSettingsInEnvironment = 1;
 			productName = Dependencies;
 		};
@@ -153,6 +135,7 @@
 				C6970CD51DA4E28D0024D82D /* Sources */,
 				C6970CD61DA4E28D0024D82D /* Frameworks */,
 				C6970CD71DA4E28D0024D82D /* Resources */,
+				984954DAED668025F38754AD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,7 +153,7 @@
 		C618EEE91DA24EB700751626 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0800;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = Divvun;
 				TargetAttributes = {
@@ -199,7 +182,7 @@
 			projectRoot = "";
 			targets = (
 				C6970CD81DA4E28D0024D82D /* MacDivvun */,
-				C6E475E81DA4F06100EB3352 /* Dependencies */,
+				C6E475E81DA4F06100EB3352 /* hfst-ospell-rs */,
 			);
 		};
 /* End PBXProject section */
@@ -234,6 +217,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		984954DAED668025F38754AD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MacDivvun/Pods-MacDivvun-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
+				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
+				"${BUILT_PRODUCTS_DIR}/XCGLogger/XCGLogger.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCGLogger.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MacDivvun/Pods-MacDivvun-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -241,9 +246,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9E82AEF41E2F084000743AD8 /* Voikko.swift in Sources */,
-				C6E475C91DA4E43000EB3352 /* VoikkoSpellServerDelegate.swift in Sources */,
+				C6E475C91DA4E43000EB3352 /* SpellServerDelegate.swift in Sources */,
 				9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */,
+				C6A13378218B388900A3D48A /* HfstSpell.swift in Sources */,
 				C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */,
 				C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */,
 			);
@@ -254,7 +259,7 @@
 /* Begin PBXTargetDependency section */
 		C6E475ED1DA4F06D00EB3352 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C6E475E81DA4F06100EB3352 /* Dependencies */;
+			target = C6E475E81DA4F06100EB3352 /* hfst-ospell-rs */;
 			targetProxy = C6E475EC1DA4F06D00EB3352 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -383,24 +388,21 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Dependencies/Frameworks/**",
-					"$(inherited)",
-				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_LDFLAGS = (
-					"-lz",
-					"-lstdc++",
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/Dependencies/hfst-ospell-rs/target/debug",
+					"$(PROJECT_DIR)/Dependencies/hfst-ospell-rs/target/release",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacDivvun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = service;
+				WRAPPER_NAME = "$(PRODUCT_NAME).service";
 			};
 			name = Debug;
 		};
@@ -412,30 +414,28 @@
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/Dependencies/Frameworks/**",
-					"$(inherited)",
-				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
 				INFOPLIST_FILE = "$(PROJECT_DIR)/Sources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_LDFLAGS = (
-					"-lz",
-					"-lstdc++",
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/Dependencies/hfst-ospell-rs/target/debug",
+					"$(PROJECT_DIR)/Dependencies/hfst-ospell-rs/target/release",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = no.divvun.MacDivvun;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = service;
+				WRAPPER_NAME = "$(PRODUCT_NAME).service";
 			};
 			name = Release;
 		};
 		C6E475EA1DA4F06100EB3352 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CARGO_HOME = "$(HOME)/.cargo";
 				DEBUGGING_SYMBOLS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPS_DIR = "$(PROJECT_DIR)/Dependencies";
@@ -444,7 +444,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PATH = "/usr/local/opt/gettext/bin:$(PATH)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -452,12 +451,12 @@
 		C6E475EB1DA4F06100EB3352 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CARGO_HOME = "$(HOME)/.cargo";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEPS_DIR = "$(PROJECT_DIR)/Dependencies";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PATH = "/usr/local/opt/gettext/bin:$(PATH)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -483,7 +482,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "Dependencies" */ = {
+		C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "hfst-ospell-rs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6E475EA1DA4F06100EB3352 /* Debug */,

@@ -14,10 +14,7 @@ public class BundlesWatcher {
     
     public init(callback: @escaping (String) -> Void) {
         self.userCallback = callback
-        self.pathsToWatch = [
-            "\(NSHomeDirectory())/Library/Speller/\(Global.vendor)",
-            "/Library/Speller/\(Global.vendor)"
-        ]
+        self.pathsToWatch = Global.paths
     }
     
     deinit {

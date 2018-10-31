@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import XCGLogger
+
+let log = XCGLogger.default
 
 extension Process {
     convenience init(launchPath: String, arguments: [String]?=nil) {
@@ -33,11 +36,16 @@ extension NSSpellServer {
     }
 }
 
-func log(_ value: String) {
-    #if DEBUG
-    NSLog(value)
-    #endif
-}
+//func log.debug(_ value: String) {
+////    #if DEBUG
+//    print(value)
+//    if #available(OSX 10.12, *) {
+//        os_log.debug("%@", value)
+//    } else {
+//        NSLog(value)
+//    }
+////    #endif
+//}
 
 func doublePointerToArray<A>(pointer: UnsafeMutablePointer<A?>) -> [A] {
     var iterator = pointer

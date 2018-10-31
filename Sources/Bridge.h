@@ -1,1 +1,1 @@
-#import <libvoikko/libvoikko/voikko.h>
+#import "../Dependencies/hfst-ospell-rs/support/hfstospell.h"
