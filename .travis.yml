@@ -1,0 +1,12 @@
+os: osx
+osx_image: xcode10.1
+before_install:
+- sudo gem install cocoapods --pre
+- curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
+- pod install
+- git submodule update --init
+script:
+- bash scripts/build.sh
+env:
+  global:
+    secure: FFR9D//1iuo9ENoYxibLY+1/eKFUopYt3YV9MdIQVI+UoNyswvxe2ZZf6rpkLNfrfeev7LtJAOvVhPXwZxQnTCv9jR47KEK7W9d4cq4CqrJ23Dfp9Wtbwt/hm5T/KNrsbfFABPo/hCw85ucf3lg9mqItEYfSWPa2WNnHlCJqU9liQw1s2Ck5PIp2I0AmKaBUMhZoHkmo5YKmmwMFml8PBP5Nn5+783MJIzOEZvOweaol91O1a3gh/gMsB/WcN3LR4Z4IE/kFGHMQO8ZSCFH2c3nHdnGBDc1c3chPZvTE3tfKqVilwjplATQZ+AGnSnrPLqnX8A8PvC9AsnRFRn0C/H/F0eS05QFOP5OYz0Nio/MbZpnhzb3bZk68VxYeA7po5Ri5M+aotTj5XFou/ov+iskePtwZFBDwpvVvDCYu39fBKILWjDR5o1QoQ6SMGgpPkMLJQbMS39Di3t1WBcKfNXt+5qbd7QXkH33tCqb8NMrHPAMKnOwXehzkEZmyO361Trtw/W7DqgJimrYlnd1uf87tEHKDki20yHw0/RDB2d2xg8OzRusYGr9AUjCwHEKkT1xK1LRApdWEPyg73YH9IQBJpb0v9aawEf3jzO+fr0yTPmLWZh6+HPOHSLIxRJIZ3f6PSJkiXEFuHE0jTtAcDo735XL3KZ0HRQHXoowKrvo=

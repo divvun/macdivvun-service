@@ -28,8 +28,8 @@ public enum TokenType: UInt8 {
 
 public struct Token {
     let type: TokenType
-    let start: UInt64
-    let end: UInt64
+    let start: UInt32
+    let end: UInt32
     let value: String
 }
 
