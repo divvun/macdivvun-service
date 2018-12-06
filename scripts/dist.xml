@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<installer-gui-script minSpecVersion="2">
+  <title>MacDivvun</title>
+  <options customize="never" rootVolumeOnly="true"/>
+  <choices-outline>
+    <line choice="default">
+      <line choice="no.divvun.MacDivvun"/>
+    </line>
+  </choices-outline>
+  <choice id="default"/>
+  <choice id="no.divvun.MacDivvun" visible="false">
+    <pkg-ref id="no.divvun.MacDivvun"/>
+  </choice>
+  <pkg-ref auth="root" id="no.divvun.MacDivvun" onConclusion="RequireRestart" version="0">no.divvun.MacDivvun.pkg</pkg-ref>
+  <!--background alignment="bottomleft" file="background.png"/>
+  <readme file="readme.html"/-->
+</installer-gui-script>
