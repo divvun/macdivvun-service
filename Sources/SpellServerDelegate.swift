@@ -90,6 +90,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
             
             if !countOnly {
                 if !speller.isCorrect(word: token.value) {
+                    log.debug("\(token.value) is a typo")
                     opQueue.addOperation(SuggestionOperation(delegate: self, language: language, word: token.value))
                     misspelledWord = token
                     break

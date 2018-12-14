@@ -1,7 +1,12 @@
-version=`/usr/libexec/PlistBuddy Sources/Info.plist -c "Print :CFBundleVersion"`
+version=`/usr/libexec/PlistBuddy Sources/Info.plist -c "Print :CFBundleShortVersionString"`
 
-xcodebuild -scheme MacDivvun -configuration Release -workspace MacDivvun.xcworkspace archive -archivePath build/macdivvun.xcarchive DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM CODE_SIGN_IDENTITY="$CODE_SIGN_IDENTITY"
+export DEVELOPMENT_TEAM="2K5J2584NX"
+export CODE_SIGN_IDENTITY="Developer ID Application: The University of Tromso (2K5J2584NX)"
 
+
+xcodebuild -scheme MacDivvun -configuration Release -workspace MacDivvun.xcworkspace archive -archivePath build/macdivvun.xcarchive DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM CODE_SIGN_IDENTITY="$CODE_SIGN_IDENTITY" -quiet || exit 1
+
+rm -rf MacDivvun.service
 mv build/MacDivvun.xcarchive/Products/Applications/MacDivvun.service .
 
 pkgbuild --component MacDivvun.service \

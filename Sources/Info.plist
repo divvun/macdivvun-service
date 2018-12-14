@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>SENTRY_DSN</key>
-	<string>https://014d1a11429046b98b4e7c2d267b4bb4@sentry.io/1315195</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -16,8 +14,10 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleVersion</key>
+	<key>CFBundleShortVersionString</key>
 	<string>0.1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
 	<key>LSBackgroundOnly</key>
@@ -45,5 +45,7 @@
 			<string>MacDivvun</string>
 		</dict>
 	</array>
+	<key>SENTRY_DSN</key>
+	<string>https://014d1a11429046b98b4e7c2d267b4bb4@sentry.io/1315195</string>
 </dict>
 </plist>
