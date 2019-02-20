@@ -61,10 +61,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func registerBundle(at path: URL) {
-        let speller: Speller
+        let speller: ZhfstSpeller
         let filePath = zhfstPath(path)
         do {
-            speller = try Speller(path: filePath)
+            speller = try ZhfstSpeller(path: filePath)
         } catch {
             log.error("Error loading: \(filePath)")
             if let error = error as? SpellerInitError {

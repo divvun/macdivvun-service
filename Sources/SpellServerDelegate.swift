@@ -38,7 +38,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
     }()
     
     var memo: [String: [String: [String]]] = [:]
-    var spellers = [String: Speller]()
+    var spellers = [String: ZhfstSpeller]()
     
     deinit {
         log.debug("Delegate deinit")
