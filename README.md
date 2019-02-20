@@ -8,14 +8,8 @@ A macOS speller service for zhfst spellers built using the
 ## Requirements
 
 - Xcode
-- autoconf
-- automake
 - CocoaPods
-- cmake
-- gettext
-- libtool
-- pkg-config
-- python3
+- [Rust](https://rustup.rs)
 
 ## Building
 
@@ -24,9 +18,8 @@ Run the following commands:
 ```bash
 pod install
 git submodule update --init
+sh ./scripts/build.sh
 ```
-
-Then, open `MacDivvun.xcworkspace` and build. Easy.
 
 ## Installing
 
