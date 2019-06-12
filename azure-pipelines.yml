@@ -1,0 +1,37 @@
+trigger:
+- master
+
+jobs:
+- job: 'macOS'
+  pool:
+    vmImage: 'macOS-10.14'
+  steps:
+  - script: |
+      set -e
+      wget https://github.com/divvun/pahkat/releases/download/0.6.0/pahkat-macos -O pahkat
+      chmod +x pahkat
+      git clone https://github.com/divvun/divvun-ci-config.git
+      cd divvun-ci-config
+      sh ./install-macos.sh
+    displayName: 'Install prerequisites'
+    env:
+      DIVVUN_KEY: $(divvunKey)
+  - script: |
+      set -e
+      /bin/bash scripts/build.sh
+    displayName: 'Build'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(System.DefaultWorkingDirectory)/divvun-installer.pkg'
+      artifactName: macos
+    displayName: 'Publish artifact'
+  - script: |
+      set -e
+      export PATH="$PATH:$(System.DefaultWorkingDirectory)"
+      #export DEPLOY_VERSION=$(cat version.txt | xargs)
+      #sh divvun-ci-config/repo/scripts/pahkat_deploy_svn.sh @@svn_url_macos@@ "$(pwd)/speller-@@tag@@.pkg" speller-@@tag@@ $DEPLOY_VERSION
+    displayName: 'Deploy to nightly channel'
+    env:
+      DEPLOY_SVN_USER: $(svnUser)
+      DEPLOY_SVN_PASSWORD: $(svnPassword)
+      DEPLOY_SVN_COMMIT: $(svnCommit)
