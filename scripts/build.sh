@@ -24,3 +24,5 @@ productbuild --distribution scripts/dist.xml \
 
 productsign --sign "Developer ID Installer: The University of Tromso (2K5J2584NX)" MacDivvun-unsigned.pkg MacDivvun-$version.pkg
 pkgutil --check-signature MacDivvun-$version.pkg
+
+cp MacDivvun-$version.pkg MacDivvun.pkg
