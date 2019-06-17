@@ -19,58 +19,47 @@ struct SpellerInitError: Error {
     let message: String
 }
 
-public enum TokenType: UInt8 {
-    case other = 0
-    case word = 1
-    case punctuation = 2
-    case whitespace = 3
-}
-
-public struct Token {
-    let type: TokenType
-    let start: UInt32
-    let end: UInt32
+public struct WordBoundIndicesToken {
+    let start: UInt64
     let value: String
 }
 
-extension Token {
-    fileprivate static func from(c record: token_record_t) -> Token {
-        return Token(
-            type: TokenType(rawValue: record.type) ?? .other,
-            start: record.start,
-            end: record.end,
-            value: String(cString: record.value))
+extension WordBoundIndicesToken {
+    fileprivate init(_ start: UInt64, _ value: String) {
+        self.start = start
+        self.value = value
     }
 }
 
-public class TokenizerSequence: Sequence {
+public class WordBoundIndicesSequence: Sequence {
     public class Iterator: IteratorProtocol {
         private let handle: UnsafeMutableRawPointer
-        private let record: UnsafeMutablePointer<UnsafeMutablePointer<token_record_t>?>
+        private let strPtr: UnsafeMutablePointer<UnsafeMutablePointer<Int8>>
         private let value: [CChar]
         
         init(_ value: String) {
             self.value = value.cString(using: .utf8)!
-            self.handle = speller_tokenize(self.value)!
-            self.record = UnsafeMutablePointer<UnsafeMutablePointer<token_record_t>?>.allocate(capacity: 1)
+            self.strPtr = UnsafeMutablePointer<UnsafeMutablePointer<Int8>>.allocate(capacity: 1)
+            //self.strPtr.pointee = nil
             
-            self.record.pointee = nil
+            self.handle = word_bound_indices(self.value)
         }
         
-        public func next() -> Token? {
-            if !speller_token_next(handle, record) {
+        public func next() -> WordBoundIndicesToken? {
+            var strStart: UInt64 = 0
+            
+            if !word_bound_indices_next(handle, &strStart, strPtr) {
                 return nil
             }
             
-            guard let record = record.pointee else {
-                return nil
-            }
+            let result = WordBoundIndicesToken(strStart, String(cString: strPtr.pointee))
+            speller_str_free(strPtr.pointee)
             
-            return Token.from(c: record.pointee)
+            return result
         }
         
         deinit {
-            speller_tokenizer_free(handle)
+            word_bound_indices_free(handle)
         }
     }
     
@@ -80,14 +69,14 @@ public class TokenizerSequence: Sequence {
         self.value = string
     }
     
-    public func makeIterator() -> TokenizerSequence.Iterator {
-        return TokenizerSequence.Iterator(value)
+    public func makeIterator() -> WordBoundIndicesSequence.Iterator {
+        return WordBoundIndicesSequence.Iterator(value)
     }
 }
 
 public extension String {
-    func tokenize() -> TokenizerSequence {
-        return TokenizerSequence(string: self)
+    func tokenize() -> WordBoundIndicesSequence {
+        return WordBoundIndicesSequence(string: self)
     }
 }
 

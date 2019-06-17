@@ -42,10 +42,13 @@ fileprivate func bundleFolderURLs() -> [URL] {
     }
 }
 
-func zhfstPath(_ url: URL) -> URL {
-    return url.appendingPathComponent("Contents")
-        .appendingPathComponent("Resources")
-        .appendingPathComponent("speller.zhfst")
+func zhfstPaths(_ url: URL) -> [URL] {
+    let rootPath = url.appendingPathComponent("Contents").appendingPathComponent("Resources")
+    return (try? FileManager.default.contentsOfDirectory(atPath: rootPath.path))?.filter {
+        return $0.hasSuffix(".zhfst")
+    }.map {
+        return URL(fileURLWithPath: "\(rootPath.path)/\($0)")
+    } ?? []
 }
 
 @NSApplicationMain
@@ -61,23 +64,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func registerBundle(at path: URL) {
-        let speller: ZhfstSpeller
-        let filePath = zhfstPath(path)
-        do {
-            speller = try ZhfstSpeller(path: filePath)
-        } catch {
-            log.error("Error loading: \(filePath)")
-            if let error = error as? SpellerInitError {
-                log.debug(error.message)
+        let filePaths = zhfstPaths(path)
+        log.info("zhfsts \(filePaths.map { $0.absoluteString }.joined(separator: ", "))")
+        for filePath in filePaths {
+            let speller: ZhfstSpeller
+            do {
+                speller = try ZhfstSpeller(path: filePath)
+            } catch {
+                log.error("Error loading: \(filePath)")
+                if let error = error as? SpellerInitError {
+                    log.debug(error.message)
+                }
+                return
             }
-            return
+            
+            self.delegate.spellers[speller.locale] = speller
+            log.info("Added bundle: \(path.absoluteString)")
+            
+            server.registerLanguage(speller.locale, byVendor: Global.vendor)
+            log.info("Registered: \(speller.locale)")
         }
-        
-        self.delegate.spellers[speller.locale] = speller
-        log.info("Added bundle: \(path.absoluteString)")
-        
-        server.registerLanguage(speller.locale, byVendor: Global.vendor)
-        log.info("Registered: \(speller.locale)")
         
 //        self.flushAndUpdate()
     }
