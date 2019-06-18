@@ -3,7 +3,7 @@
 A macOS speller service for zhfst spellers built using the
 [Giella infrastructure](http://divvun.no/doc/infra/GettingStarted.html).
 
-[![Build Status](https://travis-ci.org/divvun/macdivvun-service.svg?branch=master)](https://travis-ci.org/divvun/macdivvun-service)
+[![Build Status](https://dev.azure.com/divvun/divvun-service/_apis/build/status/divvun.macdivvun-service?branchName=master)](https://dev.azure.com/divvun/divvun-service/_build/latest?definitionId=4&branchName=master)
 
 ## Requirements
 
