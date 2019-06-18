@@ -23,9 +23,9 @@ jobs:
       set -e
       /bin/bash scripts/build.sh
     displayName: 'Build'
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@0
     inputs:
-      pathtoPublish: '$(System.DefaultWorkingDirectory)/MacDivvun.pkg'
+      targetPath: '$(System.DefaultWorkingDirectory)/MacDivvun.pkg'
       artifactName: macos
     displayName: 'Publish artifact'
   - script: |
