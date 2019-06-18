@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C6E475E81DA4F06100EB3352"
-               BuildableName = "hfst-ospell-rs"
-               BlueprintName = "hfst-ospell-rs"
+               BuildableName = "divvunspell"
+               BlueprintName = "divvunspell"
                ReferencedContainer = "container:MacDivvun.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C6E475E81DA4F06100EB3352"
-            BuildableName = "hfst-ospell-rs"
-            BlueprintName = "hfst-ospell-rs"
+            BuildableName = "divvunspell"
+            BlueprintName = "divvunspell"
             ReferencedContainer = "container:MacDivvun.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C6E475E81DA4F06100EB3352"
-            BuildableName = "hfst-ospell-rs"
-            BlueprintName = "hfst-ospell-rs"
+            BuildableName = "divvunspell"
+            BlueprintName = "divvunspell"
             ReferencedContainer = "container:MacDivvun.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

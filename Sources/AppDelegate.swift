@@ -32,29 +32,23 @@ class MacDivvunRunner: NSApplication {
     }
 }
 
-fileprivate func bundleFolderURLs(domain: FileManager.SearchPathDomainMask) -> [URL] {
-    guard let libraryDirectory = NSSearchPathForDirectoriesInDomains(.libraryDirectory, domain, true).first else {
-        fatalError("Library not found")
+fileprivate func bundleFolderURLs() -> [URL] {
+    return Global.paths.flatMap { path in
+        FileManager.default.subpaths(atPath: path)?.filter {
+            return $0.hasSuffix(".bundle")
+        }.map {
+            return URL(fileURLWithPath: "\(path)/\($0)", isDirectory: true)
+        } ?? []
     }
+}
 
-    let bundlesPath = libraryDirectory.appending("/Services/")
-    let spellerBundles = FileManager.default.subpaths(atPath: bundlesPath)?.filter {
-        $0.hasSuffix(".bundle")
-    }.map(bundlesPath.appending).map {
-        URL(fileURLWithPath: $0, isDirectory: true)
+func zhfstPaths(_ url: URL) -> [URL] {
+    let rootPath = url.appendingPathComponent("Contents").appendingPathComponent("Resources")
+    return (try? FileManager.default.contentsOfDirectory(atPath: rootPath.path))?.filter {
+        return $0.hasSuffix(".zhfst")
+    }.map {
+        return URL(fileURLWithPath: "\(rootPath.path)/\($0)")
     } ?? []
-
-    return spellerBundles
-}
-
-func bundleFolderURLs() -> [URL] {
-    return bundleFolderURLs(domain: .userDomainMask) + bundleFolderURLs(domain: .systemDomainMask)
-}
-
-func zhfstPath(_ url: URL) -> URL {
-    return url.appendingPathComponent("Contents")
-        .appendingPathComponent("Resources")
-        .appendingPathComponent("speller.zhfst")
 }
 
 @NSApplicationMain
@@ -64,29 +58,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var watcher: BundlesWatcher!
     
     func flushAndUpdate() {
-        log.debug("Flushing and updating speller cache")
+        log.info("Flushing and updating speller cache")
         NSSpellServer.flushCache()
         NSSpellServer.updateCache()
     }
     
     func registerBundle(at path: URL) {
-        let speller: Speller
-        let filePath = zhfstPath(path)
-        do {
-            speller = try Speller(path: filePath)
-        } catch {
-            log.debug("Error loading: \(filePath)")
-            if let error = error as? SpellerInitError {
-                log.debug(error.message)
+        let filePaths = zhfstPaths(path)
+        log.info("zhfsts \(filePaths.map { $0.absoluteString }.joined(separator: ", "))")
+        for filePath in filePaths {
+            let speller: ZhfstSpeller
+            do {
+                speller = try ZhfstSpeller(path: filePath)
+            } catch {
+                log.error("Error loading: \(filePath)")
+                if let error = error as? SpellerInitError {
+                    log.debug(error.message)
+                }
+                return
             }
-            return
+            
+            self.delegate.spellers[speller.locale] = speller
+            log.info("Added bundle: \(path.absoluteString)")
+            
+            server.registerLanguage(speller.locale, byVendor: Global.vendor)
+            log.info("Registered: \(speller.locale)")
         }
-        
-        self.delegate.spellers[speller.locale] = speller
-        log.debug("Added bundle: \(path.absoluteString)")
-        
-        server.registerLanguage(speller.locale, byVendor: Global.vendor)
-        log.debug("Registered: \(speller.locale)")
         
 //        self.flushAndUpdate()
     }
@@ -96,7 +93,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         try? FileManager.default.createDirectory(atPath: logPath, withIntermediateDirectories: true, attributes: nil)
         
         let file = FileDestination(writeToFile: "\(logPath)/MacDivvun.log", identifier: "MacDivvun.file", shouldAppend: true)
+        #if DEBUG
         file.outputLevel = .debug
+        #else
+        file.outputLevel = .info
+        #endif
         file.showThreadName = true
         file.showLevel = true
         file.showFileName = true
@@ -112,8 +113,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         configureLogging()
         server.delegate = delegate
-        
-        bundleFolderURLs().forEach(registerBundle(at:))
+        let bundles = bundleFolderURLs()
+        print(bundles)
+        log.info(bundles.map { $0.absoluteString }.joined(separator: ", "))
+        bundles.forEach(registerBundle(at:))
         
         watcher = BundlesWatcher {
             self.registerBundle(at: URL(fileURLWithPath: $0))
@@ -127,12 +130,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             log.severe(error)
         }
         
-        log.debug("\(Global.vendor) started")
+        log.info("\(Global.vendor) started")
         
         self.server.run()
     }
     
     func applicationWillTerminate(_ notification: Notification) {
-        log.debug("\(Global.vendor) stopped")
+        log.info("\(Global.vendor) stopped")
     }
 }

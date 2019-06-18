@@ -38,7 +38,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
     }()
     
     var memo: [String: [String: [String]]] = [:]
-    var spellers = [String: Speller]()
+    var spellers = [String: ZhfstSpeller]()
     
     deinit {
         log.debug("Delegate deinit")
@@ -80,9 +80,9 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
         }
 
         var c = 0
-        var misspelledWord: Token? = nil
+        var misspelledWord: WordBoundIndicesToken? = nil
         for token in stringToCheck.tokenize() {
-            if token.type != .word {
+            if !token.value.isAlphanumeric {
                 continue
             }
 
@@ -90,6 +90,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
             
             if !countOnly {
                 if !speller.isCorrect(word: token.value) {
+                    log.debug("\(token.value) is a typo")
                     opQueue.addOperation(SuggestionOperation(delegate: self, language: language, word: token.value))
                     misspelledWord = token
                     break
@@ -102,7 +103,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
         if let token = misspelledWord {
             let s = stringToCheck.utf8
             let start = s.index(s.startIndex, offsetBy: Int(token.start)).samePosition(in: stringToCheck)!
-            let end = s.index(s.startIndex, offsetBy: Int(token.end)).samePosition(in: stringToCheck)!
+            let end = s.index(start, offsetBy: Int(token.value.count)).samePosition(in: stringToCheck)!
             let startInt = stringToCheck.distance(from: stringToCheck.startIndex, to: start)
             let length = stringToCheck[start..<end].count
             

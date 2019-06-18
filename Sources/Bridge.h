@@ -1,1 +1,2 @@
-#import "../Dependencies/hfst-ospell-rs/support/hfstospell.h"
+#import "../Dependencies/divvunspell/support/divvunspell.h"
+

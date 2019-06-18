@@ -1,0 +1,17 @@
+os: osx
+osx_image: xcode10.1
+before_install:
+- sudo gem install cocoapods --pre
+- curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
+- pod install
+- git submodule update --init
+- git clone https://github.com/bbqsrc/divvun-keyboard-config
+- bash divvun-keyboard-config/install-macos.sh
+script:
+- bash scripts/build.sh
+addons:
+  ssh_known_hosts:
+    - github.com
+env:
+  global:
+    secure: Tp/WLAxyZae235ZpAlpLxlT7nmOzgzYfrqUgTP1J59XQrLZaRjyQNKgcdGElgkvwyqWm4cBAmtW4CadplKwc+f2CyevDEL+H7J9Kabv9nEelF6xndKb/KrXq4G/T2+6sVDOUQfOHin+gEo8Id+buqNzfh3qQ4tbLgJvbzIPQoMooFmehUKq0ty2aJiR8q4QvR1ehvmxYjj2VR1YwC+MX8COLJJ24oIF7RwPEQ/Gl9bEblr4kvcPye53giaH8IyvDbXUytgQqeSFidlfPrU/DHqbhYlaNKAMwN3D7XjjT7rR3VnMMH/oJRbbCSrWcBq1VdOJ6fG4D3Y6XAjaQdZ9GcxyqkgDkvdOltwsJpZKMKlNLzYJJYvmy1kcx8Zz15JT9bGNg7F6Puo35wBZR2QWV2qE9Ni96J89UMvzpR9ZVcMFxIjjtRF1YkOmFKlY3fJ7dX3rHppUjXrmuJN5SJDHH3QfuJXDcvLIflSJM52g6SRjJxT7QZz+32gAm+nvu5EokF7Mw2JPThVp+xgC+mC7Qu3pVTXkKazk4P483b74YHlROTFN+D9b0HpaqKPNApPtHEFjySTvEQfLUJ3oBVWzmLJtaLY12zpB7OjH+FBEEHhm+P2o9S7BfeX50gdLPrj9NIJTva7pERiTCcNFHDGSNmzc+1/gdkvcp05R0lth1NY4=
