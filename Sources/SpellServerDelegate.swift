@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import libdivvunspell
 
 class SuggestionOperation: Operation {
     let word: String
@@ -25,7 +26,7 @@ class SuggestionOperation: Operation {
         }
         
         log.debug("SuggestionOperation memoizing: \(word)")
-        _ = delegate?.memoize(language: language, word: word)
+        _ = try? delegate?.memoize(language: language, word: word)
     }
 }
 
@@ -38,13 +39,13 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
     }()
     
     var memo: [String: [String: [String]]] = [:]
-    var spellers = [String: ZhfstSpeller]()
+    var spellers = [String: HfstZipSpeller]()
     
     deinit {
         log.debug("Delegate deinit")
     }
     
-    fileprivate func memoize(language: String, word: String) -> [String] {
+    fileprivate func memoize(language: String, word: String) throws -> [String] {
         guard let speller = spellers[language] else {
             log.debug("spellServer(_:suggestGuessesForWord:inLanguage:) - unknown language: \(language)")
             return []
@@ -59,7 +60,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
             return results
         }
         
-        let results = Array(speller.suggest(word: word, count: 5))
+        let results = Array(try speller.suggest(word: word).prefix(5))
         memo[language]![word] = results
         
         log.debug("\(word): \(results.joined(separator: ", "))")
@@ -67,7 +68,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
     }
     
     public func spellServer(_ sender: NSSpellServer, suggestGuessesForWord word: String, inLanguage language: String) -> [String]? {
-        return memoize(language: language, word: word)
+        return try? memoize(language: language, word: word)
     }
 
     public func spellServer(_ sender: NSSpellServer, findMisspelledWordIn stringToCheck: String, language: String, wordCount: UnsafeMutablePointer<Int>, countOnly: Bool) -> NSRange {
@@ -87,9 +88,9 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
             }
 
             c += 1
-            
+
             if !countOnly {
-                if !speller.isCorrect(word: token.value) {
+                if !((try? speller.isCorrect(word: token.value)) ?? false) {
                     log.debug("\(token.value) is a typo")
                     opQueue.addOperation(SuggestionOperation(delegate: self, language: language, word: token.value))
                     misspelledWord = token
@@ -97,16 +98,16 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
                 }
             }
         }
-        
+
         wordCount.pointee = c
-        
+
         if let token = misspelledWord {
             let s = stringToCheck.utf8
             let start = s.index(s.startIndex, offsetBy: Int(token.start)).samePosition(in: stringToCheck)!
             let end = s.index(start, offsetBy: Int(token.value.count)).samePosition(in: stringToCheck)!
             let startInt = stringToCheck.distance(from: stringToCheck.startIndex, to: start)
             let length = stringToCheck[start..<end].count
-            
+
             return NSRange(location: startInt, length: length)
         } else {
             return NSRange(location: NSNotFound, length: 0)

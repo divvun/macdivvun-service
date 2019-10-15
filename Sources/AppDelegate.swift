@@ -9,6 +9,7 @@
 import Cocoa
 import XCGLogger
 import Sentry
+import libdivvunspell
 
 struct Global {
     static let vendor = "MacDivvun"
@@ -67,22 +68,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let filePaths = zhfstPaths(path)
         log.info("zhfsts \(filePaths.map { $0.absoluteString }.joined(separator: ", "))")
         for filePath in filePaths {
-            let speller: ZhfstSpeller
+            let archive: HfstZipSpellerArchive
+            let speller: HfstZipSpeller
             do {
-                speller = try ZhfstSpeller(path: filePath)
+                archive = try HfstZipSpellerArchive.open(path: filePath.path)
+                speller = try archive.speller()
             } catch {
                 log.error("Error loading: \(filePath)")
-                if let error = error as? SpellerInitError {
+                if let error = error as? DivvunSpellError {
                     log.debug(error.message)
                 }
                 return
             }
             
-            self.delegate.spellers[speller.locale] = speller
+            self.delegate.spellers[archive.locale] = speller
             log.info("Added bundle: \(path.absoluteString)")
             
-            server.registerLanguage(speller.locale, byVendor: Global.vendor)
-            log.info("Registered: \(speller.locale)")
+            server.registerLanguage(archive.locale, byVendor: Global.vendor)
+            log.info("Registered: \(archive.locale)")
         }
         
 //        self.flushAndUpdate()

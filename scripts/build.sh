@@ -2,6 +2,7 @@ version=`/usr/libexec/PlistBuddy Sources/Info.plist -c "Print :CFBundleShortVers
 
 security default-keychain -s build.keychain
 security unlock-keychain -p travis build.keychain
+security set-keychain-settings -t 3600 -u build.keychain
 
 export DEVELOPMENT_TEAM="2K5J2584NX"
 export CODE_SIGN_IDENTITY="Developer ID Application: The University of Tromso (2K5J2584NX)"

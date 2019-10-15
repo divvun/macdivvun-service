@@ -14,18 +14,7 @@
 		C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* AppDelegate.swift */; };
 		C6E475C91DA4E43000EB3352 /* SpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* SpellServerDelegate.swift */; };
 		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
-		C6F3E73C221D55B000690ED2 /* libdivvunspell.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F3E73B221D55B000690ED2 /* libdivvunspell.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		C6E475EC1DA4F06D00EB3352 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C618EEE91DA24EB700751626 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C6E475E81DA4F06100EB3352;
-			remoteInfo = Dependencies;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundlesWatcher.swift; sourceTree = "<group>"; };
@@ -48,7 +37,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C6F3E73C221D55B000690ED2 /* libdivvunspell.a in Frameworks */,
 				272B82237B53C2E47E14D0F7 /* Pods_MacDivvun.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,23 +97,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXLegacyTarget section */
-		C6E475E81DA4F06100EB3352 /* divvunspell */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "xcode$(ACTION)";
-			buildConfigurationList = C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "divvunspell" */;
-			buildPhases = (
-			);
-			buildToolPath = /usr/bin/make;
-			buildWorkingDirectory = "$(PROJECT_DIR)/Dependencies/divvunspell";
-			dependencies = (
-			);
-			name = divvunspell;
-			passBuildSettingsInEnvironment = 1;
-			productName = Dependencies;
-		};
-/* End PBXLegacyTarget section */
-
 /* Begin PBXNativeTarget section */
 		C6970CD81DA4E28D0024D82D /* MacDivvun */ = {
 			isa = PBXNativeTarget;
@@ -140,7 +111,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C6E475ED1DA4F06D00EB3352 /* PBXTargetDependency */,
 			);
 			name = MacDivvun;
 			productName = "MacVoikko-App";
@@ -160,12 +130,8 @@
 					C6970CD81DA4E28D0024D82D = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 2K5J2584NX;
-						LastSwiftMigration = 0940;
+						LastSwiftMigration = 1110;
 						ProvisioningStyle = Manual;
-					};
-					C6E475E81DA4F06100EB3352 = {
-						CreatedOnToolsVersion = 8.0;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -184,7 +150,6 @@
 			projectRoot = "";
 			targets = (
 				C6970CD81DA4E28D0024D82D /* MacDivvun */,
-				C6E475E81DA4F06100EB3352 /* divvunspell */,
 			);
 		};
 /* End PBXProject section */
@@ -229,12 +194,14 @@
 				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
 				"${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework",
 				"${BUILT_PRODUCTS_DIR}/XCGLogger/XCGLogger.framework",
+				"${BUILT_PRODUCTS_DIR}/libdivvunspell/libdivvunspell.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sentry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCGLogger.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libdivvunspell.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -257,14 +224,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		C6E475ED1DA4F06D00EB3352 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C6E475E81DA4F06100EB3352 /* divvunspell */;
-			targetProxy = C6E475EC1DA4F06D00EB3352 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		C618EEF61DA24EB700751626 /* Debug */ = {
@@ -403,7 +362,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = service;
 				WRAPPER_NAME = "$(PRODUCT_NAME).service";
 			};
@@ -430,42 +389,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = service;
 				WRAPPER_NAME = "$(PRODUCT_NAME).service";
-			};
-			name = Release;
-		};
-		C6E475EA1DA4F06100EB3352 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CARGO_FEATURES = compression;
-				CARGO_HOME = "$(HOME)/.cargo";
-				CONFIGURATION = Release;
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPS_DIR = "$(PROJECT_DIR)/Dependencies";
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		C6E475EB1DA4F06100EB3352 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CARGO_FEATURES = compression;
-				CARGO_HOME = "$(HOME)/.cargo";
-				CONFIGURATION = Release;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEPS_DIR = "$(PROJECT_DIR)/Dependencies";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -486,15 +412,6 @@
 			buildConfigurations = (
 				C6970CE41DA4E28D0024D82D /* Debug */,
 				C6970CE51DA4E28D0024D82D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		C6E475E91DA4F06100EB3352 /* Build configuration list for PBXLegacyTarget "divvunspell" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C6E475EA1DA4F06100EB3352 /* Debug */,
-				C6E475EB1DA4F06100EB3352 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

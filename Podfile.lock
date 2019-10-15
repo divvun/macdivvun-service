@@ -1,39 +1,44 @@
 PODS:
+  - libdivvunspell (0.1.4)
   - ObjcExceptionBridging (1.0.1):
     - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
   - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
-  - Sentry (4.1.0):
-    - Sentry/Core (= 4.1.0)
-  - Sentry/Core (4.1.0)
-  - XCGLogger (6.1.0):
-    - XCGLogger/Core (= 6.1.0)
-  - XCGLogger/Core (6.1.0):
+  - Sentry (4.4.0):
+    - Sentry/Core (= 4.4.0)
+  - Sentry/Core (4.4.0)
+  - XCGLogger (7.0.0):
+    - XCGLogger/Core (= 7.0.0)
+  - XCGLogger/Core (7.0.0):
     - ObjcExceptionBridging
 
 DEPENDENCIES:
-  - Sentry (from `https://github.com/getsentry/sentry-cocoa.git`, tag `4.1.0`)
-  - XCGLogger (~> 6.1.0)
+  - libdivvunspell (from `../divvunspell-swift/libdivvunspell`)
+  - Sentry (from `https://github.com/getsentry/sentry-cocoa.git`, tag `4.4.0`)
+  - XCGLogger (~> 7.0.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - ObjcExceptionBridging
     - XCGLogger
 
 EXTERNAL SOURCES:
+  libdivvunspell:
+    :path: "../divvunspell-swift/libdivvunspell"
   Sentry:
     :git: https://github.com/getsentry/sentry-cocoa.git
-    :tag: 4.1.0
+    :tag: 4.4.0
 
 CHECKOUT OPTIONS:
   Sentry:
     :git: https://github.com/getsentry/sentry-cocoa.git
-    :tag: 4.1.0
+    :tag: 4.4.0
 
 SPEC CHECKSUMS:
+  libdivvunspell: b6cb0d6e7136521b86d5d39c1429d8749fe6bb1b
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
-  Sentry: 44b85e768f435ede4d12ea279af588ff275c3939
-  XCGLogger: 7f7f43f15dfe3a305fa1342b7dc29af656289abd
+  Sentry: 26650184fe71eb7476dfd2737acb5ea6cc64b4b1
+  XCGLogger: 0434f15e3909cdc450bb63faf638b8792ab782ab
 
-PODFILE CHECKSUM: a25f3034e77ad02de5f92c3b5ec58db3d7b842e3
+PODFILE CHECKSUM: 9c3296d584c5a3772cb5be97dad298c0e1f4f100
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.8.3
