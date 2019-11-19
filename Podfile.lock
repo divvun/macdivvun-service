@@ -31,7 +31,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   libdivvunspell:
-    :commit: f709ad4066ce56edd90ffc5f50586d961dae399e
+    :commit: 1a6cc08f60751910b150d2503c834f68d3b2a351
     :git: https://github.com/bbqsrc/divvunspell-swift
     :submodules: true
   Sentry:
@@ -39,7 +39,7 @@ CHECKOUT OPTIONS:
     :tag: 4.4.0
 
 SPEC CHECKSUMS:
-  libdivvunspell: b137ce97822c55cd43037123a3a9b2c4ff8fff32
+  libdivvunspell: 038f50be1ef3bd7d4b691f7664c58152315b9758
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
   Sentry: 26650184fe71eb7476dfd2737acb5ea6cc64b4b1
   XCGLogger: 0434f15e3909cdc450bb63faf638b8792ab782ab
