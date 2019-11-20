@@ -81,19 +81,17 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
         }
 
         var c = 0
-        var misspelledWord: WordBoundIndicesToken? = nil
-        for token in stringToCheck.tokenize() {
-            if !token.value.isAlphanumeric {
-                continue
-            }
-
+        var misspelledWord: (UInt64, String)? = nil
+        for (index, word) in stringToCheck.wordBoundIndices() {
             c += 1
 
             if !countOnly {
-                if !((try? speller.isCorrect(word: token.value)) ?? false) {
-                    log.debug("\(token.value) is a typo")
-                    opQueue.addOperation(SuggestionOperation(delegate: self, language: language, word: token.value))
-                    misspelledWord = token
+                // DivvunSpell ensures only alphabetical "words" can be incorrect
+                let isCorrect = (try? speller.isCorrect(word: word)) ?? true
+                if !isCorrect {
+                    log.debug("\(word) is a typo")
+                    opQueue.addOperation(SuggestionOperation(delegate: self, language: language, word: word))
+                    misspelledWord = (index, word)
                     break
                 }
             }
@@ -101,10 +99,10 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
 
         wordCount.pointee = c
 
-        if let token = misspelledWord {
+        if let (index, word) = misspelledWord {
             let s = stringToCheck.utf8
-            let start = s.index(s.startIndex, offsetBy: Int(token.start)).samePosition(in: stringToCheck)!
-            let end = s.index(start, offsetBy: Int(token.value.count)).samePosition(in: stringToCheck)!
+            let start = s.index(s.startIndex, offsetBy: Int(index)).samePosition(in: stringToCheck)!
+            let end = s.index(start, offsetBy: Int(word.count)).samePosition(in: stringToCheck)!
             let startInt = stringToCheck.distance(from: stringToCheck.startIndex, to: start)
             let length = stringToCheck[start..<end].count
 
