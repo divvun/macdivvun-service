@@ -10,7 +10,6 @@
 		272B82237B53C2E47E14D0F7 /* Pods_MacDivvun.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB0234F2F65D1296048D091E /* Pods_MacDivvun.framework */; };
 		9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E2D51A31E5162F900EDBF92 /* BundlesWatcher.swift */; };
 		C6970CDE1DA4E28D0024D82D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6970CDD1DA4E28D0024D82D /* Assets.xcassets */; };
-		C6A13378218B388900A3D48A /* HfstSpell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A13377218B388900A3D48A /* HfstSpell.swift */; };
 		C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEF41DA24EB700751626 /* AppDelegate.swift */; };
 		C6E475C91DA4E43000EB3352 /* SpellServerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C618EEFB1DA24EF500751626 /* SpellServerDelegate.swift */; };
 		C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E475E31DA4E59600EB3352 /* Extensions.swift */; };
@@ -24,7 +23,6 @@
 		C6970CD91DA4E28D0024D82D /* MacDivvun.service */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacDivvun.service; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6970CDD1DA4E28D0024D82D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C6970CE21DA4E28D0024D82D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C6A13377218B388900A3D48A /* HfstSpell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HfstSpell.swift; sourceTree = "<group>"; };
 		C6E475E31DA4E59600EB3352 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C6F3E73B221D55B000690ED2 /* libdivvunspell.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdivvunspell.a; path = Dependencies/divvunspell/target/release/libdivvunspell.a; sourceTree = "<group>"; };
 		CBF9FE21B937FE20BA71A6BD /* Pods-MacDivvun.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MacDivvun.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MacDivvun/Pods-MacDivvun.debug.xcconfig"; sourceTree = "<group>"; };
@@ -81,7 +79,6 @@
 				C618EF0F1DA38C5A00751626 /* Bridge.h */,
 				C6970CDD1DA4E28D0024D82D /* Assets.xcassets */,
 				C6E475E31DA4E59600EB3352 /* Extensions.swift */,
-				C6A13377218B388900A3D48A /* HfstSpell.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -217,7 +214,6 @@
 			files = (
 				C6E475C91DA4E43000EB3352 /* SpellServerDelegate.swift in Sources */,
 				9E2D51A41E5162F900EDBF92 /* BundlesWatcher.swift in Sources */,
-				C6A13378218B388900A3D48A /* HfstSpell.swift in Sources */,
 				C6E475C81DA4E42E00EB3352 /* AppDelegate.swift in Sources */,
 				C6E475E41DA4E59600EB3352 /* Extensions.swift in Sources */,
 			);

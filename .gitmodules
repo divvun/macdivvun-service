@@ -1,4 +1,0 @@
-[submodule "Dependencies/divvunspell"]
-	path = Dependencies/divvunspell
-	url = https://github.com/divvun/divvunspell
-	branch = develop
