@@ -34,7 +34,6 @@ jobs:
           export PATH="$PATH:$(System.DefaultWorkingDirectory)"
           export DEPLOY_VERSION=`/usr/libexec/PlistBuddy Sources/Info.plist -c "Print :CFBundleShortVersionString"`
           sh divvun-ci-config/repo/scripts/pahkat_deploy_svn.sh https://pahkat.uit.no/repo/macos "$(System.DefaultWorkingDirectory)/MacDivvun.pkg" macdivvun $DEPLOY_VERSION
-          sh divvun-ci-config/repo/scripts/pahkat_deploy_svn.sh https://pahkat.uit.no/repo/misc-macos "$(System.DefaultWorkingDirectory)/MacDivvun.pkg" macdivvun $DEPLOY_VERSION
           sh divvun-ci-config/repo/scripts/pahkat_deploy_svn.sh https://pahkat.uit.no/repo/canada-macos "$(System.DefaultWorkingDirectory)/MacDivvun.pkg" macdivvun $DEPLOY_VERSION
         displayName: "Deploy to nightly channel"
         condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
