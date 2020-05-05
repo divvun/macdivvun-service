@@ -18,7 +18,7 @@ rm -rf MacDivvun.service || true
 mv build/MacDivvun.xcarchive/Products/Applications/MacDivvun.service .
 
 echo "Notarizing bundle"
-xcnotary notarize MacDivvun.service --override-path-type app -d "$DEVELOPER_ACCOUNT" -k "$DEVELOPER_PASSWORD_CHAIN_ITEM"  2> /dev/null
+xcnotary notarize MacDivvun.service --override-path-type app -d "$DEVELOPER_ACCOUNT" -k "$DEVELOPER_PASSWORD_CHAIN_ITEM"  2>&1
 stapler validate MacDivvun.service
 
 pkgbuild --component MacDivvun.service \
@@ -37,5 +37,5 @@ pkgutil --check-signature MacDivvun-$version.pkg
 mv MacDivvun-$version.pkg MacDivvun.pkg
 
 echo "Notarizing installer"
-xcnotary notarize MacDivvun.pkg --override-path-type pkg -d "$DEVELOPER_ACCOUNT" -k "$DEVELOPER_PASSWORD_CHAIN_ITEM" 2> /dev/null
+xcnotary notarize MacDivvun.pkg --override-path-type pkg -d "$DEVELOPER_ACCOUNT" -k "$DEVELOPER_PASSWORD_CHAIN_ITEM" 2>&1
 stapler validate MacDivvun.pkg
