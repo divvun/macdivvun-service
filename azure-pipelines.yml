@@ -21,6 +21,11 @@ jobs:
         env:
           DIVVUN_KEY: $(divvunKey)
       - script: |
+          git clone https://github.com/fry/xcnotary
+          cd xcnotary
+          cargo install --path .
+        displayName: "Install xcnotary"
+      - script: |
           set -e
           /bin/bash scripts/build.sh
         displayName: "Build"
