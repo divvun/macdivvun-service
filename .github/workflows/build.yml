@@ -62,18 +62,19 @@ jobs:
         key: ${{ runner.os }}-cargo-build-xcnotary-target-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
           ${{ runner.os }}-cargo-build-xcnotary-target-
-    - name: Install xcnotary
-      run: |
-        cd xcnotary
-        cargo install --force --path .
 
     - name: Setup Divvun CI
       uses: divvun/actions/setup@master
       with:
         key: ${{ secrets.DIVVUN_KEY }}
+
+    - name: Install xcnotary
+      run: |
+        cd xcnotary
+        cargo install --force --path .
     - name: Build MacDivvun
       run: |
-        source divvun-ci-config/enc/env.sh
+        source scripts/env.sh
         pod install
         /bin/bash scripts/build.sh
     - name: Upload installer
