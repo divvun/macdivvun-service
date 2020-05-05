@@ -65,15 +65,12 @@ jobs:
     - name: Install xcnotary
       run: |
         cd xcnotary
-        cargo install --path .
+        cargo install --force --path .
 
-    - name: Setup Divvun CI Config
-      env: 
-        DIVVUN_KEY: ${{ secrets.DIVVUN_KEY }}
-      run: |
-        git clone https://github.com/divvun/divvun-ci-config.git
-        cd divvun-ci-config
-        sh ./install-macos.sh
+    - name: Setup Divvun CI
+      uses: divvun/actions/setup@master
+      with:
+        key: ${{ secrets.DIVVUN_KEY }}
     - name: Build MacDivvun
       run: |
         source divvun-ci-config/enc/env.sh
