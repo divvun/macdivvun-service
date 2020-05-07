@@ -14,15 +14,9 @@ jobs:
         toolchain: stable
         profile: minimal
         override: true
-
     - name: Did this work
       run: |
         rustc --version --verbose
-
-    - name: Ensure rustup is used
-      run: |
-        source $HOME/.cargo/env
-
     - name: Cache cargo registry
       uses: actions/cache@v1
       with:
@@ -51,18 +45,6 @@ jobs:
         key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
           ${{ runner.os }}-cargo-build-target
-
-    - name: Clone xcnotary
-      run: |
-        git clone https://github.com/fry/xcnotary
-    - name: Cache xcnotary cargo target dir
-      uses: actions/cache@v1
-      with:
-        path: xcnotary/target
-        key: ${{ runner.os }}-cargo-build-xcnotary-target-${{ hashFiles('**/Cargo.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-cargo-build-xcnotary-target-
-
     - name: Setup Divvun CI
       uses: divvun/actions/setup@master
       with:
@@ -89,5 +71,4 @@ jobs:
         package: "macdivvun"
         platform: "macos"
         version: ${{ env.DEPLOY_VERSION }}
-        testDesploy: true
 
