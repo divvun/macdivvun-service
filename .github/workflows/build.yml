@@ -67,14 +67,9 @@ jobs:
       uses: divvun/actions/setup@master
       with:
         key: ${{ secrets.DIVVUN_KEY }}
-
-    - name: Install xcnotary
-      run: |
-        cd xcnotary
-        cargo install --force --path .
     - name: Build MacDivvun
       run: |
-        source scripts/env.sh
+        source $RUNNER_WORKSPACE/divvun-ci-config/enc/env.sh
         pod install
         /bin/bash scripts/build.sh
     - name: Upload installer
@@ -82,3 +77,17 @@ jobs:
       with:
         name: macdivvun
         path: MacDivvun.pkg
+    - name: Get Package Version
+      run: |
+        export DEPLOY_VERSION=`/usr/libexec/PlistBuddy Sources/Info.plist -c "Print :CFBundleShortVersionString"`
+        echo "::set-env name=DEPLOY_VERSION::$DEPLOY_VERSION"
+    - name: Deploy to Pahkat
+      uses: divvun/actions/deploy@master
+      with:
+        payload: "MacDivvun.pkg"
+        repository: "https://pahkat.uit.no/tools"
+        package: "macdivvun"
+        platform: "macos"
+        version: ${{ env.DEPLOY_VERSION }}
+        testDesploy: true
+
