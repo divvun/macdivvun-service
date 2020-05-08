@@ -5,12 +5,8 @@ security default-keychain -s build.keychain
 security unlock-keychain -p travis build.keychain
 security set-keychain-settings -t 3600 -u build.keychain
 
-export DEVELOPMENT_TEAM="2K5J2584NX"
-export CODE_SIGN_IDENTITY="Developer ID Application: The University of Tromso (2K5J2584NX)"
-export CODE_SIGN_IDENTITY_INSTALLER="Developer ID Installer: The University of Tromso (2K5J2584NX)"
-
 xcodebuild -scheme MacDivvun -configuration Release -workspace MacDivvun.xcworkspace archive -archivePath build/macdivvun.xcarchive \
-    DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM CODE_SIGN_IDENTITY="$CODE_SIGN_IDENTITY" -quiet \
+    DEVELOPMENT_TEAM=$MACOS_DEVELOPMENT_TEAM CODE_SIGN_IDENTITY="$MACOS_CODE_SIGN_IDENTITY" -quiet \
     OTHER_CODE_SIGN_FLAGS=--options=runtime || exit 1
 
 rm -rf MacDivvun.service || true
@@ -18,7 +14,7 @@ rm -rf MacDivvun.service || true
 mv build/MacDivvun.xcarchive/Products/Applications/MacDivvun.service .
 
 echo "Notarizing bundle"
-xcnotary notarize MacDivvun.service --override-path-type app -d "$DEVELOPER_ACCOUNT" -k "$DEVELOPER_PASSWORD_CHAIN_ITEM"  2>&1
+xcnotary notarize MacDivvun.service --override-path-type app -d "$MACOS_DEVELOPER_ACCOUNT" -k "$MACOS_DEVELOPER_PASSWORD_CHAIN_ITEM"  2>&1
 stapler validate MacDivvun.service
 
 pkgbuild --component MacDivvun.service \
@@ -32,10 +28,10 @@ productbuild --distribution scripts/dist.xml \
     --package-path . \
     MacDivvun-unsigned.pkg
 
-productsign --sign "$CODE_SIGN_IDENTITY_INSTALLER" MacDivvun-unsigned.pkg MacDivvun-$version.pkg
+productsign --sign "$MACOS_CODE_SIGN_IDENTITY_INSTALLER" MacDivvun-unsigned.pkg MacDivvun-$version.pkg
 pkgutil --check-signature MacDivvun-$version.pkg
 mv MacDivvun-$version.pkg MacDivvun.pkg
 
 echo "Notarizing installer"
-xcnotary notarize MacDivvun.pkg --override-path-type pkg -d "$DEVELOPER_ACCOUNT" -k "$DEVELOPER_PASSWORD_CHAIN_ITEM" 2>&1
+xcnotary notarize MacDivvun.pkg --override-path-type pkg -d "$MACOS_DEVELOPER_ACCOUNT" -k "$MACOS_DEVELOPER_PASSWORD_CHAIN_ITEM" 2>&1
 stapler validate MacDivvun.pkg
