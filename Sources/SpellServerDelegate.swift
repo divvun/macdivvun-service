@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libdivvunspell
+import DivvunSpell
 
 class SuggestionOperation: Operation {
     let word: String
@@ -38,7 +38,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
         return q
     }()
     
-    var memo: [String: [String: [String]]] = [:]
+    var memo: ConcurrentDictionary<String, [String: [String]]> = ConcurrentDictionary()
     var spellers = [String: HfstZipSpeller]()
     
     deinit {
@@ -50,7 +50,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
             log.debug("spellServer(_:suggestGuessesForWord:inLanguage:) - unknown language: \(language)")
             return []
         }
-        
+
         if memo[language] == nil {
             memo[language] = [:]
         }
@@ -72,8 +72,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
     }
 
     public func spellServer(_ sender: NSSpellServer, findMisspelledWordIn stringToCheck: String, language: String, wordCount: UnsafeMutablePointer<Int>, countOnly: Bool) -> NSRange {
-//        log.debug("Receive stringToCheck:")
-//        log.debug(stringToCheck)
+        log.debug("Whole string: \(stringToCheck)")
 
         guard let speller = spellers[language] else {
             log.debug("spellServer(_:findMisspelledWordIn:language:wordCount:countOnly:) - unknown language: \(language)")
@@ -82,7 +81,8 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
 
         var c = 0
         var misspelledWord: (UInt64, String)? = nil
-        for (index, word) in stringToCheck.wordBoundIndices() {
+
+        for (index, word) in stringToCheck.wordIndices() {
             c += 1
 
             if !countOnly {
@@ -92,6 +92,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
                     log.debug("\(word) is a typo")
                     opQueue.addOperation(SuggestionOperation(delegate: self, language: language, word: word))
                     misspelledWord = (index, word)
+                    log.debug("Add misspelled: '\(word)' at \(index)")
                     break
                 }
             }
@@ -100,11 +101,15 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
         wordCount.pointee = c
 
         if let (index, word) = misspelledWord {
+            log.debug("I: \(index) '\(word)'")
             let s = stringToCheck.utf8
-            let start = s.index(s.startIndex, offsetBy: Int(index)).samePosition(in: stringToCheck)!
-            let end = s.index(start, offsetBy: Int(word.count)).samePosition(in: stringToCheck)!
-            let startInt = stringToCheck.distance(from: stringToCheck.startIndex, to: start)
-            let length = stringToCheck[start..<end].count
+            let w = word.utf8
+            let start = s.index(s.startIndex, offsetBy: Int(index)).samePosition(in: stringToCheck.utf16)!
+            let end = s.index(start, offsetBy: Int(w.count)).samePosition(in: stringToCheck.utf16)!
+            log.debug("bytes '\(word)': \(start)..\(end)")
+            let startInt = stringToCheck.utf16.distance(from: stringToCheck.utf16.startIndex, to: start)
+            let length = stringToCheck[start..<end].utf16.count
+            log.debug("bytes '\(word)': \(startInt)..\(startInt + length)")
 
             return NSRange(location: startInt, length: length)
         } else {

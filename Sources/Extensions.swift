@@ -7,12 +7,9 @@
 //
 
 import Foundation
-import XCGLogger
-
-let log = XCGLogger.default
 
 extension Process {
-    convenience init(launchPath: String, arguments: [String]?=nil) {
+    convenience init(launchPath: String, arguments: [String]? = nil) {
         self.init()
         
         self.launchPath = launchPath

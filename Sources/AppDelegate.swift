@@ -9,7 +9,37 @@
 import Cocoa
 import XCGLogger
 import Sentry
-import libdivvunspell
+import DivvunSpell
+
+let userLibraryDir = try! FileManager.default.url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+let divvunManagerLogsPath = userLibraryDir
+    .appendingPathComponent("Logs")
+    .appendingPathComponent("MacDivvun")
+
+let systemDest: AppleSystemLogDestination = {
+    let x = AppleSystemLogDestination(identifier: "MacDivvun.system")
+    x.outputLevel = .debug
+    return x
+}()
+
+let fileDest: AutoRotatingFileDestination = {
+    let x = AutoRotatingFileDestination(
+        writeToFile: divvunManagerLogsPath.appendingPathComponent("MacDivvun.log").path,
+        identifier: "MacDivvun.file")
+    x.logQueue = XCGLogger.logQueue
+    return x
+}()
+
+internal let log: XCGLogger = {
+    let x = XCGLogger(identifier: "MacDivvun", includeDefaultDestinations: false)
+
+    x.add(destination: systemDest)
+    x.add(destination: fileDest)
+    x.logAppDetails()
+
+    return x
+}()
+
 
 struct Global {
     static let vendor = "MacDivvun"
@@ -91,30 +121,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 //        self.flushAndUpdate()
     }
     
-    private func configureLogging() {
-        let logPath = "\(NSHomeDirectory())/Library/Logs/MacDivvun"
-        try? FileManager.default.createDirectory(atPath: logPath, withIntermediateDirectories: true, attributes: nil)
-        
-        let file = FileDestination(writeToFile: "\(logPath)/MacDivvun.log", identifier: "MacDivvun.file", shouldAppend: true)
-        #if DEBUG
-        file.outputLevel = .debug
-        #else
-        file.outputLevel = .info
-        #endif
-        file.showThreadName = true
-        file.showLevel = true
-        file.showFileName = true
-        file.showFunctionName = false
-        file.showLineNumber = true
-        file.showDate = true
-        file.logQueue = XCGLogger.logQueue
-        
-        log.add(destination: file)
-        log.logAppDetails()
-    }
-    
     func applicationDidFinishLaunching(_ notification: Notification) {
-        configureLogging()
+        log.debug("DEBUG MODE")
         server.delegate = delegate
         let bundles = bundleFolderURLs()
         print(bundles)
@@ -125,12 +133,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self.registerBundle(at: URL(fileURLWithPath: $0))
         }
         watcher.start()
-        
-        do {
-            Client.shared = try Client(dsn: Bundle.main.infoDictionary!["SENTRY_DSN"] as! String)
-            try Client.shared?.startCrashHandler()
-        } catch let error {
-            log.severe(error)
+
+        SentrySDK.start { options in
+            if let dsn = Bundle.main.infoDictionary!["SENTRY_DSN"] as? String {
+                options.dsn = dsn
+            }
+            options.debug = true
+            options.enableAutoSessionTracking = true
         }
         
         log.info("\(Global.vendor) started")

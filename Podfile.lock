@@ -1,19 +1,19 @@
 PODS:
-  - libdivvunspell (0.1.5)
+  - DivvunSpell (0.3.0)
   - ObjcExceptionBridging (1.0.1):
     - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
   - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
-  - Sentry (4.4.0):
-    - Sentry/Core (= 4.4.0)
-  - Sentry/Core (4.4.0)
-  - XCGLogger (7.0.0):
-    - XCGLogger/Core (= 7.0.0)
-  - XCGLogger/Core (7.0.0):
+  - Sentry (5.2.2):
+    - Sentry/Core (= 5.2.2)
+  - Sentry/Core (5.2.2)
+  - XCGLogger (7.0.1):
+    - XCGLogger/Core (= 7.0.1)
+  - XCGLogger/Core (7.0.1):
     - ObjcExceptionBridging
 
 DEPENDENCIES:
-  - libdivvunspell (from `https://github.com/bbqsrc/divvunspell-swift`)
-  - Sentry (from `https://github.com/getsentry/sentry-cocoa.git`, tag `4.4.0`)
+  - DivvunSpell (from `https://github.com/divvun/divvunspell-swift`)
+  - Sentry (from `https://github.com/getsentry/sentry-cocoa.git`, tag `5.2.2`)
   - XCGLogger (~> 7.0.0)
 
 SPEC REPOS:
@@ -22,28 +22,28 @@ SPEC REPOS:
     - XCGLogger
 
 EXTERNAL SOURCES:
-  libdivvunspell:
-    :git: https://github.com/bbqsrc/divvunspell-swift
+  DivvunSpell:
+    :git: https://github.com/divvun/divvunspell-swift
     :submodules: true
   Sentry:
     :git: https://github.com/getsentry/sentry-cocoa.git
-    :tag: 4.4.0
+    :tag: 5.2.2
 
 CHECKOUT OPTIONS:
-  libdivvunspell:
-    :commit: eae220430f4980efb9dfe25b488d4b97e63cee90
-    :git: https://github.com/bbqsrc/divvunspell-swift
+  DivvunSpell:
+    :commit: ca327ca2bd09cba3e624d35a6d32df0b3858be92
+    :git: https://github.com/divvun/divvunspell-swift
     :submodules: true
   Sentry:
     :git: https://github.com/getsentry/sentry-cocoa.git
-    :tag: 4.4.0
+    :tag: 5.2.2
 
 SPEC CHECKSUMS:
-  libdivvunspell: 038f50be1ef3bd7d4b691f7664c58152315b9758
+  DivvunSpell: 3419a1de8a935d70d66b24061f68bc2a90b32196
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
-  Sentry: 26650184fe71eb7476dfd2737acb5ea6cc64b4b1
-  XCGLogger: 0434f15e3909cdc450bb63faf638b8792ab782ab
+  Sentry: 8fa58a051237554f22507fb483b9a1de0171a2dc
+  XCGLogger: 1943831ef907df55108b0b18657953f868de973b
 
-PODFILE CHECKSUM: eec6648a125bcdbb0328bb585ca4a1874991f71d
+PODFILE CHECKSUM: 05792a1010d01d955dc9961bb964208008586202
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1
