@@ -29,11 +29,11 @@ VERSION=`/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$APP_NAM
 pkgbuild --component MacDivvun.service \
     --ownership recommended \
     --install-location /Library/Services \
-    --version $version \
+    --version $VERSION \
     no.divvun.MacDivvun.pkg
 
 productbuild --distribution scripts/dist.xml \
-    --version $version \
+    --version $VERSION \
     --package-path . \
     MacDivvun-unsigned.pkg
 
