@@ -12,7 +12,8 @@ export MACOS_CODE_SIGN_IDENTITY_INSTALLER="Developer ID Installer: The Universit
 APP_NAME="MacDivvun.service"
 PKG_NAME="MacDivvun.pkg"
 
-xcodebuild -scheme MacDivvun -configuration Release archive -clonedSourcePackagesDirPath tmp/src -derivedDataPath tmp/derived -archivePath build/app.xcarchive \
+pod update && pod install
+xcodebuild -scheme MacDivvun -workspace MacDivvun.xcworkspace -configuration Release archive -clonedSourcePackagesDirPath tmp/src -derivedDataPath tmp/derived -archivePath build/app.xcarchive \
     CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$MACOS_DEVELOPMENT_TEAM" CODE_SIGN_IDENTITY="$MACOS_CODE_SIGN_IDENTITY" -allowProvisioningUpdates  \
     OTHER_CODE_SIGN_FLAGS=--options=runtime || exit 1
 
