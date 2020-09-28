@@ -1,21 +1,29 @@
-set -e
-version=`/usr/libexec/PlistBuddy Sources/Info.plist -c "Print :CFBundleShortVersionString"`
+#!/bin/sh
+set -ex
 
-security default-keychain -s build.keychain
-security unlock-keychain -p travis build.keychain
-security set-keychain-settings -t 3600 -u build.keychain
+echo "::add-mask::$MACOS_NOTARIZATION_APP_PWD"
+rm -rf tmp || echo "no tmp dir; continuing"
+rm -rf build || echo "no build dir; continuing"
 
-xcodebuild -scheme MacDivvun -configuration Release -workspace MacDivvun.xcworkspace archive -archivePath build/macdivvun.xcarchive \
-    DEVELOPMENT_TEAM=$MACOS_DEVELOPMENT_TEAM CODE_SIGN_IDENTITY="$MACOS_CODE_SIGN_IDENTITY" -quiet \
+export MACOS_DEVELOPMENT_TEAM="2K5J2584NX"
+export MACOS_CODE_SIGN_IDENTITY="Developer ID Application: The University of Tromso (2K5J2584NX)"
+export MACOS_CODE_SIGN_IDENTITY_INSTALLER="Developer ID Installer: The University of Tromso (2K5J2584NX)"
+
+APP_NAME="MacDivvun.service"
+PKG_NAME="MacDivvun.pkg"
+
+xcodebuild -scheme MacDivvun -configuration Release archive -clonedSourcePackagesDirPath tmp/src -derivedDataPath tmp/derived -archivePath build/app.xcarchive \
+    CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$MACOS_DEVELOPMENT_TEAM" CODE_SIGN_IDENTITY="$MACOS_CODE_SIGN_IDENTITY" -allowProvisioningUpdates  \
     OTHER_CODE_SIGN_FLAGS=--options=runtime || exit 1
 
-rm -rf MacDivvun.service || true
-
-mv build/MacDivvun.xcarchive/Products/Applications/MacDivvun.service .
+rm -rf "$APP_NAME"
+mv "build/app.xcarchive/Products/Applications/$APP_NAME" .
 
 echo "Notarizing bundle"
-xcnotary notarize MacDivvun.service --override-path-type app -d "$MACOS_DEVELOPER_ACCOUNT" -k "$MACOS_DEVELOPER_PASSWORD_CHAIN_ITEM"  2>&1
-stapler validate MacDivvun.service
+xcnotary notarize "$APP_NAME" --override-path-type app -d "$MACOS_DEVELOPER_ACCOUNT" -p "$MACOS_NOTARIZATION_APP_PWD"
+stapler validate "$APP_NAME"
+
+VERSION=`/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$APP_NAME/Contents/Info.plist"`
 
 pkgbuild --component MacDivvun.service \
     --ownership recommended \
@@ -28,10 +36,9 @@ productbuild --distribution scripts/dist.xml \
     --package-path . \
     MacDivvun-unsigned.pkg
 
-productsign --sign "$MACOS_CODE_SIGN_IDENTITY_INSTALLER" MacDivvun-unsigned.pkg MacDivvun-$version.pkg
-pkgutil --check-signature MacDivvun-$version.pkg
-mv MacDivvun-$version.pkg MacDivvun.pkg
+productsign --sign "$MACOS_CODE_SIGN_IDENTITY_INSTALLER" MacDivvun-unsigned.pkg "$PKG_NAME"
+pkgutil --check-signature "$PKG_NAME"
 
 echo "Notarizing installer"
-xcnotary notarize MacDivvun.pkg --override-path-type pkg -d "$MACOS_DEVELOPER_ACCOUNT" -k "$MACOS_DEVELOPER_PASSWORD_CHAIN_ITEM" 2>&1
-stapler validate MacDivvun.pkg
+xcnotary notarize "$PKG_NAME" --override-path-type pkg -d "$MACOS_DEVELOPER_ACCOUNT" -p "$MACOS_NOTARIZATION_APP_PWD"
+stapler validate "$PKG_NAME"
