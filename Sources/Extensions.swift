@@ -32,33 +32,3 @@ extension NSSpellServer {
         proc.waitUntilExit()
     }
 }
-
-//func log.debug(_ value: String) {
-////    #if DEBUG
-//    print(value)
-//    if #available(OSX 10.12, *) {
-//        os_log.debug("%@", value)
-//    } else {
-//        NSLog(value)
-//    }
-////    #endif
-//}
-
-func doublePointerToArray<A>(pointer: UnsafeMutablePointer<A?>) -> [A] {
-    var iterator = pointer
-    var values: [A] = []
-    
-    while iterator.pointee != nil {
-        if let pointee = iterator.pointee {
-            values.append(pointee)
-        }
-        iterator = iterator.successor()
-    }
-    return values
-}
-
-extension String {
-    var isAlphanumeric: Bool {
-        return !isEmpty && range(of: "[^a-zA-Z0-9]", options: .regularExpression) == nil
-    }
-}

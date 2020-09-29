@@ -27,7 +27,7 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2018 Divvun</string>
+	<string>Copyright © 2020 Divvun</string>
 	<key>NSPrincipalClass</key>
 	<string>MacDivvun.MacDivvunRunner</string>
 	<key>NSServices</key>
@@ -46,6 +46,6 @@
 		</dict>
 	</array>
 	<key>SENTRY_DSN</key>
-	<string>https://014d1a11429046b98b4e7c2d267b4bb4@sentry.io/1315195</string>
+	<string>https://c2c0b6d776934b10a4a22509b0bfcc26@o157567.ingest.sentry.io/1315195</string>
 </dict>
 </plist>

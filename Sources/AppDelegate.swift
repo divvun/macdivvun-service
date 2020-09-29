@@ -19,6 +19,8 @@ let divvunManagerLogsPath = userLibraryDir
 let systemDest: AppleSystemLogDestination = {
     let x = AppleSystemLogDestination(identifier: "MacDivvun.system")
     x.outputLevel = .debug
+    x.showFileName = false
+    x.showLineNumber = false
     return x
 }()
 
@@ -26,6 +28,9 @@ let fileDest: AutoRotatingFileDestination = {
     let x = AutoRotatingFileDestination(
         writeToFile: divvunManagerLogsPath.appendingPathComponent("MacDivvun.log").path,
         identifier: "MacDivvun.file")
+    x.showFileName = false
+    x.showLineNumber = false
+    x.outputLevel = .info
     x.logQueue = XCGLogger.logQueue
     return x
 }()
@@ -95,8 +100,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func registerBundle(at path: URL) {
+        log.info("Loading bundle: \(path.path)")
+
         let filePaths = zhfstPaths(path)
-        log.info("zhfsts \(filePaths.map { $0.absoluteString }.joined(separator: ", "))")
+        log.debug("zhfsts: \(filePaths.map { $0.absoluteString }.joined(separator: ", "))")
+
         for filePath in filePaths {
             let archive: HfstZipSpellerArchive
             let speller: HfstZipSpeller
@@ -104,35 +112,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 archive = try HfstZipSpellerArchive.open(path: filePath.path)
                 speller = try archive.speller()
             } catch {
-                log.error("Error loading: \(filePath)")
+                log.error("Error loading: \(filePath.path)")
                 if let error = error as? DivvunSpellError {
                     log.debug(error.message)
                 }
                 return
             }
+
+            let locale = filePath.deletingPathExtension().lastPathComponent
             
-            self.delegate.spellers[archive.locale] = speller
-            log.info("Added bundle: \(path.absoluteString)")
+            self.delegate.spellers[locale] = speller
+            log.info("Added speller: \(filePath.path) with locale '\(locale)'")
             
             server.registerLanguage(archive.locale, byVendor: Global.vendor)
-            log.info("Registered: \(archive.locale)")
         }
-        
-//        self.flushAndUpdate()
     }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        log.debug("DEBUG MODE")
         server.delegate = delegate
-        let bundles = bundleFolderURLs()
-        print(bundles)
-        log.info(bundles.map { $0.absoluteString }.joined(separator: ", "))
-        bundles.forEach(registerBundle(at:))
-        
-        watcher = BundlesWatcher {
-            self.registerBundle(at: URL(fileURLWithPath: $0))
-        }
-        watcher.start()
 
         SentrySDK.start { options in
             if let dsn = Bundle.main.infoDictionary!["SENTRY_DSN"] as? String {
@@ -141,9 +138,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             options.debug = true
             options.enableAutoSessionTracking = true
         }
+        log.info("Sentry started.")
+
+
+        log.info("Bundle paths: \(Global.paths.joined(separator: ", "))")
+
+
+        let bundles = bundleFolderURLs()
+        bundles.forEach(registerBundle(at:))
+        
+        watcher = BundlesWatcher {
+            self.registerBundle(at: URL(fileURLWithPath: $0))
+        }
+        watcher.start()
+        log.info("Bundle watcher started; new spellers will be added.")
         
         log.info("\(Global.vendor) started")
-        
         self.server.run()
     }
     

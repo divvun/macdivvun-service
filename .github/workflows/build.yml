@@ -3,7 +3,7 @@ on: [push, repository_dispatch]
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: self-hosted
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
