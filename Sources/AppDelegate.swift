@@ -12,7 +12,7 @@ import Sentry
 import DivvunSpell
 
 let userLibraryDir = try! FileManager.default.url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-let divvunManagerLogsPath = userLibraryDir
+let macDivvunLogsPath = userLibraryDir
     .appendingPathComponent("Logs")
     .appendingPathComponent("MacDivvun")
 
@@ -26,7 +26,7 @@ let systemDest: AppleSystemLogDestination = {
 
 let fileDest: AutoRotatingFileDestination = {
     let x = AutoRotatingFileDestination(
-        writeToFile: divvunManagerLogsPath.appendingPathComponent("MacDivvun.log").path,
+        writeToFile: macDivvunLogsPath.appendingPathComponent("MacDivvun.log").path,
         identifier: "MacDivvun.file")
     x.showFileName = false
     x.showLineNumber = false
