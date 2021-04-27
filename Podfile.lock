@@ -1,5 +1,5 @@
 PODS:
-  - DivvunSpell (0.3.0)
+  - DivvunSpell (1.0.0-beta.1)
   - ObjcExceptionBridging (1.0.1):
     - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
   - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
@@ -12,7 +12,7 @@ PODS:
     - ObjcExceptionBridging
 
 DEPENDENCIES:
-  - DivvunSpell (from `https://github.com/divvun/divvunspell-swift`)
+  - "DivvunSpell (from `{:http=>\"https://github.com/divvun/divvunspell-sdk-swift/releases/download/v1.0.0-beta.1/cargo-pod.tgz\"}`)"
   - Sentry (from `https://github.com/getsentry/sentry-cocoa.git`, tag `5.2.2`)
   - XCGLogger (~> 7.0.0)
 
@@ -23,27 +23,24 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   DivvunSpell:
-    :git: https://github.com/divvun/divvunspell-swift
-    :submodules: true
+    :http: https://github.com/divvun/divvunspell-sdk-swift/releases/download/v1.0.0-beta.1/cargo-pod.tgz
   Sentry:
     :git: https://github.com/getsentry/sentry-cocoa.git
     :tag: 5.2.2
 
 CHECKOUT OPTIONS:
   DivvunSpell:
-    :commit: ca327ca2bd09cba3e624d35a6d32df0b3858be92
-    :git: https://github.com/divvun/divvunspell-swift
-    :submodules: true
+    :http: https://github.com/divvun/divvunspell-sdk-swift/releases/download/v1.0.0-beta.1/cargo-pod.tgz
   Sentry:
     :git: https://github.com/getsentry/sentry-cocoa.git
     :tag: 5.2.2
 
 SPEC CHECKSUMS:
-  DivvunSpell: 3419a1de8a935d70d66b24061f68bc2a90b32196
+  DivvunSpell: ca208e79169237ec09137c0d8675ad125f304753
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
   Sentry: 8fa58a051237554f22507fb483b9a1de0171a2dc
   XCGLogger: 1943831ef907df55108b0b18657953f868de973b
 
-PODFILE CHECKSUM: 05792a1010d01d955dc9961bb964208008586202
+PODFILE CHECKSUM: ed733e4ee40a444ec96776b28a55834ae6dad07d
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.10.1

@@ -1,5 +1,5 @@
 .DS_Store
-project.xcworkspace
+*.xcworkspace
 xcuserdata
 Dependencies/Frameworks/*
 Dependencies/Static/*
