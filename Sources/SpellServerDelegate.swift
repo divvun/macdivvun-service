@@ -39,7 +39,7 @@ open class SpellServerDelegate: NSObject, NSSpellServerDelegate {
     }()
     
     var memo: ConcurrentDictionary<String, [String: [String]]> = ConcurrentDictionary()
-    var spellers = [String: HfstZipSpeller]()
+    var spellers = [String: Speller]()
     
     deinit {
         log.debug("Delegate deinit")

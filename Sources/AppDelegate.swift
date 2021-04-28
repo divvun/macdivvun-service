@@ -78,13 +78,15 @@ fileprivate func bundleFolderURLs() -> [URL] {
     }
 }
 
-func zhfstPaths(_ url: URL) -> [URL] {
+func spellerBundlePaths(_ url: URL) -> [URL] {
     let rootPath = url.appendingPathComponent("Contents").appendingPathComponent("Resources")
-    return (try? FileManager.default.contentsOfDirectory(atPath: rootPath.path))?.filter {
-        return $0.hasSuffix(".zhfst")
+    let list = (try? FileManager.default.contentsOfDirectory(atPath: rootPath.path))?.filter {
+        return $0.hasSuffix(".zhfst") || $0.hasSuffix(".bhfst")
     }.map {
         return URL(fileURLWithPath: "\(rootPath.path)/\($0)")
     } ?? []
+    
+    return list.sorted(by: { $0.absoluteString < $1.absoluteString })
 }
 
 @NSApplicationMain
@@ -102,14 +104,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func registerBundle(at path: URL) {
         log.info("Loading bundle: \(path.path)")
 
-        let filePaths = zhfstPaths(path)
-        log.debug("zhfsts: \(filePaths.map { $0.absoluteString }.joined(separator: ", "))")
-
+        let filePaths = spellerBundlePaths(path)
+        log.debug("Speller bundles: \(filePaths.map { $0.absoluteString }.joined(separator: ", "))")
+        
         for filePath in filePaths {
-            let archive: HfstZipSpellerArchive
-            let speller: HfstZipSpeller
+            let archive: SpellerArchive
+            let speller: Speller
             do {
-                archive = try HfstZipSpellerArchive.open(path: filePath.path)
+                archive = try SpellerArchive.open(path: filePath.path)
                 speller = try archive.speller()
             } catch {
                 log.error("Error loading: \(filePath.path)")
@@ -119,7 +121,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 return
             }
 
-            let locale = filePath.deletingPathExtension().lastPathComponent
+            let locale = archive.locale
+            
+            if self.delegate.spellers[locale] != nil {
+                log.warning("A speller was already loaded for locale \(locale); skipping '\(filePath.path)'!")
+                continue
+            }
             
             self.delegate.spellers[locale] = speller
             log.info("Added speller: \(filePath.path) with locale '\(locale)'")
