@@ -3,7 +3,10 @@ on: [push, repository_dispatch]
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: [self-hosted, macos-11, aarch64]
+    defaults:
+      run:
+        shell: "/usr/bin/arch -arch arm64e /bin/bash {0}"
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
