@@ -1,7 +1,6 @@
 #!/bin/sh
 set -ex
 
-echo "::add-mask::$MACOS_NOTARIZATION_APP_PWD"
 rm -rf tmp || echo "no tmp dir; continuing"
 rm -rf build || echo "no build dir; continuing"
 
@@ -21,7 +20,7 @@ rm -rf "$APP_NAME"
 mv "build/app.xcarchive/Products/Applications/$APP_NAME" .
 
 echo "Notarizing bundle"
-xcnotary notarize "$APP_NAME" --override-path-type app -d "$MACOS_DEVELOPER_ACCOUNT" -p "$MACOS_NOTARIZATION_APP_PWD"
+xcnotary notarize "$APP_NAME" --override-path-type app -d "$INPUT_MACOS_DEVELOPER_ACCOUNT" -p "$INPUT_MACOS_NOTARIZATION_APP_PWD"
 stapler validate "$APP_NAME"
 
 VERSION=`/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$APP_NAME/Contents/Info.plist"`
@@ -41,5 +40,5 @@ productsign --sign "$MACOS_CODE_SIGN_IDENTITY_INSTALLER" MacDivvun-unsigned.pkg 
 pkgutil --check-signature "$PKG_NAME"
 
 echo "Notarizing installer"
-xcnotary notarize "$PKG_NAME" --override-path-type pkg -d "$MACOS_DEVELOPER_ACCOUNT" -p "$MACOS_NOTARIZATION_APP_PWD"
+xcnotary notarize "$APP_NAME" --override-path-type pkg -d "$INPUT_MACOS_DEVELOPER_ACCOUNT" -p "$INPUT_MACOS_NOTARIZATION_APP_PWD"
 stapler validate "$PKG_NAME"
