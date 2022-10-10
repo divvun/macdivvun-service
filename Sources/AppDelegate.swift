@@ -115,8 +115,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 speller = try archive.speller()
             } catch {
                 log.error("Error loading: \(filePath.path)")
-                if let error = error as? DivvunSpellError {
-                    log.debug(error.message)
+                if let error = error as? NSError {
+                    log.debug(error.userInfo[NSLocalizedDescriptionKey])
                 }
                 return
             }
