@@ -40,5 +40,8 @@ productsign --sign "$MACOS_CODE_SIGN_IDENTITY_INSTALLER" MacDivvun-unsigned.pkg 
 pkgutil --check-signature "$PKG_NAME"
 
 echo "Notarizing installer"
-xcnotary notarize "$APP_NAME" --override-path-type pkg -d "$INPUT_MACOS_DEVELOPER_ACCOUNT" -p "$INPUT_MACOS_NOTARIZATION_APP_PWD"
+ls -lah
+xcrun notarytool submit -v --apple-id "$INPUT_MACOS_DEVELOPER_ACCOUNT" --password "$INPUT_MACOS_NOTARIZATION_APP_PWD" --team-id "$MACOS_DEVELOPMENT_TEAM" --wait "$PKG_NAME"
+xcrun stapler staple "$PKG_NAME"
+spctl --assess -vv --type install "$PKG_NAME"
 stapler validate "$PKG_NAME"
