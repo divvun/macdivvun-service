@@ -137,7 +137,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         server.delegate = delegate
-
+        try? FileManager.default.createDirectory(at: macDivvunLogsPath, withIntermediateDirectories: true)
         SentrySDK.start { options in
             if let dsn = Bundle.main.infoDictionary!["SENTRY_DSN"] as? String {
                 options.dsn = dsn
