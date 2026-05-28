@@ -1,11 +1,14 @@
 # MacDivvun.service
 
-macOS background `NSApplication` (`LSBackgroundOnly`, `LSUIElement`) that hosts an `NSSpellServer`. Installed at `/Library/Services/MacDivvun.service`. At launch it scans `~/Library/Services` and `/Library/Services` for `<locale>.bundle/Contents/Resources/*.drb`, loads each `.drb` via the bundled `libdivvun_runtime.a`, creates a pipeline, and registers the bundle dirname (`sma.bundle` → `sma`) with `NSSpellServer.registerLanguage(_:byVendor:)` under vendor `"MacDivvun"`. An `FSEventStream` watches the same directories so new bundles get loaded without a restart.
+Two macOS apps in one repo:
+
+- **`MacDivvun.service`** — background `NSApplication` (`LSBackgroundOnly`, `LSUIElement`) hosting `NSSpellServer`. Installs at `/Library/Services/MacDivvun.service`. Scans `~/Library/Services` and `/Library/Services` for `<locale>.bundle/Contents/Resources/*.drb`, loads each `.drb` via `libdivvun_runtime.a`, creates one pipeline per locale, registers each bundle dirname (`sma.bundle` → `sma`) with `NSSpellServer.registerLanguage(_:byVendor:)` under vendor `"MacDivvun"`. Exposes both **spell-checking** (`findMisspelledWordIn:`, `suggestGuessesForWord:`) and **grammar-checking** (`checkGrammarIn:language:details:`). Pipeline returns one `errors` array with both kinds; `isSpellError(error_id)` classifies. An `FSEventStream` watches the service dirs so new bundles load without a restart.
+- **`MacDivvunPreferences.app`** — SwiftUI companion app for per-locale grammar-rule toggles. Reads the same bundles, calls `DRT_Bundle_errorPreferences` for localized rule names, writes user choices to the shared `UserDefaults` suite `no.divvun.MacDivvun` under `ignoredRules`. Posts a Darwin notification (`no.divvun.MacDivvun.preferencesChanged`); the service observes it and rebuilds affected pipelines with the new `suggest.ignore` list.
 
 ## Build / develop
 
 ```sh
-sh ./scripts/build.sh          # produces unsigned ./MacDivvun.service
+sh ./scripts/build.sh          # produces unsigned ./MacDivvun.service and ./MacDivvunPreferences.app
 ```
 
 In Xcode:
@@ -22,14 +25,25 @@ Signing, notarization, and `.pkg`/installer packaging happen in a separate, exte
 
 ## Architecture
 
-All Swift under `Sources/`:
+Swift sources under `Sources/`:
 
-- `main.swift` — `NSApplicationMain` entry point. The custom NSApplication class is wired via `Info.plist` `NSPrincipalClass = MacDivvun.MacDivvunRunner`.
-- `MacDivvunApp.swift` — `MacDivvunRunner` (NSApplication) + `AppDelegate`. Sets up `os.Logger` and Sentry, builds the registry, scans bundle dirs, starts `BundlesWatcher`, calls `server.run()`.
-- `SpellerRegistry.swift` — `actor` keyed by locale, owns `[locale: PipelineHandle]` plus correctness + suggestion caches. Exposes `register(bundleAt:)`, `isCorrect`, `suggestions`, `firstMisspelling`. Locale derived from `<locale>.bundle` dirname; no `.drb` introspection.
-- `SpellServerDelegate.swift` — `NSSpellServerDelegate` impl. Bridges the sync NSSpellServer callbacks to the async registry via a small semaphore shim. UTF-8 byte index from the pipeline → `NSRange` via `String.Index` arithmetic with safe `samePosition(in:)`.
+**Service target (`MacDivvun.service`)**:
+- `main.swift` — `NSApplicationMain` entry point. The custom NSApplication class is wired via `Info.plist`'s `NSPrincipalClass = MacDivvun.MacDivvunRunner`.
+- `MacDivvunApp.swift` — `MacDivvunRunner` (NSApplication) + `AppDelegate`. Sets up `os.Logger` and Sentry, builds the registry, scans bundle dirs, starts `BundlesWatcher`, starts `IgnoredRulesObserver`, calls `server.run()`.
+- `SpellerRegistry.swift` — `actor` keyed by locale, owns `[locale: LoadedSpeller]` (bundle + pipeline + ignored rules + word cache). Exposes `register(bundleAt:)`, `setIgnoredRules(_:for:)`, `firstSpellError`, `suggestions`, `grammarErrors`. Pipeline is created with config `{"suggest": {"encoding": "utf-16", "ignore": [...]}}`. Locale derived from `<locale>.bundle` dirname; no `.drb` introspection.
+- `SpellServerDelegate.swift` — `NSSpellServerDelegate` impl. Implements `findMisspelledWordIn:`, `suggestGuessesForWord:`, and `checkGrammarIn:language:details:`. Pipeline offsets are UTF-16 code units (because of the `encoding` config), which match `NSRange` directly — no conversion. Bridges sync NSSpellServer callbacks to the async registry via a semaphore shim.
 - `BundlesWatcher.swift` — `FSEventStream` wrapper. Uses `Unmanaged.passRetained` + an explicit `release` callback in the context — survives ownership refactors, unlike the old codebase.
-- `DivvunRuntime.swift` — Swift wrapper around the `libdivvun_runtime` C FFI. Originally vendored from `divvun-runtime/bindings/swift/`, then restructured (no per-call closures capturing mutable state; serialized global error slot + top-level `@_cdecl` callback). The same restructured file has been mirrored back upstream.
+
+**Prefs target (`MacDivvunPreferences.app`)**:
+- `Preferences/PreferencesApp.swift` — `@main` SwiftUI App.
+- `Preferences/ContentView.swift` — locale list + per-locale grammar-rule toggles. Calls `Bundle.errorPreferences(locales:)` to fetch localized rule names, filters via `isSpellError`. Saves changes through `IgnoredRulesStore`.
+- `Preferences/BundleDiscovery.swift` — scans the same `/Library/Services` paths as the service, returns `[InstalledBundle]`.
+- `Preferences/Info.plist` — plain SwiftUI app plist.
+
+**Shared (both targets)**:
+- `SpellGrammar.swift` — `PipelineResponse` / `PipelineError` types and `isSpellError(_:)` rule (mirrors `divvunspell-libreoffice/native/ErrorClass.hxx`).
+- `IgnoredRulesStore.swift` — reads/writes the `no.divvun.MacDivvun` `UserDefaults` suite under `ignoredRules` (`[String: [String]]` locale → sorted rule ids). Posts a Darwin notification on change. Service-side `IgnoredRulesObserver` subscribes.
+- `DivvunRuntime.swift` — Swift wrapper around the `libdivvun_runtime` C FFI. Originally vendored from `divvun-runtime/bindings/swift/`, then restructured (no per-call closures capturing mutable state; serialized global error slot + top-level `@_cdecl` callback). Both `Bundle.create(config:)` and `Bundle.errorPreferences(locales:)` are exposed. The restructured file has been mirrored back upstream.
 
 C symbols come in through `Sources/MacDivvun-Bridging-Header.h` → `Vendor/divvun_runtime.h`.
 

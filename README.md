@@ -1,6 +1,6 @@
 # MacDivvun.service
 
-A macOS background `NSApplication` that hosts an `NSSpellServer` for spell-checking bundles produced by [divvun-runtime](https://github.com/divvun/divvun-runtime). Installs to `/Library/Services` and registers per-locale spellers discovered from `<locale>.bundle/Contents/Resources/<locale>.drb` directories alongside it.
+macOS background `NSApplication` that hosts an `NSSpellServer` for spell- *and* grammar-checking bundles produced by [divvun-runtime](https://github.com/divvun/divvun-runtime). Installs to `/Library/Services` and registers per-locale checkers discovered from `<locale>.bundle/Contents/Resources/<locale>.drb` directories alongside it. Ships with a SwiftUI companion app (`MacDivvunPreferences.app`) for per-locale ignored-grammar-rule toggles.
 
 ## Requirements
 

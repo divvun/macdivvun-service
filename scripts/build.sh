@@ -12,18 +12,21 @@ fi
 Vendor/pkgconfig/generate.sh
 export PKG_CONFIG_PATH="$ROOT/Vendor/pkgconfig:${PKG_CONFIG_PATH:-}"
 
-rm -rf build "MacDivvun.service"
+rm -rf build "MacDivvun.service" "MacDivvunPreferences.app"
 xcodegen generate
 
-xcodebuild \
-    -project MacDivvun.xcodeproj \
-    -scheme MacDivvun \
-    -configuration Release \
-    -derivedDataPath build/derived \
-    -clonedSourcePackagesDirPath build/spm \
-    CODE_SIGNING_ALLOWED=NO \
-    build
+for scheme in MacDivvun MacDivvunPreferences; do
+    xcodebuild \
+        -project MacDivvun.xcodeproj \
+        -scheme "$scheme" \
+        -configuration Release \
+        -derivedDataPath build/derived \
+        -clonedSourcePackagesDirPath build/spm \
+        CODE_SIGNING_ALLOWED=NO \
+        build
+done
 
 cp -R "build/derived/Build/Products/Release/MacDivvun.service" "MacDivvun.service"
+cp -R "build/derived/Build/Products/Release/MacDivvunPreferences.app" "MacDivvunPreferences.app"
 
-echo "Built: MacDivvun.service"
+echo "Built: MacDivvun.service, MacDivvunPreferences.app"

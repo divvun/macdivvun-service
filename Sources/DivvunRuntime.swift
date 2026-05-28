@@ -127,6 +127,28 @@ public final class Bundle {
         }
         return PipelineHandle(handle: pipelineHandle)
     }
+
+    public func errorPreferences(locales: [String]) throws -> [String: String] {
+        let localesData = try JSONSerialization.data(withJSONObject: locales, options: [])
+        let localesString = String(data: localesData, encoding: .utf8) ?? "[]"
+        let myHandle = handle
+        var outputSlice = rust_slice_t(data: nil, len: 0)
+        let callError: DivvunRuntimeError? = withRustSlice(localesString) { slice in
+            drtErrorLock.lock()
+            defer { drtErrorLock.unlock() }
+            drtLastError = nil
+            outputSlice = DRT_Bundle_errorPreferences(myHandle, slice, drtErrorCallback)
+            return drtLastError
+        }
+        defer { DRT_Vec_drop(outputSlice) }
+        if let err = callError { throw err }
+        let data = dataFromSlice(outputSlice)
+        if data.isEmpty { return [:] }
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: String] else {
+            throw DivvunRuntimeError(message: "errorPreferences: response was not a {String: String} JSON object")
+        }
+        return json
+    }
 }
 
 // MARK: - PipelineHandle
