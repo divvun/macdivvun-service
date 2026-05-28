@@ -7,12 +7,11 @@ import OSLog
 actor SpellerRegistry {
     enum RegistryError: Error {
         case alreadyRegistered(locale: String)
-        case noDrb(path: String)
     }
 
     private struct LoadedSpeller {
         let bundle: Bundle
-        let bundleURL: URL
+        let drbURL: URL
         var pipeline: PipelineHandle
         var ignored: Set<String> = []
         var wordCache: [String: PipelineError?] = [:]
@@ -21,23 +20,15 @@ actor SpellerRegistry {
     private var spellers: [String: LoadedSpeller] = [:]
     private let maxCacheEntries = 4096
 
-    func register(bundleAt bundleURL: URL) throws -> String {
-        let locale = bundleURL.deletingPathExtension().lastPathComponent
-
+    func register(drbAt drbURL: URL, locale: String) throws {
         if spellers[locale] != nil {
             throw RegistryError.alreadyRegistered(locale: locale)
         }
 
-        let resources = bundleURL
-            .appendingPathComponent("Contents")
-            .appendingPathComponent("Resources")
-        let drbURL = try findDrb(in: resources, fallback: bundleURL)
-
         let bundle = try Bundle.fromPath(drbURL.path)
         let pipeline = try bundle.create(config: Self.pipelineConfig(ignored: []))
 
-        spellers[locale] = LoadedSpeller(bundle: bundle, bundleURL: bundleURL, pipeline: pipeline)
-        return locale
+        spellers[locale] = LoadedSpeller(bundle: bundle, drbURL: drbURL, pipeline: pipeline)
     }
 
     func setIgnoredRules(_ ignored: Set<String>, for locale: String) throws {
@@ -92,17 +83,6 @@ actor SpellerRegistry {
             log.error("Pipeline forward failed: \(error.localizedDescription, privacy: .public)")
             throw error
         }
-    }
-
-    private func findDrb(in resources: URL, fallback bundleURL: URL) throws -> URL {
-        let fm = FileManager.default
-        if let entries = try? fm.contentsOfDirectory(atPath: resources.path) {
-            let drbs = entries.filter { $0.hasSuffix(".drb") }.sorted()
-            if let first = drbs.first {
-                return resources.appendingPathComponent(first)
-            }
-        }
-        throw RegistryError.noDrb(path: bundleURL.path)
     }
 
     private static func pipelineConfig(ignored: Set<String>) -> [String: Any] {

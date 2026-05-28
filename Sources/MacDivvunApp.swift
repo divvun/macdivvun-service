@@ -45,12 +45,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         server.delegate = delegate
 
         log.info("Scanning service paths: \(Paths.services, privacy: .public)")
-        for bundleURL in discoverBundles() {
-            registerBundle(at: bundleURL)
+        for (drbURL, locale) in discoverDrbs(in: discoverBundleDirs()) {
+            registerDrb(at: drbURL, locale: locale)
         }
 
         watcher = BundlesWatcher(paths: Paths.services) { [weak self] path in
-            self?.registerBundle(at: URL(fileURLWithPath: path, isDirectory: true))
+            let bundleURL = URL(fileURLWithPath: path, isDirectory: true)
+            guard let self = self else { return }
+            for (drbURL, locale) in self.discoverDrbs(in: [bundleURL]) {
+                self.registerDrb(at: drbURL, locale: locale)
+            }
         }
         watcher?.start()
         log.info("BundlesWatcher started")
@@ -96,7 +100,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         log.info("Sentry started")
     }
 
-    private func discoverBundles() -> [URL] {
+    private func discoverBundleDirs() -> [URL] {
         Paths.services.flatMap { root -> [URL] in
             guard let entries = FileManager.default.subpaths(atPath: root) else { return [] }
             return entries
@@ -105,10 +109,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    private func registerBundle(at bundleURL: URL) {
+    private func discoverDrbs(in bundleDirs: [URL]) -> [(drbURL: URL, locale: String)] {
+        let fm = FileManager.default
+        var out: [(URL, String)] = []
+        for bundleURL in bundleDirs {
+            let resources = bundleURL
+                .appendingPathComponent("Contents")
+                .appendingPathComponent("Resources")
+            guard let entries = try? fm.contentsOfDirectory(atPath: resources.path) else { continue }
+            for entry in entries.sorted() where entry.hasSuffix(".drb") {
+                let drbURL = resources.appendingPathComponent(entry)
+                let stem = (entry as NSString).deletingPathExtension
+                let locale = NSLocale.canonicalLanguageIdentifier(from: stem)
+                out.append((drbURL, locale))
+            }
+        }
+        return out
+    }
+
+    private func registerDrb(at drbURL: URL, locale: String) {
         Task {
             do {
-                let locale = try await registry.register(bundleAt: bundleURL)
+                try await registry.register(drbAt: drbURL, locale: locale)
                 let ignored = ignoredStore.ignored(for: locale)
                 if !ignored.isEmpty {
                     try await registry.setIgnoredRules(ignored, for: locale)
@@ -116,13 +138,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 await MainActor.run {
                     self.server.registerLanguage(locale, byVendor: Paths.vendor)
                 }
-                log.info("Registered locale \(locale, privacy: .public) from \(bundleURL.path, privacy: .public)")
+                log.info("Registered locale \(locale, privacy: .public) from \(drbURL.path, privacy: .public)")
             } catch SpellerRegistry.RegistryError.alreadyRegistered(let locale) {
-                log.notice("Locale \(locale, privacy: .public) already registered; skipping \(bundleURL.path, privacy: .public)")
-            } catch SpellerRegistry.RegistryError.noDrb(let path) {
-                log.error("No .drb found in \(path, privacy: .public); skipping")
+                log.notice("Locale \(locale, privacy: .public) already registered; skipping \(drbURL.path, privacy: .public)")
             } catch {
-                log.error("Failed to register \(bundleURL.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
+                log.error("Failed to register \(drbURL.path, privacy: .public): \(error.localizedDescription, privacy: .public)")
             }
         }
     }

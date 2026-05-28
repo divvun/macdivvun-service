@@ -1,9 +1,9 @@
 import Foundation
 
-struct InstalledBundle: Identifiable, Hashable {
-    let locale: String
-    let bundleURL: URL
+struct InstalledSpeller: Identifiable, Hashable {
+    let locale: String          // canonical BCP47
     let drbURL: URL
+    let parentBundleURL: URL
 
     var id: String { locale }
 }
@@ -14,25 +14,28 @@ enum BundleDiscovery {
         "/Library/Services",
     ]
 
-    static func discover() -> [InstalledBundle] {
+    static func discover() -> [InstalledSpeller] {
         let fm = FileManager.default
-        var byLocale: [String: InstalledBundle] = [:]
+        var byLocale: [String: InstalledSpeller] = [:]
         for root in searchPaths {
             guard let entries = fm.subpaths(atPath: root) else { continue }
             for entry in entries where entry.hasSuffix(".bundle") {
                 let bundleURL = URL(fileURLWithPath: "\(root)/\(entry)", isDirectory: true)
-                let locale = bundleURL.deletingPathExtension().lastPathComponent
-                if byLocale[locale] != nil { continue }
                 let resources = bundleURL
                     .appendingPathComponent("Contents")
                     .appendingPathComponent("Resources")
-                guard let drbName = (try? fm.contentsOfDirectory(atPath: resources.path))?
-                    .first(where: { $0.hasSuffix(".drb") }) else { continue }
-                byLocale[locale] = InstalledBundle(
-                    locale: locale,
-                    bundleURL: bundleURL,
-                    drbURL: resources.appendingPathComponent(drbName)
-                )
+                guard let files = try? fm.contentsOfDirectory(atPath: resources.path) else { continue }
+                for file in files.sorted() where file.hasSuffix(".drb") {
+                    let drbURL = resources.appendingPathComponent(file)
+                    let stem = (file as NSString).deletingPathExtension
+                    let locale = NSLocale.canonicalLanguageIdentifier(from: stem)
+                    if byLocale[locale] != nil { continue }
+                    byLocale[locale] = InstalledSpeller(
+                        locale: locale,
+                        drbURL: drbURL,
+                        parentBundleURL: bundleURL
+                    )
+                }
             }
         }
         return byLocale.values.sorted { $0.locale < $1.locale }

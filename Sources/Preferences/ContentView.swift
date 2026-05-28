@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var bundles: [InstalledBundle] = []
-    @State private var selection: InstalledBundle.ID?
-    @State private var ruleStates: [InstalledBundle.ID: RuleState] = [:]
+    @State private var spellers: [InstalledSpeller] = []
+    @State private var selection: InstalledSpeller.ID?
+    @State private var ruleStates: [InstalledSpeller.ID: RuleState] = [:]
     private let store = IgnoredRulesStore()
 
     var body: some View {
@@ -21,10 +21,10 @@ struct ContentView: View {
     @ViewBuilder
     private var modernLayout: some View {
         NavigationSplitView {
-            List(bundles, selection: $selection) { bundle in
-                Text(bundle.locale).tag(bundle.id as InstalledBundle.ID?)
+            List(spellers, selection: $selection) { speller in
+                row(for: speller).tag(speller.id as InstalledSpeller.ID?)
             }
-            .navigationSplitViewColumnWidth(min: 140, ideal: 180)
+            .navigationSplitViewColumnWidth(min: 180, ideal: 240)
         } detail: {
             detailPane(for: selection)
         }
@@ -33,25 +33,37 @@ struct ContentView: View {
     @ViewBuilder
     private var legacyLayout: some View {
         NavigationView {
-            List(bundles, selection: $selection) { bundle in
-                Text(bundle.locale).tag(bundle.id as InstalledBundle.ID?)
+            List(spellers, selection: $selection) { speller in
+                row(for: speller).tag(speller.id as InstalledSpeller.ID?)
             }
-            .frame(minWidth: 160)
+            .frame(minWidth: 200)
             detailPane(for: selection)
         }
     }
 
     @ViewBuilder
-    private func detailPane(for id: InstalledBundle.ID?) -> some View {
+    private func row(for speller: InstalledSpeller) -> some View {
+        VStack(alignment: .leading) {
+            Text(displayName(for: speller.locale))
+            Text(speller.locale).font(.caption).foregroundStyle(.secondary)
+        }
+    }
+
+    private func displayName(for locale: String) -> String {
+        Locale.current.localizedString(forIdentifier: locale) ?? locale
+    }
+
+    @ViewBuilder
+    private func detailPane(for id: InstalledSpeller.ID?) -> some View {
         if let id = id,
-           let bundle = bundles.first(where: { $0.id == id }),
+           let speller = spellers.first(where: { $0.id == id }),
            let state = ruleStates[id] {
-            detail(for: bundle, state: state)
-        } else if bundles.isEmpty {
+            detail(for: speller, state: state)
+        } else if spellers.isEmpty {
             emptyState(
                 title: "No speller bundles installed",
                 systemImage: "questionmark.folder",
-                message: "Drop a <locale>.bundle into ~/Library/Services or /Library/Services."
+                message: "Drop a <lang>.bundle into ~/Library/Services or /Library/Services."
             )
         } else {
             emptyState(title: "Pick a language", systemImage: "globe", message: nil)
@@ -84,18 +96,18 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    private func detail(for bundle: InstalledBundle, state: RuleState) -> some View {
+    private func detail(for speller: InstalledSpeller, state: RuleState) -> some View {
         switch state {
         case .loading:
             ProgressView().controlSize(.large)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .error(let message):
-            emptyState(title: "Couldn't load \(bundle.locale)",
+            emptyState(title: "Couldn't load \(displayName(for: speller.locale))",
                        systemImage: "exclamationmark.triangle",
                        message: message)
         case .loaded(let rules, var ignored):
             List {
-                Section(header: Text("Grammar rules for \(bundle.locale)")) {
+                Section(header: Text("Grammar rules for \(displayName(for: speller.locale))")) {
                     if rules.isEmpty {
                         Text("This bundle reports no grammar rules.")
                             .foregroundStyle(.secondary)
@@ -106,8 +118,8 @@ struct ContentView: View {
                             set: { enabled in
                                 if enabled { ignored.remove(rule.id) }
                                 else { ignored.insert(rule.id) }
-                                store.setIgnored(ignored, for: bundle.locale)
-                                ruleStates[bundle.id] = .loaded(rules: rules, ignored: ignored)
+                                store.setIgnored(ignored, for: speller.locale)
+                                ruleStates[speller.id] = .loaded(rules: rules, ignored: ignored)
                             }
                         )) {
                             VStack(alignment: .leading) {
@@ -122,17 +134,17 @@ struct ContentView: View {
     }
 
     private func reload() {
-        bundles = BundleDiscovery.discover()
-        if selection == nil { selection = bundles.first?.id }
-        for bundle in bundles where ruleStates[bundle.id] == nil {
-            loadRules(for: bundle)
+        spellers = BundleDiscovery.discover()
+        if selection == nil { selection = spellers.first?.id }
+        for speller in spellers where ruleStates[speller.id] == nil {
+            loadRules(for: speller)
         }
     }
 
-    private func loadRules(for bundle: InstalledBundle) {
-        ruleStates[bundle.id] = .loading
-        let storedIgnored = store.ignored(for: bundle.locale)
-        let drbPath = bundle.drbURL.path
+    private func loadRules(for speller: InstalledSpeller) {
+        ruleStates[speller.id] = .loading
+        let storedIgnored = store.ignored(for: speller.locale)
+        let drbPath = speller.drbURL.path
         let preferredLocales = preferredUILocales()
         Task.detached(priority: .userInitiated) {
             do {
@@ -143,11 +155,11 @@ struct ContentView: View {
                     .map { Rule(id: $0.key, title: $0.value) }
                     .sorted { $0.title.localizedCompare($1.title) == .orderedAscending }
                 await MainActor.run {
-                    ruleStates[bundle.id] = .loaded(rules: rules, ignored: storedIgnored)
+                    ruleStates[speller.id] = .loaded(rules: rules, ignored: storedIgnored)
                 }
             } catch {
                 await MainActor.run {
-                    ruleStates[bundle.id] = .error(message: error.localizedDescription)
+                    ruleStates[speller.id] = .error(message: error.localizedDescription)
                 }
             }
         }
