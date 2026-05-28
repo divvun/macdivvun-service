@@ -1,79 +1,78 @@
-//
-//  BundlesWatcher.swift
-//  MacDivvun
-//
-//  Created by Charlotte Tortorella on 13/2/17.
-//  Copyright © 2017 Divvun. All rights reserved.
-//
-
 import Foundation
+import CoreServices
 
-public class BundlesWatcher {
-    
-    // MARK: - Initialization / Deinitialization
-    
-    public init(callback: @escaping (String) -> Void) {
-        self.userCallback = callback
-        self.pathsToWatch = Global.paths
+final class BundlesWatcher {
+    typealias Callback = (String) -> Void
+
+    private let paths: [String]
+    private let callback: Callback
+    private var stream: FSEventStreamRef?
+
+    init(paths: [String], callback: @escaping Callback) {
+        self.paths = paths
+        self.callback = callback
     }
-    
+
     deinit {
         stop()
     }
-    
-    // MARK: - Private Properties
-    
-    private let eventCallback: FSEventStreamCallback = { (stream: ConstFSEventStreamRef, contextInfo: UnsafeMutableRawPointer?, numEvents: Int, eventPaths: UnsafeMutableRawPointer, eventFlags: UnsafePointer<FSEventStreamEventFlags>, eventIds: UnsafePointer<FSEventStreamEventId>) in
-        let bundlesWatcher: BundlesWatcher = unsafeBitCast(contextInfo, to: BundlesWatcher.self)
-        let paths = unsafeBitCast(eventPaths, to: NSArray.self) as! [String]
-        
-        let flags = eventFlags.pointee
-        for index in 0..<numEvents {
-            bundlesWatcher.processEvent(flags: flags, path: paths[index])
-        }
-    }
-    private let pathsToWatch: [String]
-    private var started = false
-    private var streamRef: FSEventStreamRef!
-    private let userCallback: (String) -> Void
-    
-    // MARK: - Private Methods
-    
-    private func processEvent(flags: FSEventStreamEventFlags, path: String) {
-        if flags & UInt32(kFSEventStreamEventFlagItemCreated | kFSEventStreamEventFlagItemRenamed) == 0 {
+
+    func start() {
+        guard stream == nil else { return }
+
+        let info = Unmanaged.passRetained(self).toOpaque()
+        var context = FSEventStreamContext(
+            version: 0,
+            info: info,
+            retain: nil,
+            release: { ptr in
+                guard let ptr = ptr else { return }
+                Unmanaged<BundlesWatcher>.fromOpaque(ptr).release()
+            },
+            copyDescription: nil
+        )
+
+        let flags = UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
+        guard let stream = FSEventStreamCreate(
+            kCFAllocatorDefault,
+            BundlesWatcher.eventCallback,
+            &context,
+            paths as CFArray,
+            FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
+            0,
+            flags
+        ) else {
+            Unmanaged<BundlesWatcher>.fromOpaque(info).release()
             return
         }
-        
-        if path.hasSuffix(".bundle") {
-            userCallback(path)
+
+        FSEventStreamSetDispatchQueue(stream, DispatchQueue.main)
+        FSEventStreamStart(stream)
+        self.stream = stream
+    }
+
+    func stop() {
+        guard let stream = stream else { return }
+        FSEventStreamStop(stream)
+        FSEventStreamInvalidate(stream)
+        FSEventStreamRelease(stream)
+        self.stream = nil
+    }
+
+    private static let eventCallback: FSEventStreamCallback = { _, info, numEvents, eventPaths, eventFlags, _ in
+        guard let info = info else { return }
+        let watcher = Unmanaged<BundlesWatcher>.fromOpaque(info).takeUnretainedValue()
+        let paths = unsafeBitCast(eventPaths, to: NSArray.self) as! [String]
+
+        for index in 0..<numEvents {
+            let flag = eventFlags[index]
+            let created = flag & UInt32(kFSEventStreamEventFlagItemCreated) != 0
+            let renamed = flag & UInt32(kFSEventStreamEventFlagItemRenamed) != 0
+            if !(created || renamed) { continue }
+
+            let path = paths[index]
+            if !path.hasSuffix(".bundle") { continue }
+            watcher.callback(path)
         }
     }
-    
-    // MARK: - Public Methods
-    
-    public func start() {
-        guard started == false else { return }
-        
-        var context = FSEventStreamContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
-        context.info = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
-        let flags = UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
-        streamRef = FSEventStreamCreate(kCFAllocatorDefault, eventCallback, &context, pathsToWatch as CFArray, FSEventStreamEventId(kFSEventStreamEventIdSinceNow), 0, flags)
-        
-        FSEventStreamScheduleWithRunLoop(streamRef, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue)
-        FSEventStreamStart(streamRef)
-        
-        started = true
-    }
-    
-    public func stop() {
-        guard started == true else { return }
-        
-        FSEventStreamStop(streamRef)
-        FSEventStreamInvalidate(streamRef)
-        FSEventStreamRelease(streamRef)
-        streamRef = nil
-        
-        started = false
-    }
-    
 }

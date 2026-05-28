@@ -1,26 +1,38 @@
 # MacDivvun.service
 
-A macOS speller service for zhfst spellers built using the
-[Giella infrastructure](http://divvun.no/doc/infra/GettingStarted.html).
-
-[![Build Status](https://github.com/divvun/macdivvun-service/workflows/CI/badge.svg)](https://github.com/divvun/macdivvun-service/actions)
+A macOS background `NSApplication` that hosts an `NSSpellServer` for spell-checking bundles produced by [divvun-runtime](https://github.com/divvun/divvun-runtime). Installs to `/Library/Services` and registers per-locale spellers discovered from `<locale>.bundle/Contents/Resources/<locale>.drb` directories alongside it.
 
 ## Requirements
 
-- Xcode
-- CocoaPods
-- [Rust](https://rustup.rs)
+- macOS 12.0+
+- Xcode 26
+- `xcodegen` (`brew install xcodegen`)
+- A built `libdivvun_runtime.a` at `Vendor/libdivvun_runtime.a` (symlink to `divvun-runtime/target/release/libdivvun_runtime.a` during development)
+- The matching C header at `Vendor/divvun_runtime.h` (symlink to `divvun-runtime/bindings/c/divvun_runtime.h`)
 
-## Building
+## Build
 
-Run the following commands:
-
-```bash
-pod install
-git submodule update --init
+```sh
 sh ./scripts/build.sh
 ```
 
-## Installing
+Produces an unsigned `./MacDivvun.service`. Signing, notarization, and packaging are handled by the downstream installer pipeline.
 
-Pop into `~/Library/Services`.
+## Develop in Xcode
+
+```sh
+Vendor/pkgconfig/generate.sh
+xcodegen generate
+open MacDivvun.xcodeproj
+```
+
+`MacDivvun.xcodeproj` is generated from `project.yml` and not committed.
+
+## Layout
+
+```
+Sources/             Swift sources + Info.plist + Assets
+Vendor/              libdivvun_runtime.a, divvun_runtime.h, pkgconfig/
+scripts/build.sh     Build entry point
+project.yml          xcodegen manifest
+```
