@@ -1,0 +1,63 @@
+name: MacDivvun
+options:
+  bundleIdPrefix: no.divvun
+  deploymentTarget:
+    macOS: "12.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+  groupSortPosition: top
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    MACOSX_DEPLOYMENT_TARGET: "12.0"
+    ENABLE_HARDENED_RUNTIME: YES
+    CLANG_ENABLE_MODULES: YES
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: NO
+    GCC_TREAT_WARNINGS_AS_ERRORS: NO
+    DEAD_CODE_STRIPPING: YES
+
+packages:
+  Sentry:
+    url: https://github.com/getsentry/sentry-cocoa
+    from: "8.40.0"
+
+targets:
+  MacDivvun:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources
+        excludes:
+          - Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: no.divvun.MacDivvun
+        PRODUCT_NAME: MacDivvun
+        WRAPPER_EXTENSION: service
+        INFOPLIST_FILE: Sources/Info.plist
+        MARKETING_VERSION: "2.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+        SWIFT_OBJC_BRIDGING_HEADER: Sources/MacDivvun-Bridging-Header.h
+        HEADER_SEARCH_PATHS:
+          - $(SRCROOT)/Vendor
+        OTHER_LDFLAGS:
+          - $(SRCROOT)/Vendor/libdivvun_runtime.a
+          - -lsqlite3
+          - -liconv
+          - -lc++
+        OTHER_LDFLAGS[sdk=macosx*]:
+          - $(SRCROOT)/Vendor/libdivvun_runtime.a
+          - -lsqlite3
+          - -liconv
+          - -lc++
+          - -framework
+          - CoreML
+          - -framework
+          - Accelerate
+    dependencies:
+      - package: Sentry
+        product: Sentry

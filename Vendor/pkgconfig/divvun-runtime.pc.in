@@ -1,0 +1,7 @@
+prefix=@PREFIX@
+
+Name: divvun-runtime
+Description: Divvun Runtime (static archive build)
+Version: 0.0.0
+Libs: -L${prefix} -ldivvun_runtime -framework CoreFoundation -framework Foundation -framework CoreML -framework Accelerate -framework CoreGraphics -lsqlite3 -liconv -lc++
+Cflags: -I${prefix}
