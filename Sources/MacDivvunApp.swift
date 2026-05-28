@@ -31,7 +31,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let server = NSSpellServer()
     private let registry = SpellerRegistry()
     private let delegate: SpellServerDelegate
+    private let ignoredStore = IgnoredRulesStore()
     private var watcher: BundlesWatcher?
+    private var prefsObserver: IgnoredRulesObserver?
 
     override init() {
         self.delegate = SpellServerDelegate(registry: registry)
@@ -53,8 +55,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         watcher?.start()
         log.info("BundlesWatcher started")
 
+        prefsObserver = IgnoredRulesObserver { [weak self] in
+            self?.applyIgnoredRulesFromPrefs()
+        }
+        prefsObserver?.start()
+
         log.info("\(Paths.vendor, privacy: .public) running")
         server.run()
+    }
+
+    private func applyIgnoredRulesFromPrefs() {
+        let snapshot = ignoredStore.load()
+        Task {
+            let locales = await registry.registeredLocales()
+            for locale in locales {
+                let ignored = snapshot[locale] ?? []
+                do {
+                    try await registry.setIgnoredRules(ignored, for: locale)
+                } catch {
+                    log.error("setIgnoredRules failed for \(locale, privacy: .public): \(error.localizedDescription, privacy: .public)")
+                }
+            }
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -87,6 +109,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         Task {
             do {
                 let locale = try await registry.register(bundleAt: bundleURL)
+                let ignored = ignoredStore.ignored(for: locale)
+                if !ignored.isEmpty {
+                    try await registry.setIgnoredRules(ignored, for: locale)
+                }
                 await MainActor.run {
                     self.server.registerLanguage(locale, byVendor: Paths.vendor)
                 }

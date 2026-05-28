@@ -29,36 +29,60 @@ final class SpellServerDelegate: NSObject, NSSpellServerDelegate {
         wordCount: UnsafeMutablePointer<Int>,
         countOnly: Bool
     ) -> NSRange {
-        let words = stringToCheck.split(whereSeparator: { !$0.isLetter })
-        wordCount.pointee = words.count
+        wordCount.pointee = stringToCheck.split(whereSeparator: { !$0.isLetter }).count
 
         if countOnly {
             return NSRange(location: NSNotFound, length: 0)
         }
 
         do {
-            guard let miss = try awaitSync({ try await self.registry.firstMisspelling(in: stringToCheck, language: language) }) else {
+            guard let err = try awaitSync({ try await self.registry.firstSpellError(in: stringToCheck, language: language) }) else {
                 return NSRange(location: NSNotFound, length: 0)
             }
-            return nsRange(forWord: miss.word, byteIndex: miss.index, in: stringToCheck)
+            return err.nsRange
         } catch {
             log.error("findMisspelled failed for \(language, privacy: .public): \(error.localizedDescription, privacy: .public)")
             return NSRange(location: NSNotFound, length: 0)
         }
     }
 
-    private func nsRange(forWord word: String, byteIndex: Int, in text: String) -> NSRange {
-        let utf8 = text.utf8
-        guard byteIndex >= 0, byteIndex <= utf8.count else {
+    func spellServer(
+        _ sender: NSSpellServer,
+        checkGrammarIn stringToCheck: String,
+        language: String?,
+        details outDetails: AutoreleasingUnsafeMutablePointer<NSArray?>?
+    ) -> NSRange {
+        guard let language = language, !stringToCheck.isEmpty else {
             return NSRange(location: NSNotFound, length: 0)
         }
-        let byteStart = utf8.index(utf8.startIndex, offsetBy: byteIndex)
-        guard let start = byteStart.samePosition(in: text) else {
+
+        let errors: [PipelineError]
+        do {
+            errors = try awaitSync { try await self.registry.grammarErrors(in: stringToCheck, language: language) }
+        } catch {
+            log.error("checkGrammar failed for \(language, privacy: .public): \(error.localizedDescription, privacy: .public)")
             return NSRange(location: NSNotFound, length: 0)
         }
-        let wordEnd = text.index(start, offsetBy: word.count, limitedBy: text.endIndex) ?? text.endIndex
-        let nsRange = NSRange(start..<wordEnd, in: text)
-        return nsRange
+        guard let first = errors.first else {
+            return NSRange(location: NSNotFound, length: 0)
+        }
+
+        let detailsArray = errors.map(detailDict(for:))
+        outDetails?.pointee = detailsArray as NSArray
+        return first.nsRange
+    }
+
+    private func detailDict(for err: PipelineError) -> [String: Any] {
+        var d: [String: Any] = [
+            NSGrammarRange: NSValue(range: err.nsRange),
+            NSGrammarUserDescription: err.description?.nilIfEmpty
+                ?? err.title?.nilIfEmpty
+                ?? err.errorId,
+        ]
+        if let suggestions = err.suggestions, !suggestions.isEmpty {
+            d[NSGrammarCorrections] = suggestions
+        }
+        return d
     }
 
     private func awaitSync<T>(_ body: @escaping @Sendable () async throws -> T) throws -> T {
@@ -76,4 +100,8 @@ final class SpellServerDelegate: NSObject, NSSpellServerDelegate {
         sem.wait()
         return try result.get()
     }
+}
+
+private extension String {
+    var nilIfEmpty: String? { isEmpty ? nil : self }
 }

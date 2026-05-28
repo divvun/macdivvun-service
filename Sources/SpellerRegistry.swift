@@ -1,14 +1,8 @@
 import Foundation
 import OSLog
 
-// `Bundle` here resolves to the vendored DivvunRuntime.Bundle class (in this module),
+// `Bundle` here resolves to the vendored DivvunRuntime.Bundle class in this module,
 // not Foundation.Bundle — local-module types win over imports for unqualified references.
-
-struct SpellCheckMisspell: Decodable, Sendable {
-    let index: Int
-    let word: String
-    let suggestions: [String]
-}
 
 actor SpellerRegistry {
     enum RegistryError: Error {
@@ -17,9 +11,11 @@ actor SpellerRegistry {
     }
 
     private struct LoadedSpeller {
-        let pipeline: PipelineHandle
-        var suggestionCache: [String: [String]] = [:]
-        var correctnessCache: [String: Bool] = [:]
+        let bundle: Bundle
+        let bundleURL: URL
+        var pipeline: PipelineHandle
+        var ignored: Set<String> = []
+        var wordCache: [String: PipelineError?] = [:]
     }
 
     private var spellers: [String: LoadedSpeller] = [:]
@@ -37,57 +33,61 @@ actor SpellerRegistry {
             .appendingPathComponent("Resources")
         let drbURL = try findDrb(in: resources, fallback: bundleURL)
 
-        let drb = try Bundle.fromPath(drbURL.path)
-        let pipeline = try drb.create()
+        let bundle = try Bundle.fromPath(drbURL.path)
+        let pipeline = try bundle.create(config: Self.pipelineConfig(ignored: []))
 
-        spellers[locale] = LoadedSpeller(pipeline: pipeline)
+        spellers[locale] = LoadedSpeller(bundle: bundle, bundleURL: bundleURL, pipeline: pipeline)
         return locale
     }
 
-    func isCorrect(word: String, language: String) throws -> Bool {
-        guard var loaded = spellers[language] else { return true }
-        if let cached = loaded.correctnessCache[word] {
-            return cached
-        }
-        let misspells = try runPipeline(loaded.pipeline, input: word)
-        let correct = misspells.isEmpty || !misspells.contains { $0.word == word }
-        if loaded.correctnessCache.count < maxCacheEntries {
-            loaded.correctnessCache[word] = correct
-        }
-        if let first = misspells.first, loaded.suggestionCache.count < maxCacheEntries {
-            loaded.suggestionCache[first.word] = first.suggestions
-        }
-        spellers[language] = loaded
-        return correct
+    func setIgnoredRules(_ ignored: Set<String>, for locale: String) throws {
+        guard var loaded = spellers[locale] else { return }
+        if loaded.ignored == ignored { return }
+        let newPipeline = try loaded.bundle.create(config: Self.pipelineConfig(ignored: ignored))
+        loaded.pipeline = newPipeline
+        loaded.ignored = ignored
+        loaded.wordCache.removeAll(keepingCapacity: false)
+        spellers[locale] = loaded
+        log.info("Rebuilt pipeline for \(locale, privacy: .public) with \(ignored.count) ignored rule(s)")
+    }
+
+    func firstSpellError(in text: String, language: String) throws -> PipelineError? {
+        guard let loaded = spellers[language] else { return nil }
+        let errors = try runPipeline(loaded.pipeline, input: text)
+        return errors.first { isSpellError($0.errorId) }
     }
 
     func suggestions(for word: String, language: String) throws -> [String] {
         guard var loaded = spellers[language] else { return [] }
-        if let cached = loaded.suggestionCache[word] {
-            return cached
+        if let cached = loaded.wordCache[word] {
+            return cached?.suggestions ?? []
         }
-        let misspells = try runPipeline(loaded.pipeline, input: word)
-        let merged = misspells
-            .filter { $0.word == word }
-            .flatMap(\.suggestions)
-        let deduped = Array(NSOrderedSet(array: merged)) as? [String] ?? []
-        let capped = Array(deduped.prefix(5))
-        if loaded.suggestionCache.count < maxCacheEntries {
-            loaded.suggestionCache[word] = capped
+        let errors = try runPipeline(loaded.pipeline, input: word)
+        let first = errors.first { isSpellError($0.errorId) }
+        if loaded.wordCache.count < maxCacheEntries {
+            loaded.wordCache[word] = first
+            spellers[language] = loaded
         }
-        spellers[language] = loaded
-        return capped
+        let raw = first?.suggestions ?? []
+        let deduped = Array(NSOrderedSet(array: raw)) as? [String] ?? raw
+        return Array(deduped.prefix(5))
     }
 
-    func firstMisspelling(in text: String, language: String) throws -> SpellCheckMisspell? {
-        guard let loaded = spellers[language] else { return nil }
-        let misspells = try runPipeline(loaded.pipeline, input: text)
-        return misspells.first
+    func grammarErrors(in text: String, language: String) throws -> [PipelineError] {
+        guard let loaded = spellers[language] else { return [] }
+        let errors = try runPipeline(loaded.pipeline, input: text)
+        return errors.filter { !isSpellError($0.errorId) }
     }
 
-    private func runPipeline(_ pipeline: PipelineHandle, input: String) throws -> [SpellCheckMisspell] {
+    func registeredLocales() -> [String] {
+        spellers.keys.sorted()
+    }
+
+    private func runPipeline(_ pipeline: PipelineHandle, input: String) throws -> [PipelineError] {
+        if input.isEmpty { return [] }
         do {
-            return try pipeline.forwardJSON(input, as: [SpellCheckMisspell].self)
+            let response = try pipeline.forwardJSON(input, as: PipelineResponse.self)
+            return response.errors
         } catch {
             log.error("Pipeline forward failed: \(error.localizedDescription, privacy: .public)")
             throw error
@@ -97,13 +97,19 @@ actor SpellerRegistry {
     private func findDrb(in resources: URL, fallback bundleURL: URL) throws -> URL {
         let fm = FileManager.default
         if let entries = try? fm.contentsOfDirectory(atPath: resources.path) {
-            let drbs = entries
-                .filter { $0.hasSuffix(".drb") }
-                .sorted()
+            let drbs = entries.filter { $0.hasSuffix(".drb") }.sorted()
             if let first = drbs.first {
                 return resources.appendingPathComponent(first)
             }
         }
         throw RegistryError.noDrb(path: bundleURL.path)
+    }
+
+    private static func pipelineConfig(ignored: Set<String>) -> [String: Any] {
+        var suggest: [String: Any] = ["encoding": "utf-16"]
+        if !ignored.isEmpty {
+            suggest["ignore"] = Array(ignored).sorted()
+        }
+        return ["suggest": suggest]
     }
 }

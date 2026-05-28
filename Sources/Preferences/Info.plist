@@ -20,34 +20,9 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
-	<key>LSBackgroundOnly</key>
-	<true/>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
-	<key>LSUIElement</key>
-	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 Divvun</string>
-	<key>NSPrincipalClass</key>
-	<string>MacDivvun.MacDivvunRunner</string>
-	<key>NSServices</key>
-	<array>
-		<dict>
-			<key>NSExecutable</key>
-			<string>MacDivvun</string>
-			<key>NSLanguages</key>
-			<array/>
-			<key>NSMenuItem</key>
-			<dict/>
-			<key>NSPortName</key>
-			<string>MacDivvun</string>
-			<key>NSSpellChecker</key>
-			<string>MacDivvun</string>
-			<key>NSGrammarChecker</key>
-			<string>MacDivvun</string>
-		</dict>
-	</array>
-	<key>SENTRY_DSN</key>
-	<string>https://c2c0b6d776934b10a4a22509b0bfcc26@o157567.ingest.sentry.io/1315195</string>
 </dict>
 </plist>
