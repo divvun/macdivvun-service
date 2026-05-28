@@ -24,5 +24,18 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2026 Divvun</string>
+	<key>MacDivvunFeedbackEndpoint</key>
+	<string>https://feedback.divvun.no/v1/macdivvun</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>no.divvun.MacDivvun.feedback</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>macdivvun</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

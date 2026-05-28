@@ -35,6 +35,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var watcher: BundlesWatcher?
     private var prefsObserver: IgnoredRulesObserver?
 
+    // Feedback surfaces
+    private var statusItem: NSStatusItem?
+    private var overlay: FeedbackOverlay?
+    private var markObserver: MarkObserver?
+    private var currentMark: AccessibilityClient.Mark?
+
     override init() {
         self.delegate = SpellServerDelegate(registry: registry)
         super.init()
@@ -64,8 +70,75 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         prefsObserver?.start()
 
+        installStatusItem()
+        installOverlay()
+        installMarkObserver()
+
         log.info("\(Paths.vendor, privacy: .public) running")
         server.run()
+    }
+
+    // MARK: - Feedback surfaces
+
+    private func installStatusItem() {
+        let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+        item.button?.image = NSImage(systemSymbolName: "a.book.closed",
+                                     accessibilityDescription: Paths.vendor)
+        let menu = NSMenu()
+        menu.addItem(withTitle: "Report a Suggestion…", action: #selector(reportFromStatus), keyEquivalent: "").target = self
+        menu.addItem(.separator())
+        menu.addItem(withTitle: "Open Preferences…", action: #selector(openPrefs), keyEquivalent: "").target = self
+        menu.addItem(.separator())
+        menu.addItem(withTitle: "Quit MacDivvun", action: #selector(quit), keyEquivalent: "q").target = self
+        item.menu = menu
+        statusItem = item
+    }
+
+    private func installOverlay() {
+        overlay = FeedbackOverlay()
+        overlay?.bindAction { [weak self] in self?.openFeedback(from: self?.currentMark) }
+    }
+
+    private func installMarkObserver() {
+        markObserver = MarkObserver { [weak self] mark in
+            self?.applyMark(mark)
+        }
+        markObserver?.start()
+    }
+
+    private func applyMark(_ mark: AccessibilityClient.Mark?) {
+        currentMark = mark
+        if let mark = mark {
+            overlay?.show(below: mark.screenBounds)
+        } else {
+            overlay?.hide()
+        }
+    }
+
+    @objc private func reportFromStatus() {
+        openFeedback(from: currentMark)
+    }
+
+    @objc private func openPrefs() {
+        let url = URL(string: "macdivvun://open")!
+        NSWorkspace.shared.open(url)
+    }
+
+    @objc private func quit() {
+        NSApp.terminate(nil)
+    }
+
+    private func openFeedback(from mark: AccessibilityClient.Mark?) {
+        var prefill = FeedbackPrefill(kind: .suggestion)
+        if let mark = mark {
+            prefill.word = mark.word
+            prefill.paragraph = mark.paragraph
+            prefill.markKind = mark.kind
+            prefill.appBundleID = mark.appBundleID
+        } else {
+            prefill.appBundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+        }
+        NSWorkspace.shared.open(FeedbackURL.build(prefill))
     }
 
     private func applyIgnoredRulesFromPrefs() {

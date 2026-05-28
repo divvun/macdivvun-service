@@ -68,6 +68,7 @@ targets:
       - path: Sources/DivvunRuntime.swift
       - path: Sources/IgnoredRulesStore.swift
       - path: Sources/SpellGrammar.swift
+      - path: Sources/FeedbackKind.swift
       - path: Sources/Assets.xcassets
     settings:
       base:

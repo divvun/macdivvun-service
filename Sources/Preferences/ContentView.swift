@@ -106,29 +106,32 @@ struct ContentView: View {
                        systemImage: "exclamationmark.triangle",
                        message: message)
         case .loaded(let rules, var ignored):
-            List {
-                Section(header: Text("Grammar rules for \(displayName(for: speller.locale))")) {
-                    if rules.isEmpty {
-                        Text("This bundle reports no grammar rules.")
-                            .foregroundStyle(.secondary)
-                    }
-                    ForEach(rules, id: \.id) { rule in
-                        Toggle(isOn: Binding(
-                            get: { !ignored.contains(rule.id) },
-                            set: { enabled in
-                                if enabled { ignored.remove(rule.id) }
-                                else { ignored.insert(rule.id) }
-                                store.setIgnored(ignored, for: speller.locale)
-                                ruleStates[speller.id] = .loaded(rules: rules, ignored: ignored)
-                            }
-                        )) {
-                            VStack(alignment: .leading) {
-                                Text(rule.title)
-                                Text(rule.id).font(.caption).foregroundStyle(.secondary)
+            VStack(spacing: 0) {
+                List {
+                    Section(header: Text("Grammar rules for \(displayName(for: speller.locale))")) {
+                        if rules.isEmpty {
+                            Text("This bundle reports no grammar rules.")
+                                .foregroundStyle(.secondary)
+                        }
+                        ForEach(rules, id: \.id) { rule in
+                            Toggle(isOn: Binding(
+                                get: { !ignored.contains(rule.id) },
+                                set: { enabled in
+                                    if enabled { ignored.remove(rule.id) }
+                                    else { ignored.insert(rule.id) }
+                                    store.setIgnored(ignored, for: speller.locale)
+                                    ruleStates[speller.id] = .loaded(rules: rules, ignored: ignored)
+                                }
+                            )) {
+                                VStack(alignment: .leading) {
+                                    Text(rule.title)
+                                    Text(rule.id).font(.caption).foregroundStyle(.secondary)
+                                }
                             }
                         }
                     }
                 }
+                AccessibilitySettings().padding(8)
             }
         }
     }

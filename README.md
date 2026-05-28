@@ -1,6 +1,6 @@
 # MacDivvun.service
 
-macOS background `NSApplication` that hosts an `NSSpellServer` for spell- *and* grammar-checking bundles produced by [divvun-runtime](https://github.com/divvun/divvun-runtime). Installs to `/Library/Services` and registers per-locale checkers discovered from `<locale>.bundle/Contents/Resources/<locale>.drb` directories alongside it. Ships with a SwiftUI companion app (`MacDivvunPreferences.app`) for per-locale ignored-grammar-rule toggles.
+macOS background `NSApplication` that hosts an `NSSpellServer` for spell- *and* grammar-checking bundles produced by [divvun-runtime](https://github.com/divvun/divvun-runtime). Installs to `/Library/Services` and registers per-locale checkers discovered from `<locale>.bundle/Contents/Resources/<locale>.drb` directories alongside it. Ships with a SwiftUI companion app (`MacDivvunPreferences.app`) for per-locale ignored-grammar-rule toggles and as the feedback host. When Accessibility access is granted, the service shows a small floating "Report" button next to flagged words in any app that exposes its text via AX (most native Cocoa apps + MS Office).
 
 ## Requirements
 
